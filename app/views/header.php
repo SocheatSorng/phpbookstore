@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Bookly - Bookstore eCommerce Website Template</title>
+    <title><?=$data['page_title'] . " | " . WEBSITE_TITLE?></title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="<?=ASSETS?>style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -113,22 +113,9 @@
         <path
           d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
       </symbol>
-      <symbol xmlns="http://www.w3.org/2000/svg" id="cart-cross-outline" viewBox="0 0 24 24">
-        <path fill="currentColor"
-          d="M12.03 8.97a.75.75 0 1 0-1.06 1.06l.97.97l-.97.97a.75.75 0 1 0 1.06 1.06l.97-.97l.97.97a.75.75 0 1 0 1.06-1.06l-.97-.97l.97-.97a.75.75 0 1 0-1.06-1.06l-.97.97z" />
-        <path fill="currentColor" fill-rule="evenodd"
-          d="M1.293 2.751a.75.75 0 0 1 .956-.459l.301.106c.617.217 1.14.401 1.553.603c.44.217.818.483 1.102.899c.282.412.399.865.452 1.362l.011.108H17.12c.819 0 1.653 0 2.34.077c.35.039.697.101 1.003.209c.3.105.631.278.866.584c.382.496.449 1.074.413 1.66c-.035.558-.173 1.252-.338 2.077l-.01.053l-.002.004l-.508 2.47c-.15.726-.276 1.337-.439 1.82c-.172.51-.41.96-.837 1.308c-.427.347-.916.49-1.451.556c-.505.062-1.13.062-1.87.062H10.88c-1.345 0-2.435 0-3.293-.122c-.897-.127-1.65-.4-2.243-1.026c-.547-.576-.839-1.188-.985-2.042c-.137-.8-.15-1.848-.15-3.3V7.038c0-.74-.002-1.235-.043-1.615c-.04-.363-.109-.545-.2-.677c-.087-.129-.22-.25-.524-.398c-.323-.158-.762-.314-1.43-.549l-.26-.091a.75.75 0 0 1-.46-.957M5.708 6.87v2.89c0 1.489.018 2.398.13 3.047c.101.595.274.925.594 1.263c.273.288.65.472 1.365.573c.74.105 1.724.107 3.14.107h5.304c.799 0 1.33-.001 1.734-.05c.382-.047.56-.129.685-.231c.125-.102.24-.26.364-.625c.13-.385.238-.905.4-1.688l.498-2.42v-.002c.178-.89.295-1.482.322-1.926c.026-.421-.04-.569-.101-.65a.561.561 0 0 0-.177-.087a3.17 3.17 0 0 0-.672-.134c-.595-.066-1.349-.067-2.205-.067zM5.25 19.5a2.25 2.25 0 1 0 4.5 0a2.25 2.25 0 0 0-4.5 0m2.25.75a.75.75 0 1 1 0-1.5a.75.75 0 0 1 0 1.5m6.75-.75a2.25 2.25 0 1 0 4.5 0a2.25 2.25 0 0 0-4.5 0m2.25.75a.75.75 0 1 1 0-1.5a.75.75 0 0 1 0 1.5"
-          clip-rule="evenodd" />
-      </symbol>
       <symbol xmlns="http://www.w3.org/2000/svg" id="navbar-icon" viewBox="0 0 16 16">
         <path
           d="M14 10.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 .5-.5zm0-3a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0 0 1h7a.5.5 0 0 0 .5-.5zm0-3a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0 0 1h11a.5.5 0 0 0 .5-.5z" />
-      </symbol>
-      <symbol xmlns="http://www.w3.org/2000/svg" id="plus" viewBox="0 0 24 24">
-        <path fill="currentColor" d="M19 11h-6V5a1 1 0 0 0-2 0v6H5a1 1 0 0 0 0 2h6v6a1 1 0 0 0 2 0v-6h6a1 1 0 0 0 0-2Z" />
-      </symbol>
-      <symbol xmlns="http://www.w3.org/2000/svg" id="minus" viewBox="0 0 24 24">
-        <path fill="currentColor" d="M19 11H5a1 1 0 0 0 0 2h14a1 1 0 0 0 0-2Z" />
       </symbol>
     </svg>
 
@@ -140,6 +127,7 @@
           <div class="right"></div>
         </div>
         <ul>
+          <li></li>
           <li></li>
           <li></li>
           <li></li>
@@ -204,7 +192,7 @@
 
     <header id="header" class="site-header">
 
-      <div class="top-info border-bottom d-none d-md-block">
+      <div class="top-info border-bottom d-none d-md-block ">
         <div class="container-fluid">
           <div class="row g-0">
             <div class="col-md-4">
@@ -212,7 +200,7 @@
             </div>
             <div class="col-md-4 border-start border-end">
               <p class="fs-6 my-2 text-center">Summer sale discount off 60% off! <a class="text-decoration-underline"
-                  href="shop.html">Shop Now</a></p>
+                  href="shop">Shop Now</a></p>
             </div>
             <div class="col-md-4">
               <p class="fs-6 my-2 text-center">2-3 business days delivery & free returns</p>
@@ -223,8 +211,8 @@
 
       <nav id="header-nav" class="navbar navbar-expand-lg py-3">
         <div class="container">
-          <a class="navbar-brand" href="index.html">
-            <img src="images/main-logo.png" class="logo">
+          <a class="navbar-brand" href="index">
+            <img src="<?=ASSETS?>images/main-logo.png" class="logo">
           </a>
           <button class="navbar-toggler d-flex d-lg-none order-3 p-2" type="button" data-bs-toggle="offcanvas"
             data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -234,8 +222,8 @@
           </button>
           <div class="offcanvas offcanvas-end" tabindex="-1" id="bdNavbar" aria-labelledby="bdNavbarOffcanvasLabel">
             <div class="offcanvas-header px-4 pb-0">
-              <a class="navbar-brand" href="index.html">
-                <img src="images/main-logo.png" class="logo">
+              <a class="navbar-brand" href="index">
+                <img src="<?=ASSETS?>images/main-logo.png" class="logo">
               </a>
               <button type="button" class="btn-close btn-close-black" data-bs-dismiss="offcanvas" aria-label="Close"
                 data-bs-target="#bdNavbar"></button>
@@ -244,62 +232,57 @@
               <ul id="navbar"
                 class="navbar-nav text-uppercase justify-content-start justify-content-lg-center align-items-start align-items-lg-center flex-grow-1">
                 <li class="nav-item">
-                  <a class="nav-link me-4" href="index.html">Home</a>
+                  <a class="nav-link me-4 active" href="<?=ROOT?>home">Home</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-4" href="about.html">About</a>
+                  <a class="nav-link me-4" href="<?=ROOT?>about">About</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-4" href="shop.html">Shop</a>
+                  <a class="nav-link me-4" href="<?=ROOT?>shop">Shop</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-4" href="blog.html">Blogs</a>
+                  <a class="nav-link me-4" href="<?=ROOT?>blog">Blogs</a>
                 </li>
                 <li class="nav-item dropdown">
                   <a class="nav-link me-4 dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                     aria-expanded="false">Pages</a>
                   <ul class="dropdown-menu animate slide border">
                     <li>
-                      <a href="about.html" class="dropdown-item fw-light">About <span
+                      <a href="about" class="dropdown-item fw-light">About <span
                           class="badge bg-primary">Pro</span></a>
                     </li>
                     <li>
-                      <a href="shop.html" class="dropdown-item fw-light">Shop <span
+                      <a href="shop" class="dropdown-item fw-light">Shop <span
                           class="badge bg-primary">Pro</span></a>
                     </li>
                     <li>
-                      <a href="single-product.html" class="dropdown-item fw-light">Single Product <span
+                      <a href="<?=ROOT?>singleproduct" class="dropdown-item fw-light">Single Product <span
                           class="badge bg-primary">Pro</span></a>
                     </li>
                     <li>
-                      <a href="cart.html" class="dropdown-item fw-light">Cart <span
+                      <a href="cart" class="dropdown-item fw-light">Cart <span
                           class="badge bg-primary">Pro</span></a>
                     </li>
                     <li>
-                      <a href="checkout.html" class="dropdown-item active fw-light">Checkout <span
+                      <a href="checkout" class="dropdown-item fw-light">Checkout <span
                           class="badge bg-primary">Pro</span></a>
                     </li>
                     <li>
-                      <a href="blog.html" class="dropdown-item fw-light">Blog <span
+                      <a href="blog" class="dropdown-item fw-light">Blog <span
                           class="badge bg-primary">Pro</span></a>
                     </li>
                     <li>
-                      <a href="single-post.html" class="dropdown-item fw-light">Single Post <span
+                      <a href="<?=ROOT?>singlepost" class="dropdown-item fw-light">Single Post <span
                           class="badge bg-primary">Pro</span></a>
                     </li>
                     <li>
-                      <a href="contact.html" class="dropdown-item fw-light">Contact <span
+                      <a href="contact" class="dropdown-item fw-light">Contact <span
                           class="badge bg-primary">Pro</span></a>
                     </li>
                   </ul>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-4" href="contact.html">Contact</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link text-decoration-underline me-4"
-                    href="https://templatesjungle.gumroad.com/l/bookly-bookstore-ecommerce-bootstrap-html-css-website-template"
-                    target="_blank">Get Pro</a>
+                  <a class="nav-link me-4" href="<?=ROOT?>contact">Contact</a>
                 </li>
               </ul>
               <div class="user-items d-flex">
@@ -398,7 +381,7 @@
                         <li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
                           <div>
                             <h5>
-                              <a href="single-product.html">The Emerald Crown</a>
+                              <a href="single-product">The Emerald Crown</a>
                             </h5>
                             <small>Special discounted price.</small>
                             <a href="#" class="d-block fw-medium text-capitalize mt-2">Add to cart</a>
@@ -408,7 +391,7 @@
                         <li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
                           <div>
                             <h5>
-                              <a href="single-product.html">The Last Enchantment</a>
+                              <a href="single-product">The Last Enchantment</a>
                             </h5>
                             <small>Perfect for enlightened people.</small>
                             <a href="#" class="d-block fw-medium text-capitalize mt-2">Add to cart</a>
@@ -422,12 +405,12 @@
                       </ul>
                       <div class="d-flex flex-wrap justify-content-center">
                         <a href="#" class="w-100 btn btn-dark mb-1" type="submit">Add all to cart</a>
-                        <a href="cart.html" class="w-100 btn btn-primary" type="submit">View cart</a>
+                        <a href="cart" class="w-100 btn btn-primary" type="submit">View cart</a>
                       </div>
                     </div>
                   </li>
                   <li class="cart-dropdown dropdown">
-                    <a href="cart.html" class="dropdown-toggle" data-bs-toggle="dropdown" role="button"
+                    <a href="cart" class="dropdown-toggle" data-bs-toggle="dropdown" role="button"
                       aria-expanded="false">
                       <svg class="cart">
                         <use xlink:href="#cart"></use>
@@ -442,7 +425,7 @@
                         <li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
                           <div>
                             <h5>
-                              <a href="single-product.html">Secrets of the Alchemist</a>
+                              <a href="single-product">Secrets of the Alchemist</a>
                             </h5>
                             <small>High quality in good price.</small>
                           </div>
@@ -451,7 +434,7 @@
                         <li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
                           <div>
                             <h5>
-                              <a href="single-product.html">Quest for the Lost City</a>
+                              <a href="single-product">Quest for the Lost City</a>
                             </h5>
                             <small>Professional Quest for the Lost City.</small>
                           </div>
@@ -463,8 +446,8 @@
                         </li>
                       </ul>
                       <div class="d-flex flex-wrap justify-content-center">
-                        <a href="cart.html" class="w-100 btn btn-dark mb-1" type="submit">View Cart</a>
-                        <a href="checkout.html" class="w-100 btn btn-primary" type="submit">Go to checkout</a>
+                        <a href="cart" class="w-100 btn btn-dark mb-1" type="submit">View Cart</a>
+                        <a href="checkout" class="w-100 btn btn-primary" type="submit">Go to checkout</a>
                       </div>
                     </div>
                   </li>
@@ -476,381 +459,3 @@
       </nav>
 
     </header>
-
-    <section class="hero-section position-relative padding-large"
-      style="background-image: url(images/banner-image-bg-1.jpg); background-size: cover; background-repeat: no-repeat; background-position: center; height: 400px;">
-      <div class="hero-content">
-        <div class="container">
-          <div class="row">
-            <div class="text-center">
-              <h1>Checkout</h1>
-              <div class="breadcrumbs">
-                <span class="item">
-                  <a href="index.html">Home > </a>
-                </span>
-                <span class="item text-decoration-underline">Checkout</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="checkout-wrap padding-large">
-      <div class="container">
-        <form class="form-group">
-          <div class="row d-flex flex-wrap">
-            <div class="col-lg-6">
-              <h3 class="mb-3">Billing Details</h3>
-              <div class="billing-details">
-                <label for="fname">First Name*</label>
-                <input type="text" id="fname" name="firstname" class="form-control mt-2 mb-4 ps-3">
-                <label for="lname">Last Name*</label>
-                <input type="text" id="lname" name="lastname" class="form-control mt-2 mb-4 ps-3">
-                <label for="cname">Company Name(optional)*</label>
-                <input type="text" id="cname" name="companyname" class="form-control mt-2 mb-4">
-                <label for="cname">Country / Region*</label>
-                <select class="form-select form-control mt-2 mb-4" aria-label="Default select example">
-                  <option selected="" hidden="">United States</option>
-                  <option value="1">UK</option>
-                  <option value="2">Australia</option>
-                  <option value="3">Canada</option>
-                </select>
-                <label for="address">Street Address*</label>
-                <input type="text" id="adr" name="address" placeholder="House number and street name"
-                  class="form-control mt-3 ps-3 mb-3">
-                <input type="text" id="adr" name="address" placeholder="Appartments, suite, etc."
-                  class="form-control ps-3 mb-4">
-                <label for="city">Town / City *</label>
-                <input type="text" id="city" name="city" class="form-control mt-3 ps-3 mb-4">
-                <label for="state">State *</label>
-                <select class="form-select form-control mt-2 mb-4" aria-label="Default select example">
-                  <option selected="" hidden="">Florida</option>
-                  <option value="1">New York</option>
-                  <option value="2">Chicago</option>
-                  <option value="3">Texas</option>
-                  <option value="3">San Jose</option>
-                  <option value="3">Houston</option>
-                </select>
-                <label for="zip">Zip Code *</label>
-                <input type="text" id="zip" name="zip" class="form-control mt-2 mb-4 ps-3">
-                <label for="email">Phone *</label>
-                <input type="text" id="phone" name="phone" class="form-control mt-2 mb-4 ps-3">
-                <label for="email">Email address *</label>
-                <input type="text" id="email" name="email" class="form-control mt-2 mb-4 ps-3">
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div>
-                <h3 class="mb-3">Additional Information</h3>
-                <div class="billing-details">
-                  <label for="fname">Order notes (optional)</label>
-                  <textarea class="form-control pt-3 pb-3 ps-3 mt-2"
-                    placeholder="Notes about your order. Like special notes for delivery."></textarea>
-                </div>
-              </div>
-
-              <div class="cart-totals padding-medium pb-0">
-                <h3 class="mb-3">Cart Totals</h3>
-                <div class="total-price pb-3">
-                  <table cellspacing="0" class="table text-capitalize">
-                    <tbody>
-                      <tr class="subtotal pt-2 pb-2 border-top border-bottom">
-                        <th>Subtotal</th>
-                        <td data-title="Subtotal">
-                          <span class="price-amount amount text-primary ps-5 fw-light">
-                            <bdi>
-                              <span class="price-currency-symbol">$</span>2,400.00
-                            </bdi>
-                          </span>
-                        </td>
-                      </tr>
-                      <tr class="order-total pt-2 pb-2 border-bottom">
-                        <th>Total</th>
-                        <td data-title="Total">
-                          <span class="price-amount amount text-primary ps-5 fw-light">
-                            <bdi>
-                              <span class="price-currency-symbol">$</span>2,400.00</bdi>
-                          </span>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="list-group">
-                  <label class="list-group-item d-flex gap-2 border-0">
-                    <input class="form-check-input flex-shrink-0" type="radio" name="listGroupRadios"
-                      id="listGroupRadios1" value="" checked>
-                    <span>
-                      <p class="mb-1">Direct bank transfer</p>
-                      <small>Make your payment directly into our bank account. Please use your Order ID. Your order will
-                        shipped after funds have cleared in our account.</small>
-                    </span>
-                  </label>
-                  <label class="list-group-item d-flex gap-2 border-0">
-                    <input class="form-check-input flex-shrink-0" type="radio" name="listGroupRadios"
-                      id="listGroupRadios2" value="">
-                    <span>
-                      <p class="mb-1">Check payments</p>
-                      <small>Please send a check to Store Name, Store Street, Store Town, Store State / County, Store
-                        Postcode.</small>
-                    </span>
-                  </label>
-                  <label class="list-group-item d-flex gap-2 border-0">
-                    <input class="form-check-input flex-shrink-0" type="radio" name="listGroupRadios"
-                      id="listGroupRadios3" value="">
-                    <span>
-                      <p class="mb-1">Cash on delivery</p>
-                      <small>Pay with cash upon delivery.</small>
-                    </span>
-                  </label>
-                  <label class="list-group-item d-flex gap-2 border-0">
-                    <input class="form-check-input flex-shrink-0" type="radio" name="listGroupRadios"
-                      id="listGroupRadios3" value="">
-                    <span>
-                      <p class="mb-1">Paypal</p>
-                      <small>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.</small>
-                    </span>
-                  </label>
-                </div>
-                <div class="button-wrap mt-3">
-                  <button type="submit" name="submit" class="btn">Place an order</button>
-                </div>
-              </div>
-
-            </div>
-
-          </div>
-        </form>
-      </div>
-    </section>
-
-    <section id="instagram">
-      <div class="container">
-        <div class="text-center mb-4">
-          <h3>Instagram</h3>
-        </div>
-        <div class="row">
-          <div class="col-md-2">
-            <figure class="instagram-item position-relative rounded-3">
-              <a href="https://templatesjungle.com/" class="image-link position-relative">
-                <div class="icon-overlay position-absolute d-flex justify-content-center">
-                  <svg class="instagram">
-                    <use xlink:href="#instagram"></use>
-                  </svg>
-                </div>
-                <img src="images/insta-item1.jpg" alt="instagram" class="img-fluid rounded-3 insta-image">
-              </a>
-            </figure>
-          </div>
-          <div class="col-md-2">
-            <figure class="instagram-item position-relative rounded-3">
-              <a href="https://templatesjungle.com/" class="image-link position-relative">
-                <div class="icon-overlay position-absolute d-flex justify-content-center">
-                  <svg class="instagram">
-                    <use xlink:href="#instagram"></use>
-                  </svg>
-                </div>
-                <img src="images/insta-item2.jpg" alt="instagram" class="img-fluid rounded-3 insta-image">
-              </a>
-            </figure>
-          </div>
-          <div class="col-md-2">
-            <figure class="instagram-item position-relative rounded-3">
-              <a href="https://templatesjungle.com/" class="image-link position-relative">
-                <div class="icon-overlay position-absolute d-flex justify-content-center">
-                  <svg class="instagram">
-                    <use xlink:href="#instagram"></use>
-                  </svg>
-                </div>
-                <img src="images/insta-item3.jpg" alt="instagram" class="img-fluid rounded-3 insta-image">
-              </a>
-            </figure>
-          </div>
-          <div class="col-md-2">
-            <figure class="instagram-item position-relative rounded-3">
-              <a href="https://templatesjungle.com/" class="image-link position-relative">
-                <div class="icon-overlay position-absolute d-flex justify-content-center">
-                  <svg class="instagram">
-                    <use xlink:href="#instagram"></use>
-                  </svg>
-                </div>
-                <img src="images/insta-item4.jpg" alt="instagram" class="img-fluid rounded-3 insta-image">
-              </a>
-            </figure>
-          </div>
-          <div class="col-md-2">
-            <figure class="instagram-item position-relative rounded-3">
-              <a href="https://templatesjungle.com/" class="image-link position-relative">
-                <div class="icon-overlay position-absolute d-flex justify-content-center">
-                  <svg class="instagram">
-                    <use xlink:href="#instagram"></use>
-                  </svg>
-                </div>
-                <img src="images/insta-item5.jpg" alt="instagram" class="img-fluid rounded-3 insta-image">
-              </a>
-            </figure>
-          </div>
-          <div class="col-md-2">
-            <figure class="instagram-item position-relative rounded-3">
-              <a href="https://templatesjungle.com/" class="image-link position-relative">
-                <div class="icon-overlay position-absolute d-flex justify-content-center">
-                  <svg class="instagram">
-                    <use xlink:href="#instagram"></use>
-                  </svg>
-                </div>
-                <img src="images/insta-item6.jpg" alt="instagram" class="img-fluid rounded-3 insta-image">
-              </a>
-            </figure>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer id="footer" class="padding-large">
-      <div class="container">
-        <div class="row">
-          <div class="footer-top-area">
-            <div class="row d-flex flex-wrap justify-content-between">
-              <div class="col-lg-3 col-sm-6 pb-3">
-                <div class="footer-menu">
-                  <img src="images/main-logo.png" alt="logo" class="img-fluid mb-2">
-                  <p>Nisi, purus vitae, ultrices nunc. Sit ac sit suscipit hendrerit. Gravida massa volutpat aenean odio
-                    erat nullam fringilla.</p>
-                  <div class="social-links">
-                    <ul class="d-flex list-unstyled">
-                      <li>
-                        <a href="#">
-                          <svg class="facebook">
-                            <use xlink:href="#facebook" />
-                          </svg>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <svg class="instagram">
-                            <use xlink:href="#instagram" />
-                          </svg>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <svg class="twitter">
-                            <use xlink:href="#twitter" />
-                          </svg>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <svg class="linkedin">
-                            <use xlink:href="#linkedin" />
-                          </svg>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <svg class="youtube">
-                            <use xlink:href="#youtube" />
-                          </svg>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-2 col-sm-6 pb-3">
-                <div class="footer-menu text-capitalize">
-                  <h5 class="widget-title pb-2">Quick Links</h5>
-                  <ul class="menu-list list-unstyled text-capitalize">
-                    <li class="menu-item mb-1">
-                      <a href="#">Home</a>
-                    </li>
-                    <li class="menu-item mb-1">
-                      <a href="#">About</a>
-                    </li>
-                    <li class="menu-item mb-1">
-                      <a href="#">Shop</a>
-                    </li>
-                    <li class="menu-item mb-1">
-                      <a href="#">Blogs</a>
-                    </li>
-                    <li class="menu-item mb-1">
-                      <a href="#">Contact</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-lg-3 col-sm-6 pb-3">
-                <div class="footer-menu text-capitalize">
-                  <h5 class="widget-title pb-2">Help & Info Help</h5>
-                  <ul class="menu-list list-unstyled">
-                    <li class="menu-item mb-1">
-                      <a href="#">Track Your Order</a>
-                    </li>
-                    <li class="menu-item mb-1">
-                      <a href="#">Returns Policies</a>
-                    </li>
-                    <li class="menu-item mb-1">
-                      <a href="#">Shipping + Delivery</a>
-                    </li>
-                    <li class="menu-item mb-1">
-                      <a href="#">Contact Us</a>
-                    </li>
-                    <li class="menu-item mb-1">
-                      <a href="#">Faqs</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-lg-3 col-sm-6 pb-3">
-                <div class="footer-menu contact-item">
-                  <h5 class="widget-title text-capitalize pb-2">Contact Us</h5>
-                  <p>Do you have any queries or suggestions? <a href="mailto:"
-                      class="text-decoration-underline">yourinfo@gmail.com</a></p>
-                  <p>If you need support? Just give us a call. <a href="#" class="text-decoration-underline">+55 111 222
-                      333 44</a></p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-    <hr>
-    <div id="footer-bottom" class="mb-2">
-      <div class="container">
-        <div class="d-flex flex-wrap justify-content-between">
-          <div class="ship-and-payment d-flex gap-md-5 flex-wrap">
-            <div class="shipping d-flex">
-              <p>We ship with:</p>
-              <div class="card-wrap ps-2">
-                <img src="images/dhl.png" alt="visa">
-                <img src="images/shippingcard.png" alt="mastercard">
-              </div>
-            </div>
-            <div class="payment-method d-flex">
-              <p>Payment options:</p>
-              <div class="card-wrap ps-2">
-                <img src="images/visa.jpg" alt="visa">
-                <img src="images/mastercard.jpg" alt="mastercard">
-                <img src="images/paypal.jpg" alt="paypal">
-              </div>
-            </div>
-          </div>
-          <div class="copyright">
-            <p>© Copyright 2024 Bookly. HTML Template by <a href="https://templatesjungle.com/"
-                target="_blank">TemplatesJungle</a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <script src="js/jquery-1.11.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-    <script type="text/javascript" src="js/script.js"></script>
-  </body>
-</html>
