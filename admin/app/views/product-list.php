@@ -4,7 +4,7 @@
 <head>
      <!-- Title Meta -->
      <meta charset="utf-8" />
-     <title>Dashboard | Larkon - Responsive Admin Dashboard Template</title>
+     <title>Product List | Larkon - Responsive Admin Dashboard Template</title>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <meta name="description" content="A fully responsive premium admin dashboard template" />
      <meta name="author" content="Techzaa" />
@@ -45,7 +45,7 @@
 
                               <!-- Menu Toggle Button -->
                               <div class="topbar-item">
-                                   <h4 class="fw-bold topbar-button pe-none text-uppercase mb-0">Welcome!</h4>
+                                   <h4 class="fw-bold topbar-button pe-none text-uppercase mb-0">Product List</h4>
                               </div>
                          </div>
 
@@ -1247,513 +1247,493 @@
                <!-- Start Container Fluid -->
                <div class="container-fluid">
 
-                    <!-- Start here.... -->
                     <div class="row">
-                         <div class="col-xxl-5">
-                              <div class="row">
-                                   <div class="col-12">
-                                        <div class="alert alert-primary text-truncate mb-3" role="alert">
-                                             We regret to inform you that our server is currently experiencing technical difficulties.
-                                        </div>
-                                   </div>
-
-                                   <div class="col-md-6">
-                                        <div class="card overflow-hidden">
-                                             <div class="card-body">
-                                                  <div class="row">
-                                                       <div class="col-6">
-                                                            <div class="avatar-md bg-soft-primary rounded">
-                                                                 <iconify-icon icon="solar:cart-5-bold-duotone" class="avatar-title fs-32 text-primary"></iconify-icon>
-                                                            </div>
-                                                       </div> <!-- end col -->
-                                                       <div class="col-6 text-end">
-                                                            <p class="text-muted mb-0 text-truncate">Total Orders</p>
-                                                            <h3 class="text-dark mt-1 mb-0">13, 647</h3>
-                                                       </div> <!-- end col -->
-                                                  </div> <!-- end row-->
-                                             </div> <!-- end card body -->
-                                             <div class="card-footer py-2 bg-light bg-opacity-50">
-                                                  <div class="d-flex align-items-center justify-content-between">
-                                                       <div>
-                                                            <span class="text-success"> <i class="bx bxs-up-arrow fs-12"></i> 2.3%</span>
-                                                            <span class="text-muted ms-1 fs-12">Last Week</span>
-                                                       </div>
-                                                       <a href="#!" class="text-reset fw-semibold fs-12">View More</a>
-                                                  </div>
-                                             </div> <!-- end card body -->
-                                        </div> <!-- end card -->
-                                   </div> <!-- end col -->
-                                   <div class="col-md-6">
-                                        <div class="card overflow-hidden">
-                                             <div class="card-body">
-                                                  <div class="row">
-                                                       <div class="col-6">
-                                                            <div class="avatar-md bg-soft-primary rounded">
-                                                                 <i class="bx bx-award avatar-title fs-24 text-primary"></i>
-                                                            </div>
-                                                       </div> <!-- end col -->
-                                                       <div class="col-6 text-end">
-                                                            <p class="text-muted mb-0 text-truncate">New Leads</p>
-                                                            <h3 class="text-dark mt-1 mb-0">9, 526</h3>
-                                                       </div> <!-- end col -->
-                                                  </div> <!-- end row-->
-                                             </div> <!-- end card body -->
-                                             <div class="card-footer py-2 bg-light bg-opacity-50">
-                                                  <div class="d-flex align-items-center justify-content-between">
-                                                       <div>
-                                                            <span class="text-success"> <i class="bx bxs-up-arrow fs-12"></i> 8.1%</span>
-                                                            <span class="text-muted ms-1 fs-12">Last Month</span>
-                                                       </div>
-                                                       <a href="#!" class="text-reset fw-semibold fs-12">View More</a>
-                                                  </div>
-                                             </div> <!-- end card body -->
-                                        </div> <!-- end card -->
-                                   </div> <!-- end col -->
-                                   <div class="col-md-6">
-                                        <div class="card overflow-hidden">
-                                             <div class="card-body">
-                                                  <div class="row">
-                                                       <div class="col-6">
-                                                            <div class="avatar-md bg-soft-primary rounded">
-                                                                 <i class="bx bxs-backpack avatar-title fs-24 text-primary"></i>
-                                                            </div>
-                                                       </div> <!-- end col -->
-                                                       <div class="col-6 text-end">
-                                                            <p class="text-muted mb-0 text-truncate">Deals</p>
-                                                            <h3 class="text-dark mt-1 mb-0">976</h3>
-                                                       </div> <!-- end col -->
-                                                  </div> <!-- end row-->
-                                             </div> <!-- end card body -->
-                                             <div class="card-footer py-2 bg-light bg-opacity-50">
-                                                  <div class="d-flex align-items-center justify-content-between">
-                                                       <div>
-                                                            <span class="text-danger"> <i class="bx bxs-down-arrow fs-12"></i> 0.3%</span>
-                                                            <span class="text-muted ms-1 fs-12">Last Month</span>
-                                                       </div>
-                                                       <a href="#!" class="text-reset fw-semibold fs-12">View More</a>
-                                                  </div>
-                                             </div> <!-- end card body -->
-                                        </div> <!-- end card -->
-                                   </div> <!-- end col -->
-                                   <div class="col-md-6">
-                                        <div class="card overflow-hidden">
-                                             <div class="card-body">
-                                                  <div class="row">
-                                                       <div class="col-6">
-                                                            <div class="avatar-md bg-soft-primary rounded">
-                                                                 <i class="bx bx-dollar-circle avatar-title text-primary fs-24"></i>
-                                                            </div>
-                                                       </div> <!-- end col -->
-                                                       <div class="col-6 text-end">
-                                                            <p class="text-muted mb-0 text-truncate">Booked Revenue</p>
-                                                            <h3 class="text-dark mt-1 mb-0">$123.6k</h3>
-                                                       </div> <!-- end col -->
-                                                  </div> <!-- end row-->
-                                             </div> <!-- end card body -->
-                                             <div class="card-footer py-2 bg-light bg-opacity-50">
-                                                  <div class="d-flex align-items-center justify-content-between">
-                                                       <div>
-                                                            <span class="text-danger"> <i class="bx bxs-down-arrow fs-12"></i> 10.6%</span>
-                                                            <span class="text-muted ms-1 fs-12">Last Month</span>
-                                                       </div>
-                                                       <a href="#!" class="text-reset fw-semibold fs-12">View More</a>
-                                                  </div>
-                                             </div> <!-- end card body -->
-                                        </div> <!-- end card -->
-                                   </div> <!-- end col -->
-                              </div> <!-- end row -->
-                         </div> <!-- end col -->
-
-                         <div class="col-xxl-7">
+                         <div class="col-xl-12">
                               <div class="card">
-                                   <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                             <h4 class="card-title">Performance</h4>
-                                             <div>
-                                                  <button type="button" class="btn btn-sm btn-outline-light">ALL</button>
-                                                  <button type="button" class="btn btn-sm btn-outline-light">1M</button>
-                                                  <button type="button" class="btn btn-sm btn-outline-light">6M</button>
-                                                  <button type="button" class="btn btn-sm btn-outline-light active">1Y</button>
-                                             </div>
-                                        </div> <!-- end card-title-->
+                                   <div class="card-header d-flex justify-content-between align-items-center gap-1">
+                                        <h4 class="card-title flex-grow-1">All Product List</h4>
 
-                                        <div dir="ltr">
-                                             <div id="dash-performance-chart" class="apex-charts"></div>
-                                        </div>
-                                   </div> <!-- end card body -->
-                              </div> <!-- end card -->
-                         </div> <!-- end col -->
-                    </div> <!-- end row -->
+                                        <a href="product-add.html" class="btn btn-sm btn-primary">
+                                             Add Product
+                                        </a>
 
-                    <div class="row">
-                         <div class="col-lg-4">
-                              <div class="card">
-                                   <div class="card-body">
-                                        <h5 class="card-title">Conversions</h5>
-                                        <div id="conversions" class="apex-charts mb-2 mt-n2"></div>
-                                        <div class="row text-center">
-                                             <div class="col-6">
-                                                  <p class="text-muted mb-2">This Week</p>
-                                                  <h3 class="text-dark mb-3">23.5k</h3>
-                                             </div> <!-- end col -->
-                                             <div class="col-6">
-                                                  <p class="text-muted mb-2">Last Week</p>
-                                                  <h3 class="text-dark mb-3">41.05k</h3>
-                                             </div> <!-- end col -->
-                                        </div> <!-- end row -->
-                                        <div class="text-center">
-                                             <button type="button" class="btn btn-light shadow-none w-100">View Details</button>
-                                        </div> <!-- end row -->
-                                   </div>
-                              </div>
-                         </div> <!-- end left chart card -->
-
-                         <div class="col-lg-4">
-                              <div class="card">
-                                   <div class="card-body">
-                                        <h5 class="card-title">Sessions by Country</h5>
-                                        <div id="world-map-markers" style="height: 316px">
-                                        </div>
-                                        <div class="row text-center">
-                                             <div class="col-6">
-                                                  <p class="text-muted mb-2">This Week</p>
-                                                  <h3 class="text-dark mb-3">23.5k</h3>
-                                             </div> <!-- end col -->
-                                             <div class="col-6">
-                                                  <p class="text-muted mb-2">Last Week</p>
-                                                  <h3 class="text-dark mb-3">41.05k</h3>
-                                             </div> <!-- end col -->
-                                        </div> <!-- end row -->
-                                   </div>
-                              </div> <!-- end card-->
-                         </div> <!-- end col -->
-
-                         <div class="col-lg-4">
-                              <div class="card card-height-100">
-                                   <div class="card-header d-flex align-items-center justify-content-between gap-2">
-                                        <h4 class="card-title flex-grow-1">Top Pages</h4>
-
-                                        <a href="#" class="btn btn-sm btn-soft-primary">View All</a>
-                                   </div>
-                                   <div class="table-responsive">
-                                        <table class="table table-hover table-nowrap table-centered m-0">
-                                             <thead class="bg-light bg-opacity-50">
-                                                  <tr>
-                                                       <th class="text-muted ps-3">Page Path</th>
-                                                       <th class="text-muted">Page Views</th>
-                                                       <th class="text-muted">Exit Rate</th>
-                                                  </tr>
-                                             </thead>
-                                             <tbody>
-                                                  <tr>
-                                                       <td class="ps-3"><a href="#" class="text-muted">larkon/ecommerce.html</a></td>
-                                                       <td>465 </td>
-                                                       <td><span class="badge badge-soft-success">4.4%</span></td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td class="ps-3"><a href="#" class="text-muted">larkon/dashboard.html</a></td>
-                                                       <td> 426</td>
-                                                       <td><span class="badge badge-soft-danger">20.4%</span></td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td class="ps-3"><a href="#" class="text-muted">larkon/chat.html</a></td>
-                                                       <td>254 </td>
-                                                       <td><span class="badge badge-soft-warning">12.25%</span></td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td class="ps-3"><a href="#" class="text-muted">larkon/auth-login.html</a></td>
-                                                       <td> 3369</td>
-                                                       <td><span class="badge badge-soft-success">5.2%</span></td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td class="ps-3"><a href="#" class="text-muted">larkon/email.html</a></td>
-                                                       <td>985 </td>
-                                                       <td><span class="badge badge-soft-danger">64.2%</span></td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td class="ps-3"><a href="#" class="text-muted">larkon/social.html</a></td>
-                                                       <td>653 </td>
-                                                       <td><span class="badge badge-soft-success">2.4%</span></td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td class="ps-3"><a href="#" class="text-muted">larkon/blog.html</a></td>
-                                                       <td>478 </td>
-                                                       <td><span class="badge badge-soft-danger">1.4%</span></td>
-                                                  </tr>
-                                             </tbody>
-                                        </table>
-                                   </div>
-                              </div>
-                         </div> <!-- end col -->
-
-                         <div class="col-xl-4 d-none">
-                              <div class="card">
-                                   <div class="card-header d-flex justify-content-between align-items-center">
-                                        <h4 class="card-title">Recent Transactions</h4>
-                                        <div>
-                                             <a href="#!" class="btn btn-sm btn-primary">
-                                                  <i class="bx bx-plus me-1"></i>Add
+                                        <div class="dropdown">
+                                             <a href="#" class="dropdown-toggle btn btn-sm btn-outline-light" data-bs-toggle="dropdown" aria-expanded="false">
+                                                  This Month
                                              </a>
+                                             <div class="dropdown-menu dropdown-menu-end">
+                                                  <!-- item-->
+                                                  <a href="#!" class="dropdown-item">Download</a>
+                                                  <!-- item-->
+                                                  <a href="#!" class="dropdown-item">Export</a>
+                                                  <!-- item-->
+                                                  <a href="#!" class="dropdown-item">Import</a>
+                                             </div>
                                         </div>
-                                   </div> <!-- end card-header-->
-                                   <div class="card-body p-0">
-                                        <div class="px-3" data-simplebar style="max-height: 398px;">
-                                             <table class="table table-hover mb-0 table-centered">
+                                   </div>
+                                   <div>
+                                        <div class="table-responsive">
+                                             <table class="table align-middle mb-0 table-hover table-centered">
+                                                  <thead class="bg-light-subtle">
+                                                       <tr>
+                                                            <th style="width: 20px;">
+                                                                 <div class="form-check ms-1">
+                                                                      <input type="checkbox" class="form-check-input" id="customCheck1">
+                                                                      <label class="form-check-label" for="customCheck1"></label>
+                                                                 </div>
+                                                            </th>
+                                                            <th>Product Name & Size</th>
+                                                            <th>Price</th>
+                                                            <th>Stock</th>
+                                                            <th>Category</th>
+                                                            <th>Rating</th>
+                                                            <th>Action</th>
+                                                       </tr>
+                                                  </thead>
                                                   <tbody>
                                                        <tr>
-                                                            <td>24 April, 2024</td>
-                                                            <td>$120.55</td>
-                                                            <td><span class="badge bg-success">Cr</span></td>
-                                                            <td>Commisions </td>
+                                                            <td>
+                                                                 <div class="form-check ms-1">
+                                                                      <input type="checkbox" class="form-check-input" id="customCheck2">
+                                                                      <label class="form-check-label" for="customCheck2">&nbsp;</label>
+                                                                 </div>
+                                                            </td>
+                                                            <td>
+                                                                 <div class="d-flex align-items-center gap-2">
+                                                                      <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
+                                                                           <img src="assets/images/product/p-1.png" alt="" class="avatar-md">
+                                                                      </div>
+                                                                      <div>
+                                                                           <a href="#!" class="text-dark fw-medium fs-15">Black T-shirt</a>
+                                                                           <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>S , M , L , Xl </p>
+                                                                      </div>
+                                                                 </div>
+
+                                                            </td>
+                                                            <td>$80.00</td>
+                                                            <td>
+                                                                 <p class="mb-1 text-muted"><span class="text-dark fw-medium">486 Item</span> Left</p>
+                                                                 <p class="mb-0 text-muted">155 Sold</p>
+                                                            </td>
+                                                            <td> Fashion</td>
+                                                            <td> <span class="badge p-1 bg-light text-dark fs-12 me-1"><i class="bx bxs-star align-text-top fs-14 text-warning me-1"></i> 4.5</span> 55 Review</td>
+                                                            <td>
+                                                                 <div class="d-flex gap-2">
+                                                                      <a href="#!" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="#!" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="#!" class="btn btn-soft-danger btn-sm"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                 </div>
+                                                            </td>
+                                                       </tr>
+
+                                                       <tr>
+                                                            <td>
+                                                                 <div class="form-check ms-1">
+                                                                      <input type="checkbox" class="form-check-input" id="customCheck2">
+                                                                      <label class="form-check-label" for="customCheck2">&nbsp;</label>
+                                                                 </div>
+                                                            </td>
+                                                            <td>
+                                                                 <div class="d-flex align-items-center gap-2">
+                                                                      <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
+                                                                           <img src="assets/images/product/p-2.png" alt="" class="avatar-md">
+                                                                      </div>
+                                                                      <div>
+                                                                           <a href="#!" class="text-dark fw-medium fs-15">Olive Green Leather Bag</a>
+                                                                           <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>S , M </p>
+                                                                      </div>
+                                                                 </div>
+
+                                                            </td>
+                                                            <td>$136.00</td>
+                                                            <td>
+                                                                 <p class="mb-1 text-muted"><span class="text-dark fw-medium">784 Item</span> Left</p>
+                                                                 <p class="mb-0 text-muted">674 Sold</p>
+                                                            </td>
+                                                            <td> Hand Bag</td>
+                                                            <td> <span class="badge p-1 bg-light text-dark fs-12 me-1"><i class="bx bxs-star align-text-top fs-14 text-warning me-1"></i> 4.1</span> 143 Review</td>
+                                                            <td>
+                                                                 <div class="d-flex gap-2">
+                                                                      <a href="#!" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="#!" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="#!" class="btn btn-soft-danger btn-sm"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                 </div>
+                                                            </td>
                                                        </tr>
                                                        <tr>
-                                                            <td>24 April, 2024</td>
-                                                            <td>$9.68</td>
-                                                            <td><span class="badge bg-success">Cr</span></td>
-                                                            <td>Affiliates </td>
+                                                            <td>
+                                                                 <div class="form-check ms-1">
+                                                                      <input type="checkbox" class="form-check-input" id="customCheck2">
+                                                                      <label class="form-check-label" for="customCheck2">&nbsp;</label>
+                                                                 </div>
+                                                            </td>
+                                                            <td>
+                                                                 <div class="d-flex align-items-center gap-2">
+                                                                      <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
+                                                                           <img src="assets/images/product/p-3.png" alt="" class="avatar-md">
+                                                                      </div>
+                                                                      <div>
+                                                                           <a href="#!" class="text-dark fw-medium fs-15">Women Golden Dress</a>
+                                                                           <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>S , M </p>
+                                                                      </div>
+                                                                 </div>
+
+                                                            </td>
+                                                            <td>$219.00</td>
+                                                            <td>
+                                                                 <p class="mb-1 text-muted"><span class="text-dark fw-medium">769 Item</span> Left</p>
+                                                                 <p class="mb-0 text-muted">180 Sold</p>
+                                                            </td>
+                                                            <td> Fashion</td>
+                                                            <td> <span class="badge p-1 bg-light text-dark fs-12 me-1"><i class="bx bxs-star align-text-top fs-14 text-warning me-1"></i> 4.4</span> 174 Review</td>
+                                                            <td>
+                                                                 <div class="d-flex gap-2">
+                                                                      <a href="#!" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="#!" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="#!" class="btn btn-soft-danger btn-sm"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                 </div>
+                                                            </td>
                                                        </tr>
+
                                                        <tr>
-                                                            <td>20 April, 2024</td>
-                                                            <td>$105.22</td>
-                                                            <td><span class="badge bg-danger">Dr</span></td>
-                                                            <td>Grocery </td>
+                                                            <td>
+                                                                 <div class="form-check ms-1">
+                                                                      <input type="checkbox" class="form-check-input" id="customCheck2">
+                                                                      <label class="form-check-label" for="customCheck2">&nbsp;</label>
+                                                                 </div>
+                                                            </td>
+                                                            <td>
+                                                                 <div class="d-flex align-items-center gap-2">
+                                                                      <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
+                                                                           <img src="assets/images/product/p-4.png" alt="" class="avatar-md">
+                                                                      </div>
+                                                                      <div>
+                                                                           <a href="#!" class="text-dark fw-medium fs-15">Gray Cap For Men</a>
+                                                                           <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>S , M , L</p>
+                                                                      </div>
+                                                                 </div>
+
+                                                            </td>
+                                                            <td>$76.00</td>
+                                                            <td>
+                                                                 <p class="mb-1 text-muted"><span class="text-dark fw-medium">571 Item</span> Left</p>
+                                                                 <p class="mb-0 text-muted">87 Sold</p>
+                                                            </td>
+                                                            <td> Cap</td>
+                                                            <td> <span class="badge p-1 bg-light text-dark fs-12 me-1"><i class="bx bxs-star align-text-top fs-14 text-warning me-1"></i> 4.2</span> 23 Review</td>
+                                                            <td>
+                                                                 <div class="d-flex gap-2">
+                                                                      <a href="#!" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="#!" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="#!" class="btn btn-soft-danger btn-sm"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                 </div>
+                                                            </td>
                                                        </tr>
+
+
                                                        <tr>
-                                                            <td>18 April, 2024</td>
-                                                            <td>$80.59</td>
-                                                            <td><span class="badge bg-success">Cr</span></td>
-                                                            <td>Refunds </td>
+                                                            <td>
+                                                                 <div class="form-check ms-1">
+                                                                      <input type="checkbox" class="form-check-input" id="customCheck2">
+                                                                      <label class="form-check-label" for="customCheck2">&nbsp;</label>
+                                                                 </div>
+                                                            </td>
+                                                            <td>
+                                                                 <div class="d-flex align-items-center gap-2">
+                                                                      <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
+                                                                           <img src="assets/images/product/p-5.png" alt="" class="avatar-md">
+                                                                      </div>
+                                                                      <div>
+                                                                           <a href="#!" class="text-dark fw-medium fs-15">Dark Green Cargo Pent</a>
+                                                                           <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>S , M , L , Xl </p>
+                                                                      </div>
+                                                                 </div>
+
+                                                            </td>
+                                                            <td>$110.00</td>
+                                                            <td>
+                                                                 <p class="mb-1 text-muted"><span class="text-dark fw-medium">241 Item</span> Left</p>
+                                                                 <p class="mb-0 text-muted">342 Sold</p>
+                                                            </td>
+                                                            <td> Fashion</td>
+                                                            <td> <span class="badge p-1 bg-light text-dark fs-12 me-1"><i class="bx bxs-star align-text-top fs-14 text-warning me-1"></i> 4.4</span> 109 Review</td>
+                                                            <td>
+                                                                 <div class="d-flex gap-2">
+                                                                      <a href="#!" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="#!" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="#!" class="btn btn-soft-danger btn-sm"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                 </div>
+                                                            </td>
                                                        </tr>
+
+
                                                        <tr>
-                                                            <td>18 April, 2024</td>
-                                                            <td>$750.95</td>
-                                                            <td><span class="badge bg-danger">Dr</span></td>
-                                                            <td>Bill Payments </td>
+                                                            <td>
+                                                                 <div class="form-check ms-1">
+                                                                      <input type="checkbox" class="form-check-input" id="customCheck2">
+                                                                      <label class="form-check-label" for="customCheck2">&nbsp;</label>
+                                                                 </div>
+                                                            </td>
+                                                            <td>
+                                                                 <div class="d-flex align-items-center gap-2">
+                                                                      <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
+                                                                           <img src="assets/images/product/p-6.png" alt="" class="avatar-md">
+                                                                      </div>
+                                                                      <div>
+                                                                           <a href="#!" class="text-dark fw-medium fs-15">Orange Multi Color Headphone</a>
+                                                                           <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>S , M </p>
+                                                                      </div>
+                                                                 </div>
+
+                                                            </td>
+                                                            <td>$231.00</td>
+                                                            <td>
+                                                                 <p class="mb-1 text-muted"><span class="text-dark fw-medium">821 Item</span> Left</p>
+                                                                 <p class="mb-0 text-muted">231 Sold</p>
+                                                            </td>
+                                                            <td> Electronics</td>
+                                                            <td> <span class="badge p-1 bg-light text-dark fs-12 me-1"><i class="bx bxs-star align-text-top fs-14 text-warning me-1"></i> 4.2</span> 200 Review</td>
+                                                            <td>
+                                                                 <div class="d-flex gap-2">
+                                                                      <a href="#!" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="#!" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="#!" class="btn btn-soft-danger btn-sm"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                 </div>
+                                                            </td>
                                                        </tr>
+
+
                                                        <tr>
-                                                            <td>17 April, 2024</td>
-                                                            <td>$455.62</td>
-                                                            <td><span class="badge bg-danger">Dr</span></td>
-                                                            <td>Electricity </td>
+                                                            <td>
+                                                                 <div class="form-check ms-1">
+                                                                      <input type="checkbox" class="form-check-input" id="customCheck2">
+                                                                      <label class="form-check-label" for="customCheck2">&nbsp;</label>
+                                                                 </div>
+                                                            </td>
+                                                            <td>
+                                                                 <div class="d-flex align-items-center gap-2">
+                                                                      <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
+                                                                           <img src="assets/images/product/p-7.png" alt="" class="avatar-md">
+                                                                      </div>
+                                                                      <div>
+                                                                           <a href="#!" class="text-dark fw-medium fs-15">Kid's Yellow Shoes</a>
+                                                                           <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>18 , 19 , 20 , 21</p>
+                                                                      </div>
+                                                                 </div>
+
+                                                            </td>
+                                                            <td>$89.00</td>
+                                                            <td>
+                                                                 <p class="mb-1 text-muted"><span class="text-dark fw-medium">321 Item</span> Left</p>
+                                                                 <p class="mb-0 text-muted">681 Sold</p>
+                                                            </td>
+                                                            <td> Shoes</td>
+                                                            <td> <span class="badge p-1 bg-light text-dark fs-12 me-1"><i class="bx bxs-star align-text-top fs-14 text-warning me-1"></i> 4.5</span> 321 Review</td>
+                                                            <td>
+                                                                 <div class="d-flex gap-2">
+                                                                      <a href="#!" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="#!" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="#!" class="btn btn-soft-danger btn-sm"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                 </div>
+                                                            </td>
                                                        </tr>
+
                                                        <tr>
-                                                            <td>17 April, 2024</td>
-                                                            <td>$102.77</td>
-                                                            <td><span class="badge bg-success">Cr</span></td>
-                                                            <td>Interest </td>
+                                                            <td>
+                                                                 <div class="form-check ms-1">
+                                                                      <input type="checkbox" class="form-check-input" id="customCheck2">
+                                                                      <label class="form-check-label" for="customCheck2">&nbsp;</label>
+                                                                 </div>
+                                                            </td>
+                                                            <td>
+                                                                 <div class="d-flex align-items-center gap-2">
+                                                                      <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
+                                                                           <img src="assets/images/product/p-8.png" alt="" class="avatar-md">
+                                                                      </div>
+                                                                      <div>
+                                                                           <a href="#!" class="text-dark fw-medium fs-15">Men Dark Brown Wallet</a>
+                                                                           <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>S , M</p>
+                                                                      </div>
+                                                                 </div>
+
+                                                            </td>
+                                                            <td>$132.00</td>
+                                                            <td>
+                                                                 <p class="mb-1 text-muted"><span class="text-dark fw-medium">190 Item</span> Left</p>
+                                                                 <p class="mb-0 text-muted">212 Sold</p>
+                                                            </td>
+                                                            <td> Wallet</td>
+                                                            <td> <span class="badge p-1 bg-light text-dark fs-12 me-1"><i class="bx bxs-star align-text-top fs-14 text-warning me-1"></i> 4.1</span> 190 Review</td>
+                                                            <td>
+                                                                 <div class="d-flex gap-2">
+                                                                      <a href="#!" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="#!" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="#!" class="btn btn-soft-danger btn-sm"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                 </div>
+                                                            </td>
                                                        </tr>
+
                                                        <tr>
-                                                            <td>16 April, 2024</td>
-                                                            <td>$79.49</td>
-                                                            <td><span class="badge bg-success">Cr</span></td>
-                                                            <td>Refunds </td>
+                                                            <td>
+                                                                 <div class="form-check ms-1">
+                                                                      <input type="checkbox" class="form-check-input" id="customCheck2">
+                                                                      <label class="form-check-label" for="customCheck2">&nbsp;</label>
+                                                                 </div>
+                                                            </td>
+                                                            <td>
+                                                                 <div class="d-flex align-items-center gap-2">
+                                                                      <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
+                                                                           <img src="assets/images/product/p-9.png" alt="" class="avatar-md">
+                                                                      </div>
+                                                                      <div>
+                                                                           <a href="#!" class="text-dark fw-medium fs-15">Sky Blue Sunglass</a>
+                                                                           <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>S , M </p>
+                                                                      </div>
+                                                                 </div>
+
+                                                            </td>
+                                                            <td>$77.00</td>
+                                                            <td>
+                                                                 <p class="mb-1 text-muted"><span class="text-dark fw-medium">784 Item</span> Left</p>
+                                                                 <p class="mb-0 text-muted">443 Sold</p>
+                                                            </td>
+                                                            <td> Sunglass</td>
+                                                            <td> <span class="badge p-1 bg-light text-dark fs-12 me-1"><i class="bx bxs-star align-text-top fs-14 text-warning me-1"></i> 3.5</span> 298 Review</td>
+                                                            <td>
+                                                                 <div class="d-flex gap-2">
+                                                                      <a href="#!" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="#!" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="#!" class="btn btn-soft-danger btn-sm"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                 </div>
+                                                            </td>
                                                        </tr>
+
                                                        <tr>
-                                                            <td>05 April, 2024</td>
-                                                            <td>$980.00</td>
-                                                            <td><span class="badge bg-danger">Dr</span></td>
-                                                            <td>Shopping</td>
+                                                            <td>
+                                                                 <div class="form-check ms-1">
+                                                                      <input type="checkbox" class="form-check-input" id="customCheck2">
+                                                                      <label class="form-check-label" for="customCheck2">&nbsp;</label>
+                                                                 </div>
+                                                            </td>
+                                                            <td>
+                                                                 <div class="d-flex align-items-center gap-2">
+                                                                      <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
+                                                                           <img src="assets/images/product/p-10.png" alt="" class="avatar-md">
+                                                                      </div>
+                                                                      <div>
+                                                                           <a href="#!" class="text-dark fw-medium fs-15">Kid's Yellow T-shirt</a>
+                                                                           <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>S </p>
+                                                                      </div>
+                                                                 </div>
+
+                                                            </td>
+                                                            <td>$110.00</td>
+                                                            <td>
+                                                                 <p class="mb-1 text-muted"><span class="text-dark fw-medium">650 Item</span> Left</p>
+                                                                 <p class="mb-0 text-muted">365 Sold</p>
+                                                            </td>
+                                                            <td> Fashion</td>
+                                                            <td> <span class="badge p-1 bg-light text-dark fs-12 me-1"><i class="bx bxs-star align-text-top fs-14 text-warning me-1"></i> 4.1</span> 156 Review</td>
+                                                            <td>
+                                                                 <div class="d-flex gap-2">
+                                                                      <a href="#!" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="#!" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="#!" class="btn btn-soft-danger btn-sm"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                 </div>
+                                                            </td>
                                                        </tr>
+
+                                                       <tr>
+                                                            <td>
+                                                                 <div class="form-check ms-1">
+                                                                      <input type="checkbox" class="form-check-input" id="customCheck2">
+                                                                      <label class="form-check-label" for="customCheck2">&nbsp;</label>
+                                                                 </div>
+                                                            </td>
+                                                            <td>
+                                                                 <div class="d-flex align-items-center gap-2">
+                                                                      <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
+                                                                           <img src="assets/images/product/p-11.png" alt="" class="avatar-md">
+                                                                      </div>
+                                                                      <div>
+                                                                           <a href="#!" class="text-dark fw-medium fs-15">White Rubber Band Smart Watch </a>
+                                                                           <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>S , M </p>
+                                                                      </div>
+                                                                 </div>
+
+                                                            </td>
+                                                            <td>$77.00</td>
+                                                            <td>
+                                                                 <p class="mb-1 text-muted"><span class="text-dark fw-medium">98 Item</span> Left</p>
+                                                                 <p class="mb-0 text-muted">241 Sold</p>
+                                                            </td>
+                                                            <td> Electronics</td>
+                                                            <td> <span class="badge p-1 bg-light text-dark fs-12 me-1"><i class="bx bxs-star align-text-top fs-14 text-warning me-1"></i> 3.4</span> 201 Review</td>
+                                                            <td>
+                                                                 <div class="d-flex gap-2">
+                                                                      <a href="#!" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="#!" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="#!" class="btn btn-soft-danger btn-sm"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                 </div>
+                                                            </td>
+                                                       </tr>
+
+                                                       <tr>
+                                                            <td>
+                                                                 <div class="form-check ms-1">
+                                                                      <input type="checkbox" class="form-check-input" id="customCheck2">
+                                                                      <label class="form-check-label" for="customCheck2">&nbsp;</label>
+                                                                 </div>
+                                                            </td>
+                                                            <td>
+                                                                 <div class="d-flex align-items-center gap-2">
+                                                                      <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
+                                                                           <img src="assets/images/product/p-12.png" alt="" class="avatar-md">
+                                                                      </div>
+                                                                      <div>
+                                                                           <a href="#!" class="text-dark fw-medium fs-15">Men Brown Leather Shoes </a>
+                                                                           <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>40 , 41 , 42 , 43 </p>
+                                                                      </div>
+                                                                 </div>
+
+                                                            </td>
+                                                            <td>$222.00</td>
+                                                            <td>
+                                                                 <p class="mb-1 text-muted"><span class="text-dark fw-medium">176 Item</span> Left</p>
+                                                                 <p class="mb-0 text-muted">658 Sold</p>
+                                                            </td>
+                                                            <td> Shoes</td>
+                                                            <td> <span class="badge p-1 bg-light text-dark fs-12 me-1"><i class="bx bxs-star align-text-top fs-14 text-warning me-1"></i> 4.1</span> 370 Review</td>
+                                                            <td>
+                                                                 <div class="d-flex gap-2">
+                                                                      <a href="#!" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="#!" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                      <a href="#!" class="btn btn-soft-danger btn-sm"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                 </div>
+                                                            </td>
+                                                       </tr>
+
+
                                                   </tbody>
                                              </table>
                                         </div>
-                                   </div> <!-- end card body -->
-                              </div> <!-- end card-->
-                         </div> <!-- end col-->
-                    </div> <!-- end row -->
-
-                    <div class="row">
-                         <div class="col">
-                              <div class="card">
-                                   <div class="card-body">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                             <h4 class="card-title">
-                                                  Recent Orders
-                                             </h4>
-
-                                             <a href="#!" class="btn btn-sm btn-soft-primary">
-                                                  <i class="bx bx-plus me-1"></i>Create Order
-                                             </a>
-                                        </div>
+                                        <!-- end table-responsive -->
                                    </div>
-                                   <!-- end card body -->
-                                   <div class="table-responsive table-centered">
-                                        <table class="table mb-0">
-                                             <thead class="bg-light bg-opacity-50">
-                                                  <tr>
-                                                       <th class="ps-3">
-                                                            Order ID.
-                                                       </th>
-                                                       <th>
-                                                            Date
-                                                       </th>
-                                                       <th>
-                                                            Product
-                                                       </th>
-                                                       <th>
-                                                            Customer Name
-                                                       </th>
-                                                       <th>
-                                                            Email ID
-                                                       </th>
-                                                       <th>
-                                                            Phone No.
-                                                       </th>
-                                                       <th>
-                                                            Address
-                                                       </th>
-                                                       <th>
-                                                            Payment Type
-                                                       </th>
-                                                       <th>
-                                                            Status
-                                                       </th>
-                                                  </tr>
-                                             </thead>
-                                             <!-- end thead-->
-                                             <tbody>
-                                                  <tr>
-                                                       <td class="ps-3">
-                                                            <a href="order-detail.html">#RB5625</a>
-                                                       </td>
-                                                       <td>29 April 2024</td>
-                                                       <td>
-                                                            <img src="assets/images/products/product-1(1).png" alt="product-1(1)" class="img-fluid avatar-sm">
-                                                       </td>
-                                                       <td>
-                                                            <a href="#!">Anna M. Hines</a>
-                                                       </td>
-                                                       <td>anna.hines@mail.com</td>
-                                                       <td>(+1)-555-1564-261</td>
-                                                       <td>Burr Ridge/Illinois</td>
-                                                       <td>Credit Card</td>
-                                                       <td>
-                                                            <i class="bx bxs-circle text-success me-1"></i>Completed
-                                                       </td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td class="ps-3">
-                                                            <a href="order-detail.html">#RB9652</a>
-                                                       </td>
-                                                       <td>25 April 2024</td>
-                                                       <td>
-                                                            <img src="assets/images/products/product-4.png" alt="product-4" class="img-fluid avatar-sm">
-                                                       </td>
-                                                       <td>
-                                                            <a href="#!">Judith H. Fritsche</a>
-                                                       </td>
-                                                       <td>judith.fritsche.com</td>
-                                                       <td>(+57)-305-5579-759</td>
-                                                       <td>SULLIVAN/Kentucky</td>
-                                                       <td>Credit Card</td>
-                                                       <td>
-                                                            <i class="bx bxs-circle text-success me-1"></i>Completed
-                                                       </td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td class="ps-3">
-                                                            <a href="order-detail.html">#RB5984</a>
-                                                       </td>
-                                                       <td>25 April 2024</td>
-                                                       <td>
-                                                            <img src="assets/images/products/product-5.png" alt="product-5" class="img-fluid avatar-sm">
-                                                       </td>
-                                                       <td>
-                                                            <a href="#!">Peter T. Smith</a>
-                                                       </td>
-                                                       <td>peter.smith@mail.com</td>
-                                                       <td>(+33)-655-5187-93</td>
-                                                       <td>Yreka/California</td>
-                                                       <td>Pay Pal</td>
-                                                       <td>
-                                                            <i class="bx bxs-circle text-success me-1"></i>Completed
-                                                       </td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td class="ps-3">
-                                                            <a href="order-detail.html">#RB3625</a>
-                                                       </td>
-                                                       <td>21 April 2024</td>
-                                                       <td>
-                                                            <img src="assets/images/products/product-6.png" alt="product-6" class="img-fluid avatar-sm">
-                                                       </td>
-                                                       <td>
-                                                            <a href="#!">Emmanuel J. Delcid</a>
-                                                       </td>
-                                                       <td>
-                                                            emmanuel.delicid@mail.com
-                                                       </td>
-                                                       <td>(+30)-693-5553-637</td>
-                                                       <td>Atlanta/Georgia</td>
-                                                       <td>Pay Pal</td>
-                                                       <td>
-                                                            <i class="bx bxs-circle text-primary me-1"></i>Processing
-                                                       </td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td class="ps-3">
-                                                            <a href="order-detail.html">#RB8652</a>
-                                                       </td>
-                                                       <td>18 April 2024</td>
-                                                       <td>
-                                                            <img src="assets/images/products/product-1(2).png" alt="product-1(2)" class="img-fluid avatar-sm">
-                                                       </td>
-                                                       <td>
-                                                            <a href="#!">William J. Cook</a>
-                                                       </td>
-                                                       <td>william.cook@mail.com</td>
-                                                       <td>(+91)-855-5446-150</td>
-                                                       <td>Rosenberg/Texas</td>
-                                                       <td>Credit Card</td>
-                                                       <td>
-                                                            <i class="bx bxs-circle text-primary me-1"></i>Processing
-                                                       </td>
-                                                  </tr>
-                                             </tbody>
-                                             <!-- end tbody -->
-                                        </table>
-                                        <!-- end table -->
-                                   </div>
-                                   <!-- table responsive -->
-
                                    <div class="card-footer border-top">
-                                        <div class="row g-3">
-                                             <div class="col-sm">
-                                                  <div class="text-muted">
-                                                       Showing
-                                                       <span class="fw-semibold">5</span>
-                                                       of
-                                                       <span class="fw-semibold">90,521</span>
-                                                       orders
-                                                  </div>
-                                             </div>
-
-                                             <div class="col-sm-auto">
-                                                  <ul class="pagination m-0">
-                                                       <li class="page-item">
-                                                            <a href="#" class="page-link"><i class="bx bx-left-arrow-alt"></i></a>
-                                                       </li>
-                                                       <li class="page-item active">
-                                                            <a href="#" class="page-link">1</a>
-                                                       </li>
-                                                       <li class="page-item">
-                                                            <a href="#" class="page-link">2</a>
-                                                       </li>
-                                                       <li class="page-item">
-                                                            <a href="#" class="page-link">3</a>
-                                                       </li>
-                                                       <li class="page-item">
-                                                            <a href="#" class="page-link"><i class="bx bx-right-arrow-alt"></i></a>
-                                                       </li>
-                                                  </ul>
-                                             </div>
-                                        </div>
+                                        <nav aria-label="Page navigation example">
+                                             <ul class="pagination justify-content-end mb-0">
+                                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a></li>
+                                                  <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
+                                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
+                                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
+                                                  <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>
+                                             </ul>
+                                        </nav>
                                    </div>
                               </div>
-                              <!-- end card -->
                          </div>
-                         <!-- end col -->
-                    </div> <!-- end row -->
+
+                    </div>
 
                </div>
                <!-- End Container Fluid -->
@@ -1784,14 +1764,6 @@
 
      <!-- App Javascript (Require in all Page) -->
      <script src="assets/js/app.js"></script>
-
-     <!-- Vector Map Js -->
-     <script src="assets/vendor/jsvectormap/js/jsvectormap.min.js"></script>
-     <script src="assets/vendor/jsvectormap/maps/world-merc.js"></script>
-     <script src="assets/vendor/jsvectormap/maps/world.js"></script>
-
-     <!-- Dashboard Js -->
-     <script src="assets/js/pages/dashboard.js"></script>
 
 </body>
 
