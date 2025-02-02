@@ -1,11 +1,14 @@
-<?php $this->view("header", $data); ?>
+<?php include 'includes/header.php'; ?>
 
-          <!-- ==================================================== -->
-          <!-- Start right Content here -->
-          <!-- ==================================================== -->
+<body>
+    
+     <!-- START Wrapper -->
+     <div class="wrapper">
+
+        <?php include 'includes/navbar.php'; ?>
+        <?php include 'includes/sidebar.php'; ?>
+
           <div class="page-content">
-
-               <!-- Start Container Fluid -->
                <div class="container-xxl">
 
                     <div class="row">
@@ -13,7 +16,7 @@
                               <div class="card">
                                    <div class="card-body text-center">
                                         <div class="rounded bg-secondary-subtle d-flex align-items-center justify-content-center mx-auto">
-                                             <img src="assets/images/product/p-1.png" alt="" class="avatar-xl">
+                                             <img src="../assets/images/products/p-1.png" alt="" class="avatar-xl">
                                         </div>
                                         <h4 class="mt-3 mb-0">Fashion Categories</h4>
                                    </div>
@@ -23,7 +26,7 @@
                               <div class="card">
                                    <div class="card-body text-center">
                                         <div class="rounded bg-primary-subtle d-flex align-items-center justify-content-center mx-auto">
-                                             <img src="assets/images/product/p-6.png" alt="" class="avatar-xl">
+                                             <img src="assets/images/products/p-6.png" alt="" class="avatar-xl">
                                         </div>
                                         <h4 class="mt-3 mb-0">Electronics Headphone</h4>
                                    </div>
@@ -34,7 +37,7 @@
                               <div class="card">
                                    <div class="card-body text-center">
                                         <div class="rounded bg-warning-subtle d-flex align-items-center justify-content-center mx-auto">
-                                             <img src="assets/images/product/p-7.png" alt="" class="avatar-xl">
+                                             <img src="assets/images/products/p-7.png" alt="" class="avatar-xl">
                                         </div>
                                         <h4 class="mt-3 mb-0">Foot Wares</h4>
                                    </div>
@@ -45,7 +48,7 @@
                               <div class="card">
                                    <div class="card-body text-center">
                                         <div class="rounded bg-info-subtle d-flex align-items-center justify-content-center mx-auto">
-                                             <img src="assets/images/product/p-9.png" alt="" class="avatar-xl">
+                                             <img src="assets/images/products/p-9.png" alt="" class="avatar-xl">
                                         </div>
                                         <h4 class="mt-3 mb-0">Eye Ware & Sunglass</h4>
                                    </div>
@@ -107,7 +110,7 @@
                                                             <td>
                                                                  <div class="d-flex align-items-center gap-2">
                                                                       <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
-                                                                           <img src="assets/images/product/p-1.png" alt="" class="avatar-md">
+                                                                           <img src="assets/images/products/p-1.png" alt="" class="avatar-md">
                                                                       </div>
                                                                       <p class="text-dark fw-medium fs-15 mb-0">Fashion Men , Women & Kid's</p>
                                                                  </div>
@@ -136,7 +139,7 @@
                                                             <td>
                                                                  <div class="d-flex align-items-center gap-2">
                                                                       <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
-                                                                           <img src="assets/images/product/p-2.png" alt="" class="avatar-md">
+                                                                           <img src="assets/images/products/p-2.png" alt="" class="avatar-md">
                                                                       </div>
                                                                       <div>
                                                                            <p class="text-dark fw-medium fs-15 mb-0">Women Hand Bag</p>
@@ -168,7 +171,7 @@
                                                             <td>
                                                                  <div class="d-flex align-items-center gap-2">
                                                                       <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
-                                                                           <img src="assets/images/product/p-4.png" alt="" class="avatar-md">
+                                                                           <img src="assets/images/products/p-4.png" alt="" class="avatar-md">
                                                                       </div>
                                                                       <div>
                                                                            <p class="text-dark fw-medium fs-15 mb-0">Cap and Hat</p>
@@ -199,7 +202,7 @@
                                                             <td>
                                                                  <div class="d-flex align-items-center gap-2">
                                                                       <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
-                                                                           <img src="assets/images/product/p-6.png" alt="" class="avatar-md">
+                                                                           <img src="assets/images/products/p-6.png" alt="" class="avatar-md">
                                                                       </div>
                                                                       <div>
                                                                            <p class="text-dark fw-medium fs-15 mb-0">Electronics Headphone</p>
@@ -231,7 +234,7 @@
                                                             <td>
                                                                  <div class="d-flex align-items-center gap-2">
                                                                       <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
-                                                                           <img src="assets/images/product/p-7.png" alt="" class="avatar-md">
+                                                                           <img src="assets/images/products/p-7.png" alt="" class="avatar-md">
                                                                       </div>
                                                                       <div>
                                                                            <p class="text-dark fw-medium fs-15 mb-0">Foot Wares</p>
@@ -262,7 +265,7 @@
                                                             <td>
                                                                  <div class="d-flex align-items-center gap-2">
                                                                       <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
-                                                                           <img src="assets/images/product/p-8.png" alt="" class="avatar-md">
+                                                                           <img src="assets/images/products/p-8.png" alt="" class="avatar-md">
                                                                       </div>
                                                                       <div>
                                                                            <p class="text-dark fw-medium fs-15 mb-0">Wallet Categories</p>
@@ -292,7 +295,7 @@
                                                             <td>
                                                                  <div class="d-flex align-items-center gap-2">
                                                                       <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
-                                                                           <img src="assets/images/product/p-11.png" alt="" class="avatar-md">
+                                                                           <img src="assets/images/products/p-11.png" alt="" class="avatar-md">
                                                                       </div>
                                                                       <div>
                                                                            <p class="text-dark fw-medium fs-15 mb-0">Electronics Watch</p>
@@ -322,7 +325,7 @@
                                                             <td>
                                                                  <div class="d-flex align-items-center gap-2">
                                                                       <div class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
-                                                                           <img src="assets/images/product/p-9.png" alt="" class="avatar-md">
+                                                                           <img src="assets/images/products/p-9.png" alt="" class="avatar-md">
                                                                       </div>
                                                                       <div>
                                                                            <p class="text-dark fw-medium fs-15 mb-0">Eye Ware & Sunglass</p>
@@ -363,6 +366,6 @@
                     </div>
 
                </div>
-               <!-- End Container Fluid -->
+          </div>
 
-<?php $this->view("footer", $data); ?>
+<?php include 'includes/footer.php'; ?>

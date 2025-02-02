@@ -12,24 +12,27 @@
                <!-- ========== Footer End ========== -->
 
           </div>
+          <!-- ==================================================== -->
           <!-- End Page Content -->
+          <!-- ==================================================== -->
+
      </div>
      <!-- END Wrapper -->
 
-     <!-- Theme Config -->
-     <script src="<?=ASSETS?>js/config.js"></script>
-     
-     <!-- Vendor Javascript -->
-     <script src="<?=ASSETS?>js/vendor.js"></script>
+     <!-- Vendor Javascript (Require in all Page) -->
+     <script src="assets/js/vendor.js"></script>
 
-     <!-- App Javascript -->
-     <script src="<?=ASSETS?>js/app.js"></script>
+     <!-- App Javascript (Require in all Page) -->
+     <script src="assets/js/app.js"></script>
 
-     <?php if(isset($data['js_files'])): ?>
-          <?php foreach($data['js_files'] as $js_file): ?>
-               <script src="<?=ASSETS?>js/<?=$js_file?>"></script>
-          <?php endforeach; ?>
-     <?php endif; ?>
+     <!-- Vector Map Js -->
+     <script src="../assets/vendor/jsvectormap/js/jsvectormap.min.js"></script>
+     <script src="../assets/vendor/jsvectormap/maps/world-merc.js"></script>
+     <script src="../assets/vendor/jsvectormap/maps/world.js"></script>
+
+     <!-- Dashboard Js -->
+     <script src="assets/js/pages/dashboard.js"></script>
 
 </body>
+
 </html>

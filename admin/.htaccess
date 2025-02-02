@@ -1,4 +1,16 @@
 Options -Indexes
+
+# Only redirect to login if not logged in and not already on login page
 RewriteEngine On
-RewriteRule ^$ public/ [L]
-RewriteRule ^(.*)$ public/$1 [L]
+RewriteBase /phpbookstore/admin/
+
+# Don't rewrite existing files/directories
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Don't rewrite the login page or assets
+RewriteCond %{REQUEST_URI} !^/phpbookstore/admin/login\.php
+RewriteCond %{REQUEST_URI} !^/phpbookstore/admin/assets/
+
+# PHP file handling
+RewriteRule ^([^/]+)/?$ $1.php [L]

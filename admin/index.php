@@ -1,4 +1,13 @@
-<?php $this->view("header", $data); ?>
+<?php include 'includes/header.php'; ?>
+
+<body>
+    
+     <!-- START Wrapper -->
+     <div class="wrapper">
+
+        <?php include 'includes/navbar.php'; ?>
+
+        <?php include 'includes/sidebar.php';?>
 
           <!-- ==================================================== -->
           <!-- Start right Content here -->
@@ -519,4 +528,4 @@
                </div>
                <!-- End Container Fluid -->
 
-<?php $this->view("footer", $data); ?>
+<?php include 'includes/footer.php'; ?>

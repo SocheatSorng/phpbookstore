@@ -1,11 +1,14 @@
-<?php $this->view("header", $data); ?>
+<?php include 'includes/header.php'; ?>
 
-          <!-- ==================================================== -->
-          <!-- Start right Content here -->
-          <!-- ==================================================== -->
+<body>
+    
+     <!-- START Wrapper -->
+     <div class="wrapper">
+
+        <?php include 'includes/navbar.php'; ?>
+        <?php include 'includes/sidebar.php'; ?>
+
           <div class="page-content">
-
-               <!-- Start Container Fluid -->
                <div class="container-xxl">
 
                     <div class="row">
@@ -213,7 +216,7 @@
                               <div class="row">
                                    <div class="col-md-6 col-xl-3">
                                         <div class="card">
-                                             <img src="assets/images/product/p-1.png" alt="" class="img-fluid ">
+                                             <img src="../assets/images/products/p-1.png" alt="" class="img-fluid">
                                              <div class="card-body bg-light-subtle rounded-bottom">
                                                   <a href="product-details.html" class="text-dark fw-medium fs-16">Men Black Slim Fit T-shirt</a>
                                                   <div class="my-1">
@@ -265,7 +268,7 @@
                                    </div>
                                    <div class="col-md-6 col-xl-3">
                                         <div class="card">
-                                             <img src="assets/images/product/p-2.png" alt="" class="img-fluid ">
+                                             <img src="../assets/images/products/p-2.png" alt="" class="img-fluid">
                                              <div class="card-body bg-light-subtle rounded-bottom">
                                                   <a href="product-details.html" class="text-dark fw-medium fs-16">Olive Green Leather Bag</a>
                                                   <div class="my-1">
@@ -857,4 +860,4 @@
                </div>
                <!-- End Container Fluid -->
 
-<?php $this->view("footer", $data); ?>
+<?php include 'includes/footer.php'; ?>

@@ -1,18 +1,20 @@
-<?php $this->view("header", $data); ?>
+<?php include 'includes/header.php'; ?>
 
-          <!-- ==================================================== -->
-          <!-- Start right Content here -->
-          <!-- ==================================================== -->
+<body>
+    
+     <!-- START Wrapper -->
+     <div class="wrapper">
+
+        <?php include 'includes/navbar.php'; ?>
+        <?php include 'includes/sidebar.php'; ?>
+
           <div class="page-content">
-
-               <!-- Start Container Fluid -->
                <div class="container-xxl">
-
                     <div class="row">
                          <div class="col-xl-3 col-lg-4">
                               <div class="card">
                                    <div class="card-body">
-                                        <img src="assets/images/product/p-1.png" alt="" class="img-fluid rounded bg-light">
+                                        <img src="../assets/images/products/p-1.png" alt="" class="img-fluid rounded bg-light">
                                         <div class="mt-3">
                                              <h4>Men Black Slim Fit T-shirt <span class="fs-14 text-muted ms-1">(Fashion)</span></h4>
                                              <h5 class="text-dark fw-medium mt-3">Price :</h5>
@@ -295,6 +297,6 @@
                          </div>
                     </div>
                </div>
-               <!-- End Container Fluid -->
+          </div>
 
-<?php $this->view("footer", $data); ?>
+<?php include 'includes/footer.php'; ?>
