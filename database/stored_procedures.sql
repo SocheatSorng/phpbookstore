@@ -3,12 +3,12 @@ DELIMITER //
 -- User Management Procedures
 CREATE PROCEDURE sp_GetUser(IN p_UserID INT)
 BEGIN
-    SELECT * FROM tbUsers WHERE UserID = p_UserID;
+    SELECT * FROM tbUser WHERE UserID = p_UserID;
 END //
 
 CREATE PROCEDURE sp_GetUserByEmail(IN p_Email VARCHAR(100))
-BEGIN
-    SELECT * FROM tbUsers WHERE Email = p_Email;
+BEGIN 
+    SELECT * FROM tbUser WHERE Email = p_Email;
 END //
 
 CREATE PROCEDURE sp_InsertUser(
@@ -20,7 +20,7 @@ CREATE PROCEDURE sp_InsertUser(
     IN p_Address TEXT
 )
 BEGIN
-    INSERT INTO tbUsers(FirstName, LastName, Email, Password, Phone, Address)
+    INSERT INTO tbUser(FirstName, LastName, Email, Password, Phone, Address)
     VALUES(p_FirstName, p_LastName, p_Email, p_Password, p_Phone, p_Address);
     SELECT LAST_INSERT_ID() AS UserID;
 END //
@@ -33,7 +33,7 @@ CREATE PROCEDURE sp_UpdateUser(
     IN p_Address TEXT
 )
 BEGIN
-    UPDATE tbUsers 
+    UPDATE tbUser 
     SET FirstName = p_FirstName,
         LastName = p_LastName,
         Phone = p_Phone,
@@ -51,8 +51,8 @@ BEGIN
     SET p_Offset = (p_Page - 1) * p_Limit;
     
     SELECT b.*, c.Name as CategoryName
-    FROM tbBooks b
-    LEFT JOIN tbCategories c ON b.CategoryID = c.CategoryID
+    FROM tbBook b
+    LEFT JOIN tbCategory c ON b.CategoryID = c.CategoryID
     LIMIT p_Limit OFFSET p_Offset;
 END //
 
@@ -66,8 +66,8 @@ BEGIN
     SET p_Offset = (p_Page - 1) * p_Limit;
     
     SELECT b.*, c.Name as CategoryName
-    FROM tbBooks b
-    LEFT JOIN tbCategories c ON b.CategoryID = c.CategoryID
+    FROM tbBook b
+    LEFT JOIN tbCategory c ON b.CategoryID = c.CategoryID
     WHERE b.CategoryID = p_CategoryID
     LIMIT p_Limit OFFSET p_Offset;
 END //
@@ -83,7 +83,7 @@ CREATE PROCEDURE sp_InsertBook(
     IN p_Image VARCHAR(255)
 )
 BEGIN
-    INSERT INTO tbBooks(CategoryID, Title, Author, ISBN, Description, Price, StockQuantity, Image)
+    INSERT INTO tbBook(CategoryID, Title, Author, ISBN, Description, Price, StockQuantity, Image)
     VALUES(p_CategoryID, p_Title, p_Author, p_ISBN, p_Description, p_Price, p_StockQuantity, p_Image);
     SELECT LAST_INSERT_ID() AS BookID;
 END //
@@ -99,7 +99,7 @@ CREATE PROCEDURE sp_UpdateBook(
     IN p_Image VARCHAR(255)
 )
 BEGIN
-    UPDATE tbBooks 
+    UPDATE tbBook 
     SET CategoryID = p_CategoryID,
         Title = p_Title,
         Author = p_Author,
@@ -118,7 +118,7 @@ CREATE PROCEDURE sp_CreateOrder(
     IN p_PaymentMethod VARCHAR(50)
 )
 BEGIN
-    INSERT INTO tbOrders(UserID, TotalAmount, ShippingAddress, PaymentMethod)
+    INSERT INTO tbOrder(UserID, TotalAmount, ShippingAddress, PaymentMethod)
     VALUES(p_UserID, p_TotalAmount, p_ShippingAddress, p_PaymentMethod);
     SELECT LAST_INSERT_ID() AS OrderID;
 END //
@@ -130,11 +130,11 @@ CREATE PROCEDURE sp_AddOrderDetail(
     IN p_Price DECIMAL(10,2)
 )
 BEGIN
-    INSERT INTO tbOrderDetails(OrderID, BookID, Quantity, Price)
+    INSERT INTO tbOrderDetail(OrderID, BookID, Quantity, Price)
     VALUES(p_OrderID, p_BookID, p_Quantity, p_Price);
     
     -- Update stock quantity
-    UPDATE tbBooks 
+    UPDATE tbBook 
     SET StockQuantity = StockQuantity - p_Quantity
     WHERE BookID = p_BookID;
 END //
@@ -146,9 +146,9 @@ BEGIN
            b.Title as BookTitle,
            od.Quantity,
            od.Price as UnitPrice
-    FROM tbOrders o
-    JOIN tbOrderDetails od ON o.OrderID = od.OrderID
-    JOIN tbBooks b ON od.BookID = b.BookID
+    FROM tbOrder o
+    JOIN tbOrderDetail od ON o.OrderID = od.OrderID
+    JOIN tbBook b ON od.BookID = b.BookID
     WHERE o.UserID = p_UserID
     ORDER BY o.OrderDate DESC;
 END //
@@ -181,7 +181,7 @@ BEGIN
            b.Image,
            (b.Price * c.Quantity) as TotalPrice
     FROM tbCart c
-    JOIN tbBooks b ON c.BookID = b.BookID
+    JOIN tbBook b ON c.BookID = b.BookID
     WHERE c.UserID = p_UserID;
 END //
 
@@ -193,7 +193,7 @@ CREATE PROCEDURE sp_AddReview(
     IN p_Comment TEXT
 )
 BEGIN
-    INSERT INTO tbReviews(UserID, BookID, Rating, Comment)
+    INSERT INTO tbReview(UserID, BookID, Rating, Comment)
     VALUES(p_UserID, p_BookID, p_Rating, p_Comment);
 END //
 
@@ -202,8 +202,8 @@ BEGIN
     SELECT r.*,
            u.FirstName,
            u.LastName
-    FROM tbReviews r
-    JOIN tbUsers u ON r.UserID = u.UserID
+    FROM tbReview r
+    JOIN tbUser u ON r.UserID = u.UserID
     WHERE r.BookID = p_BookID
     ORDER BY r.CreatedAt DESC;
 END //
@@ -235,7 +235,7 @@ BEGIN
            b.Price,
            b.Image
     FROM tbWishlist w
-    JOIN tbBooks b ON w.BookID = b.BookID
+    JOIN tbBook b ON w.BookID = b.BookID
     WHERE w.UserID = p_UserID
     ORDER BY w.CreatedAt DESC;
 END //

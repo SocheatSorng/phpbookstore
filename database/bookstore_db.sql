@@ -3,7 +3,7 @@ CREATE DATABASE IF NOT EXISTS bookstore_db;
 USE bookstore_db;
 
 -- Users table
-CREATE TABLE tbUsers (
+CREATE TABLE tbUser (
     UserID INT PRIMARY KEY AUTO_INCREMENT,
     FirstName VARCHAR(50) NOT NULL,
     LastName VARCHAR(50) NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE tbUsers (
 );
 
 -- Categories table
-CREATE TABLE tbCategories (
+CREATE TABLE tbCategory (
     CategoryID INT PRIMARY KEY AUTO_INCREMENT,
     Name VARCHAR(50) NOT NULL,
     Description TEXT,
@@ -25,7 +25,7 @@ CREATE TABLE tbCategories (
 );
 
 -- Books table
-CREATE TABLE tbBooks (
+CREATE TABLE tbBook (
     BookID INT PRIMARY KEY AUTO_INCREMENT,
     CategoryID INT,
     Title VARCHAR(255) NOT NULL,
@@ -36,11 +36,11 @@ CREATE TABLE tbBooks (
     StockQuantity INT DEFAULT 0,
     Image VARCHAR(255),
     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (CategoryID) REFERENCES tbCategories(CategoryID)
+    FOREIGN KEY (CategoryID) REFERENCES tbCategory(CategoryID)
 );
 
 -- Orders table
-CREATE TABLE tbOrders (
+CREATE TABLE tbOrder (
     OrderID INT PRIMARY KEY AUTO_INCREMENT,
     UserID INT,
     OrderDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -48,18 +48,18 @@ CREATE TABLE tbOrders (
     Status ENUM('pending', 'processing', 'shipped', 'delivered', 'cancelled') DEFAULT 'pending',
     ShippingAddress TEXT,
     PaymentMethod VARCHAR(50),
-    FOREIGN KEY (UserID) REFERENCES tbUsers(UserID)
+    FOREIGN KEY (UserID) REFERENCES tbUser(UserID)
 );
 
 -- Order Details table
-CREATE TABLE tbOrderDetails (
+CREATE TABLE tbOrderDetail (
     OrderDetailID INT PRIMARY KEY AUTO_INCREMENT,
     OrderID INT,
     BookID INT,
     Quantity INT NOT NULL,
     Price DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY (OrderID) REFERENCES tbOrders(OrderID),
-    FOREIGN KEY (BookID) REFERENCES tbBooks(BookID)
+    FOREIGN KEY (OrderID) REFERENCES tbOrder(OrderID),
+    FOREIGN KEY (BookID) REFERENCES tbBook(BookID)
 );
 
 -- Shopping Cart table
@@ -69,20 +69,20 @@ CREATE TABLE tbCart (
     BookID INT,
     Quantity INT NOT NULL,
     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (UserID) REFERENCES tbUsers(UserID),
-    FOREIGN KEY (BookID) REFERENCES tbBooks(BookID)
+    FOREIGN KEY (UserID) REFERENCES tbUser(UserID),
+    FOREIGN KEY (BookID) REFERENCES tbBook(BookID)
 );
 
 -- Reviews table
-CREATE TABLE tbReviews (
+CREATE TABLE tbReview (
     ReviewID INT PRIMARY KEY AUTO_INCREMENT,
     UserID INT,
     BookID INT,
     Rating INT NOT NULL CHECK (Rating >= 1 AND Rating <= 5),
     Comment TEXT,
     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (UserID) REFERENCES tbUsers(UserID),
-    FOREIGN KEY (BookID) REFERENCES tbBooks(BookID)
+    FOREIGN KEY (UserID) REFERENCES tbUser(UserID),
+    FOREIGN KEY (BookID) REFERENCES tbBook(BookID)
 );
 
 -- Wishlist table
@@ -91,10 +91,10 @@ CREATE TABLE tbWishlist (
     UserID INT,
     BookID INT,
     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (UserID) REFERENCES tbUsers(UserID),
-    FOREIGN KEY (BookID) REFERENCES tbBooks(BookID)
+    FOREIGN KEY (UserID) REFERENCES tbUser(UserID),
+    FOREIGN KEY (BookID) REFERENCES tbBook(BookID)
 );
 
 -- Insert default admin user (password: admin123)
-INSERT INTO tbUsers (FirstName, LastName, Email, Password, Role) 
+INSERT INTO tbUser (FirstName, LastName, Email, Password, Role) 
 VALUES ('Admin', 'User', 'admin@admin.com', '$2y$10$K.6HD4oEMHSW/xGSZKp4B.cWvxQOhD3o8QgHG1K0LWnM1svAQ88ey', 'admin');
