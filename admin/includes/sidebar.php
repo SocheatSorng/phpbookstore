@@ -72,12 +72,6 @@
                                         <li class="sub-nav-item">
                                              <a class="sub-nav-link" href="category-list">List</a>
                                         </li>                         
-                                        <li class="sub-nav-item">
-                                             <a class="sub-nav-link" href="category-edit">Edit</a>
-                                        </li>
-                                        <li class="sub-nav-item">
-                                             <a class="sub-nav-link" href="category-add">Create</a>
-                                        </li>
                                    </ul>
                               </div>
                          </li>
