@@ -6,7 +6,7 @@ ini_set('display_errors', 1);
 $host = 'localhost';
 $dbname = 'bookstore_db';
 $username = 'user';      // Changed from root
-$password = 'User@123';  // Set actual password
+$password = 'User@1234';  // Set actual password
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);

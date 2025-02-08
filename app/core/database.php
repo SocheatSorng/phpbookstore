@@ -5,7 +5,7 @@ class Database {
     public function __construct() {
         try {
             $string = "mysql:host=localhost;dbname=bookstore_db";
-            $this->conn = new PDO($string, "user", "User@123");
+            $this->conn = new PDO($string, "user", "User@1234");
         } catch(PDOException $e) {
             die($e->getMessage());
         }

@@ -26,6 +26,13 @@ checkAuth();
      <!-- App css (Require in all Page) -->
      <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
 
+     <!-- Bootstrap Icons CSS -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
      <!-- Theme Config js (Require in all Page) -->
      <script src="assets/js/config.js"></script>
+
+     <!-- SweetAlert2 css and js -->
+     <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bootstrap-4/bootstrap-4.css" rel="stylesheet">
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>

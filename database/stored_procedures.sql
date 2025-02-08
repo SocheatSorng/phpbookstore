@@ -240,4 +240,55 @@ BEGIN
     ORDER BY w.CreatedAt DESC;
 END //
 
+-- Category Management Procedures
+CREATE PROCEDURE sp_GetAllCategories()
+BEGIN
+    SELECT * FROM tbCategory ORDER BY CreatedAt DESC;
+END //
+
+CREATE PROCEDURE sp_InsertCategory(
+    IN p_Name VARCHAR(100),
+    IN p_Description TEXT
+)
+BEGIN
+    DECLARE next_id INT;
+    
+    -- Find the first available gap in IDs
+    SELECT MIN(t1.CategoryID + 1) INTO next_id
+    FROM tbCategory t1
+    LEFT JOIN tbCategory t2 ON t1.CategoryID + 1 = t2.CategoryID
+    WHERE t2.CategoryID IS NULL;
+    
+    -- If no gaps found or table is empty, use the next number after max
+    IF next_id IS NULL THEN
+        SELECT IFNULL(MAX(CategoryID), 0) + 1 INTO next_id FROM tbCategory;
+    END IF;
+    
+    -- Insert with the next available ID
+    INSERT INTO tbCategory(CategoryID, Name, Description) 
+    VALUES (next_id, p_Name, p_Description);
+    
+    -- Return the used ID
+    SELECT next_id AS CategoryID;
+END //
+
+CREATE PROCEDURE sp_UpdateCategory(
+    IN p_CategoryID INT,
+    IN p_Name VARCHAR(100),
+    IN p_Description TEXT
+)
+BEGIN
+    UPDATE tbCategory 
+    SET Name = p_Name,
+        Description = p_Description
+    WHERE CategoryID = p_CategoryID;
+END //
+
+CREATE PROCEDURE sp_DeleteCategory(
+    IN p_CategoryID INT
+)
+BEGIN
+    DELETE FROM tbCategory WHERE CategoryID = p_CategoryID;
+END //
+
 DELIMITER ;
