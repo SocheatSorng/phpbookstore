@@ -30,7 +30,7 @@ CREATE TABLE tbBook (
     CategoryID INT,
     Title VARCHAR(255) NOT NULL,
     Author VARCHAR(100) NOT NULL,
-    ISBN VARCHAR(13) UNIQUE,
+    ISBN VARCHAR(13),    -- Removed UNIQUE constraint
     Description TEXT,
     Price DECIMAL(10,2) NOT NULL,
     StockQuantity INT DEFAULT 0,

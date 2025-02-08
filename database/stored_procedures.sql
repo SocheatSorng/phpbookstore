@@ -110,6 +110,102 @@ BEGIN
     WHERE BookID = p_BookID;
 END //
 
+-- Product Management Procedures
+CREATE PROCEDURE sp_GetAllProducts()
+BEGIN
+    SELECT p.*, c.Name as CategoryName 
+    FROM tbBook p
+    LEFT JOIN tbCategory c ON p.CategoryID = c.CategoryID
+    ORDER BY p.CreatedAt DESC;
+END //
+
+CREATE PROCEDURE sp_InsertProduct(
+    IN p_CategoryID INT,
+    IN p_Title VARCHAR(255),
+    IN p_Author VARCHAR(100),
+    IN p_ISBN VARCHAR(13),
+    IN p_Description TEXT,
+    IN p_Price DECIMAL(10,2),
+    IN p_StockQuantity INT,
+    IN p_Image VARCHAR(255)
+)
+BEGIN
+    DECLARE next_id INT;
+    
+    -- Find the first available gap in IDs
+    SELECT MIN(t1.BookID + 1) INTO next_id
+    FROM tbBook t1
+    LEFT JOIN tbBook t2 ON t1.BookID + 1 = t2.BookID
+    WHERE t2.BookID IS NULL
+    AND t1.BookID < (SELECT MAX(BookID) FROM tbBook);
+
+    -- If no gaps found or table is empty, use the next number after max
+    IF next_id IS NULL THEN
+        SELECT COALESCE(MAX(BookID), 0) + 1 INTO next_id FROM tbBook;
+    END IF;
+    
+    -- Insert with the next available ID
+    INSERT INTO tbBook(BookID, CategoryID, Title, Author, ISBN, Description, Price, StockQuantity, Image)
+    VALUES(
+        next_id, 
+        p_CategoryID, 
+        p_Title, 
+        p_Author, 
+        NULLIF(p_ISBN, ''), 
+        p_Description, 
+        p_Price, 
+        p_StockQuantity, 
+        NULLIF(p_Image, '')
+    );
+    
+    -- Return the used ID
+    SELECT next_id AS BookID;
+END //
+
+CREATE PROCEDURE sp_UpdateProduct(
+    IN p_BookID INT,
+    IN p_CategoryID INT,
+    IN p_Title VARCHAR(255),
+    IN p_Author VARCHAR(100),
+    IN p_ISBN VARCHAR(13),
+    IN p_Description TEXT,
+    IN p_Price DECIMAL(10,2),
+    IN p_StockQuantity INT,
+    IN p_Image VARCHAR(255)
+)
+BEGIN
+    UPDATE tbBook 
+    SET CategoryID = p_CategoryID,
+        Title = p_Title,
+        Author = p_Author,
+        ISBN = p_ISBN,
+        Description = p_Description,
+        Price = p_Price,
+        StockQuantity = p_StockQuantity,
+        Image = CASE 
+            WHEN p_Image = '' THEN Image
+            ELSE p_Image 
+        END
+    WHERE BookID = p_BookID;
+END //
+
+CREATE PROCEDURE sp_DeleteProduct(
+    IN p_BookID INT
+)
+BEGIN
+    DELETE FROM tbBook WHERE BookID = p_BookID;
+END //
+
+CREATE PROCEDURE sp_GetProduct(
+    IN p_BookID INT
+)
+BEGIN
+    SELECT b.*, c.Name as CategoryName
+    FROM tbBook b
+    LEFT JOIN tbCategory c ON b.CategoryID = c.CategoryID
+    WHERE b.BookID = p_BookID;
+END //
+
 -- Order Management Procedures
 CREATE PROCEDURE sp_CreateOrder(
     IN p_UserID INT,

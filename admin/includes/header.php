@@ -29,7 +29,13 @@ checkAuth();
      <!-- Bootstrap Icons CSS -->
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-     <!-- Theme Config js (Require in all Page) -->
+     <!-- jQuery first -->
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+     
+     <!-- Bootstrap Bundle from CDN -->
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+     <!-- Theme Config js -->
      <script src="assets/js/config.js"></script>
 
      <!-- SweetAlert2 css and js -->
