@@ -48,6 +48,15 @@
                          <span class="nav-text"> Category </span>
                     </a>
                </li>
+
+               <li class="nav-item">
+                    <a class="nav-link" href="purchase">
+                         <span class="nav-icon">
+                              <iconify-icon icon="solar:card-send-bold-duotone"></iconify-icon>
+                         </span>
+                         <span class="nav-text"> Purchase </span>
+                    </a>
+               </li>
           </ul>
      </div>
 </div>

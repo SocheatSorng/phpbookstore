@@ -387,4 +387,119 @@ BEGIN
     DELETE FROM tbCategory WHERE CategoryID = p_CategoryID;
 END //
 
+CREATE PROCEDURE sp_GetAllPurchases()
+BEGIN
+    SELECT p.*, b.Title, b.Author, (p.Quantity * p.UnitPrice) as TotalAmount
+    FROM tbPurchase p
+    LEFT JOIN tbBook b ON p.BookID = b.BookID
+    ORDER BY p.OrderDate DESC;
+END //
+
+DROP PROCEDURE IF EXISTS sp_InsertPurchase //
+
+CREATE PROCEDURE sp_InsertPurchase(
+    IN p_BookID INT,
+    IN p_Quantity INT,
+    IN p_PaymentMethod VARCHAR(50)
+)
+BEGIN
+    DECLARE book_price DECIMAL(10,2);
+    DECLARE next_id INT;
+    
+    -- Get book price
+    SELECT Price INTO book_price FROM tbBook WHERE BookID = p_BookID;
+    
+    -- Find the first available gap in IDs
+    SELECT MIN(t1.PurchaseID + 1) INTO next_id
+    FROM tbPurchase t1
+    LEFT JOIN tbPurchase t2 ON t1.PurchaseID + 1 = t2.PurchaseID
+    WHERE t2.PurchaseID IS NULL
+    AND t1.PurchaseID < (SELECT MAX(PurchaseID) FROM tbPurchase);
+    
+    -- If no gaps found or table is empty, use the next number after max
+    IF next_id IS NULL THEN
+        SELECT COALESCE(MAX(PurchaseID), 0) + 1 INTO next_id FROM tbPurchase;
+    END IF;
+    
+    -- Insert with the next available ID
+    INSERT INTO tbPurchase(PurchaseID, BookID, Quantity, UnitPrice, PaymentMethod)
+    VALUES(next_id, p_BookID, p_Quantity, book_price, p_PaymentMethod);
+    
+    -- Update book stock
+    UPDATE tbBook 
+    SET StockQuantity = StockQuantity + p_Quantity
+    WHERE BookID = p_BookID;
+    
+    -- Return the used ID
+    SELECT next_id AS PurchaseID;
+END //
+
+DROP PROCEDURE IF EXISTS sp_UpdatePurchase //
+
+CREATE PROCEDURE sp_UpdatePurchase(
+    IN p_PurchaseID INT,
+    IN p_BookID INT,
+    IN p_Quantity INT,
+    IN p_PaymentMethod VARCHAR(50)
+)
+BEGIN
+    DECLARE old_quantity INT;
+    DECLARE old_bookid INT;
+    DECLARE new_book_price DECIMAL(10,2);
+    
+    -- Get old purchase data
+    SELECT Quantity, BookID 
+    INTO old_quantity, old_bookid
+    FROM tbPurchase 
+    WHERE PurchaseID = p_PurchaseID;
+    
+    -- Get new book price
+    SELECT Price INTO new_book_price 
+    FROM tbBook 
+    WHERE BookID = p_BookID;
+    
+    -- Start transaction
+    START TRANSACTION;
+    
+    -- Revert stock quantity for old book
+    UPDATE tbBook 
+    SET StockQuantity = StockQuantity - old_quantity
+    WHERE BookID = old_bookid;
+    
+    -- Update purchase record with new book price
+    UPDATE tbPurchase 
+    SET BookID = p_BookID,
+        Quantity = p_Quantity,
+        UnitPrice = new_book_price,
+        PaymentMethod = p_PaymentMethod
+    WHERE PurchaseID = p_PurchaseID;
+    
+    -- Update stock quantity for new book
+    UPDATE tbBook 
+    SET StockQuantity = StockQuantity + p_Quantity
+    WHERE BookID = p_BookID;
+    
+    -- Commit transaction
+    COMMIT;
+    
+    -- Return success message
+    SELECT 'Purchase updated successfully' as Message;
+END //
+
+DROP PROCEDURE IF EXISTS sp_DeletePurchase //
+
+CREATE PROCEDURE sp_DeletePurchase(
+    IN p_PurchaseID INT
+)
+BEGIN
+    -- Revert stock quantity before deleting
+    UPDATE tbBook b
+    JOIN tbPurchase p ON b.BookID = p.BookID
+    SET b.StockQuantity = b.StockQuantity - p.Quantity
+    WHERE p.PurchaseID = p_PurchaseID;
+    
+    -- Delete purchase record
+    DELETE FROM tbPurchase WHERE PurchaseID = p_PurchaseID;
+END //
+
 DELIMITER ;

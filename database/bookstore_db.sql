@@ -98,3 +98,14 @@ CREATE TABLE tbWishlist (
 -- Insert default admin user (password: admin123)
 INSERT INTO tbUser (FirstName, LastName, Email, Password, Role) 
 VALUES ('Admin', 'User', 'admin@admin.com', '$2y$10$K.6HD4oEMHSW/xGSZKp4B.cWvxQOhD3o8QgHG1K0LWnM1svAQ88ey', 'admin');
+
+-- Purchase table
+CREATE TABLE tbPurchase (
+    PurchaseID INT PRIMARY KEY AUTO_INCREMENT,
+    BookID INT,
+    Quantity INT NOT NULL,
+    UnitPrice DECIMAL(10,2) NOT NULL,
+    OrderDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PaymentMethod VARCHAR(50),
+    FOREIGN KEY (BookID) REFERENCES tbBook(BookID)
+);
