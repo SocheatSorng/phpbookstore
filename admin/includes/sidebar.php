@@ -33,10 +33,10 @@
 
                <li class="nav-item">
                     <a class="nav-link" href="product">
-                         <span class="nav-icon">
-                              <iconify-icon icon="solar:t-shirt-bold-duotone"></iconify-icon>
-                         </span>
-                         <span class="nav-text"> Products </span>
+                              <span class="nav-icon">
+                                   <iconify-icon icon="solar:book-bold-duotone"></iconify-icon>
+                              </span>
+                              <span class="nav-text"> Book </span>
                     </a>
                </li>
 
@@ -57,6 +57,34 @@
                          <span class="nav-text"> Purchase </span>
                     </a>
                </li>
+
+               <li class="nav-item">
+                    <a class="nav-link" href="order">
+                         <span class="nav-icon">
+                              <iconify-icon icon="solar:bag-smile-bold-duotone"></iconify-icon>
+                         </span>
+                         <span class="nav-text"> Order </span>
+                    </a>
+               </li>
+
+               <li class="nav-item">
+                    <a class="nav-link" href="user">
+                         <span class="nav-icon">
+                              <iconify-icon icon="solar:users-group-two-rounded-bold-duotone"></iconify-icon>
+                         </span>
+                         <span class="nav-text"> User </span>
+                    </a>
+               </li>
+
+                  <li class="nav-item">
+                         <a class="nav-link" href="setting">
+                               <span class="nav-icon">
+                                     <iconify-icon icon="solar:settings-bold-duotone"></iconify-icon>
+                               </span>
+                               <span class="nav-text"> Settings </span>
+                         </a>
+                  </li>
+
           </ul>
      </div>
 </div>
