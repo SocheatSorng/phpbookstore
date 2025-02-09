@@ -134,10 +134,17 @@ try {
                                             <?php foreach ($products as $product): ?>
                                             <tr>
                                                 <td>
-                                                    <img src="<?php echo $product['Image'] ? '../' . $product['Image'] : '../assets/images/no-image.png'; ?>" 
-                                                         alt="<?php echo htmlspecialchars($product['Title']); ?>"
-                                                         class="img-thumbnail"
-                                                         style="width: 50px; height: 50px; object-fit: cover;">
+                                                    <?php if ($product['Image']): ?>
+                                                        <img src="<?php echo htmlspecialchars($product['Image']); ?>" 
+                                                             alt="<?php echo htmlspecialchars($product['Title']); ?>"
+                                                             class="img-thumbnail"
+                                                             style="width: 50px; height: 50px; object-fit: cover;">
+                                                    <?php else: ?>
+                                                        <img src="assets/images/no-image.png" 
+                                                             alt="No Image"
+                                                             class="img-thumbnail"
+                                                             style="width: 50px; height: 50px; object-fit: cover;">
+                                                    <?php endif; ?>
                                                 </td>
                                                 <td>
                                                     <?php echo htmlspecialchars($product['Title']); ?>
@@ -309,14 +316,8 @@ try {
                 $('#price').val(productData.Price);
                 $('#stock').val(productData.StockQuantity);
                 $('#description').val(productData.Description);
+                $('#image').val(productData.Image); // Add this line to set the image URL
                 $('#action').val('edit');
-                
-                if (productData.Image) {
-                    $('#currentImage img').attr('src', '../' + productData.Image);
-                    $('#currentImage').removeClass('d-none');
-                } else {
-                    $('#currentImage').addClass('d-none');
-                }
                 
                 productModal.show();
             });

@@ -213,7 +213,7 @@ CREATE PROCEDURE sp_InsertProduct(
     IN p_Description TEXT,
     IN p_Price DECIMAL(10,2),
     IN p_StockQuantity INT,
-    IN p_Image VARCHAR(255)
+    IN p_Image TEXT  -- Changed from VARCHAR(255) to TEXT
 )
 BEGIN
     DECLARE next_id INT;
@@ -257,7 +257,7 @@ CREATE PROCEDURE sp_UpdateProduct(
     IN p_Description TEXT,
     IN p_Price DECIMAL(10,2),
     IN p_StockQuantity INT,
-    IN p_Image VARCHAR(255)
+    IN p_Image TEXT
 )
 BEGIN
     UPDATE tbBook 
@@ -533,18 +533,26 @@ BEGIN
     COMMIT;
 END //
 
-DELIMITER ;
-
 -- Cart Management Procedures
-CREATE PROCEDURE sp_AddToCart(
-    IN p_UserID INT,
-    IN p_BookID INT,
-    IN p_Quantity INT
-)
+DROP PROCEDURE IF EXISTS sp_GetCartItems //
+
+CREATE PROCEDURE sp_GetCartItems(IN p_UserID INT)
 BEGIN
-    INSERT INTO tbCart(UserID, BookID, Quantity)
-    VALUES(p_UserID, p_BookID, p_Quantity)
-    ON DUPLICATE KEY UPDATE Quantity = Quantity + p_Quantity;
+    SELECT 
+        c.CartID,
+        c.UserID,
+        c.BookID,
+        c.Quantity,
+        b.Title,
+        b.Author,
+        b.Price,
+        b.Image,
+        b.StockQuantity as AvailableStock,
+        (b.Price * c.Quantity) as Subtotal
+    FROM tbCart c
+    JOIN tbBook b ON c.BookID = b.BookID
+    WHERE c.UserID = p_UserID
+    ORDER BY c.CreatedAt DESC;
 END //
 
 CREATE PROCEDURE sp_UpdateCartQuantity(
@@ -552,16 +560,89 @@ CREATE PROCEDURE sp_UpdateCartQuantity(
     IN p_Quantity INT
 )
 BEGIN
-    UPDATE tbCart SET Quantity = p_Quantity WHERE CartID = p_CartID;
+    DECLARE available_stock INT;
+    DECLARE book_id INT;
+    
+    -- Get the book ID from cart
+    SELECT BookID INTO book_id FROM tbCart WHERE CartID = p_CartID;
+    
+    -- Check available stock
+    SELECT StockQuantity INTO available_stock 
+    FROM tbBook WHERE BookID = book_id;
+    
+    IF p_Quantity <= available_stock THEN
+        UPDATE tbCart 
+        SET Quantity = p_Quantity 
+        WHERE CartID = p_CartID;
+        
+        SELECT 'Cart updated successfully' as message, TRUE as success;
+    ELSE
+        SELECT CONCAT('Only ', available_stock, ' items available in stock') as message, 
+               FALSE as success;
+    END IF;
 END //
 
-CREATE PROCEDURE sp_GetUserCart(IN p_UserID INT)
+CREATE PROCEDURE sp_AddToCart(
+    IN p_UserID INT,
+    IN p_BookID INT,
+    IN p_Quantity INT
+)
 BEGIN
-    SELECT c.*, 
-           b.Title,
-           b.Price,
-           b.Image,
-           (b.Price * c.Quantity) as TotalPrice
+    DECLARE available_stock INT;
+    DECLARE current_cart_qty INT;
+    DECLARE total_qty INT;
+    
+    -- Check available stock
+    SELECT StockQuantity INTO available_stock 
+    FROM tbBook WHERE BookID = p_BookID;
+    
+    -- Check if item already in cart
+    SELECT COALESCE(SUM(Quantity), 0) INTO current_cart_qty 
+    FROM tbCart 
+    WHERE UserID = p_UserID AND BookID = p_BookID;
+    
+    SET total_qty = current_cart_qty + p_Quantity;
+    
+    IF total_qty <= available_stock THEN
+        INSERT INTO tbCart(UserID, BookID, Quantity)
+        VALUES(p_UserID, p_BookID, p_Quantity)
+        ON DUPLICATE KEY UPDATE Quantity = total_qty;
+        
+        SELECT 'Item added to cart successfully' as message, TRUE as success;
+    ELSE
+        SELECT CONCAT('Only ', available_stock, ' items available in stock') as message, 
+               FALSE as success;
+    END IF;
+END //
+
+CREATE PROCEDURE sp_RemoveFromCart(
+    IN p_CartID INT,
+    IN p_UserID INT
+)
+BEGIN
+    DELETE FROM tbCart 
+    WHERE CartID = p_CartID AND UserID = p_UserID;
+    
+    SELECT ROW_COUNT() > 0 as success,
+           IF(ROW_COUNT() > 0, 'Item removed from cart', 'Item not found in cart') as message;
+END //
+
+CREATE PROCEDURE sp_ClearCart(
+    IN p_UserID INT
+)
+BEGIN
+    DELETE FROM tbCart WHERE UserID = p_UserID;
+    SELECT TRUE as success, 'Cart cleared successfully' as message;
+END //
+
+CREATE PROCEDURE sp_GetCartSummary(
+    IN p_UserID INT
+)
+BEGIN
+    SELECT 
+        COUNT(DISTINCT c.CartID) as TotalItems,
+        SUM(c.Quantity) as TotalQuantity,
+        SUM(c.Quantity * b.Price) as TotalAmount
     FROM tbCart c
     JOIN tbBook b ON c.BookID = b.BookID
     WHERE c.UserID = p_UserID;
@@ -786,6 +867,19 @@ BEGIN
     
     -- Delete purchase record
     DELETE FROM tbPurchase WHERE PurchaseID = p_PurchaseID;
+END //
+
+CREATE PROCEDURE sp_GetDashboardStats()
+BEGIN
+    SELECT 
+        (SELECT COUNT(*) FROM tbBook) as TotalBooks,
+        (SELECT COUNT(*) FROM tbCategory) as TotalCategories,
+        (SELECT COUNT(*) FROM tbUser WHERE Role = 'user') as TotalUsers,
+        (SELECT COUNT(*) FROM tbOrder) as TotalOrders,
+        (SELECT COUNT(*) FROM tbPurchase) as TotalPurchases,
+        (SELECT COALESCE(SUM(TotalAmount), 0) FROM tbOrder) as TotalRevenue,
+        (SELECT COALESCE(SUM(Quantity * UnitPrice), 0) FROM tbPurchase) as TotalPurchaseAmount
+    FROM DUAL;
 END //
 
 DELIMITER ;

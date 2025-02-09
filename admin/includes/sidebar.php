@@ -77,6 +77,15 @@
                </li>
 
                   <li class="nav-item">
+                         <a class="nav-link" href="cart">
+                               <span class="nav-icon">
+                                     <iconify-icon icon="solar:cart-bold-duotone"></iconify-icon>
+                               </span>
+                               <span class="nav-text"> Cart </span>
+                         </a>
+                  </li>
+
+                  <li class="nav-item">
                          <a class="nav-link" href="setting">
                                <span class="nav-icon">
                                      <iconify-icon icon="solar:settings-bold-duotone"></iconify-icon>
