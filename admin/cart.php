@@ -35,15 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 break;
                 
             case 'remove':
-                $stmt = $conn->prepare("CALL sp_RemoveFromCart(?, ?)");
-                $stmt->execute([$_POST['cart_id'], $_SESSION['user_id']]);
-                $result = $stmt->fetch(PDO::FETCH_ASSOC);
-                $response = $result;
-                break;
-                
-            case 'clear':
-                $stmt = $conn->prepare("CALL sp_ClearCart(?)");
-                $stmt->execute([$_SESSION['user_id']]);
+                $stmt = $conn->prepare("CALL sp_RemoveFromCart(?)");
+                $stmt->execute([$_POST['cart_id']]);
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
                 $response = $result;
                 break;
@@ -110,9 +103,6 @@ try {
                                     <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#addToCartModal">
                                         Add to Cart
                                     </button>
-                                    <?php if (!empty($cartItems)): ?>
-                                        <button type="button" class="btn btn-danger" id="clearCart">Clear Cart</button>
-                                    <?php endif; ?>
                                 </div>
                             </div>
 
@@ -184,6 +174,7 @@ try {
                                             <thead>
                                                 <tr>
                                                     <th>Product</th>
+                                                    <th>User</th>
                                                     <th>Price</th>
                                                     <th>Quantity</th>
                                                     <th>Total</th>
@@ -206,41 +197,33 @@ try {
                                                             </div>
                                                         </div>
                                                     </td>
+                                                    <td>
+                                                        <?php echo htmlspecialchars($item['FirstName'] . ' ' . $item['LastName']); ?>
+                                                        <small class="d-block text-muted"><?php echo htmlspecialchars($item['Email']); ?></small>
+                                                    </td>
                                                     <td>$<?php echo number_format($item['Price'], 2); ?></td>
                                                     <td>
-                                                        <div class="input-group" style="width: 140px;">
-                                                            <button class="btn btn-outline-secondary quantity-decrease" 
-                                                                    type="button" data-cart-id="<?php echo $item['CartID']; ?>">-</button>
-                                                            <input type="number" class="form-control text-center quantity-input" 
-                                                                   value="<?php echo $item['Quantity']; ?>" 
-                                                                   min="1" 
-                                                                   max="<?php echo $item['AvailableStock']; ?>"
-                                                                   data-cart-id="<?php echo $item['CartID']; ?>">
-                                                            <button class="btn btn-outline-secondary quantity-increase" 
-                                                                    type="button" data-cart-id="<?php echo $item['CartID']; ?>">+</button>
-                                                        </div>
+                                                        <span class="quantity-display"><?php echo $item['Quantity']; ?></span>
                                                     </td>
                                                     <td>$<?php echo number_format($item['Subtotal'], 2); ?></td>
                                                     <td>
-                                                        <button class="btn btn-danger btn-sm remove-item" data-cart-id="<?php echo $item['CartID']; ?>">
-                                                            <i class="bi bi-trash"></i>
-                                                        </button>
+                                                        <div class="d-flex gap-2">
+                                                            <button class="btn btn-primary btn-sm edit-cart" 
+                                                                    data-cart-id="<?php echo $item['CartID']; ?>"
+                                                                    data-user-id="<?php echo $item['UserID']; ?>"
+                                                                    data-book-id="<?php echo $item['BookID']; ?>"
+                                                                    data-quantity="<?php echo $item['Quantity']; ?>">
+                                                                <i class="bi bi-pencil"></i>
+                                                            </button>
+                                                            <button class="btn btn-danger btn-sm remove-item" 
+                                                                    data-cart-id="<?php echo $item['CartID']; ?>">
+                                                                <i class="bi bi-trash"></i>
+                                                            </button>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                                 <?php endforeach; ?>
                                             </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <td colspan="3" class="text-end"><strong>Total Items:</strong></td>
-                                                    <td><strong><?php echo $cartSummary['TotalQuantity']; ?></strong></td>
-                                                    <td></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="3" class="text-end"><strong>Total Amount:</strong></td>
-                                                    <td><strong>$<?php echo number_format($cartSummary['TotalAmount'], 2); ?></strong></td>
-                                                    <td></td>
-                                                </tr>
-                                            </tfoot>
                                         </table>
                                     </div>
                                 <?php endif; ?>
@@ -322,8 +305,29 @@ try {
                             },
                             success: function(response) {
                                 if (response.success) {
-                                    location.reload();
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success',
+                                        text: 'Item removed successfully',
+                                        timer: 1500,
+                                        showConfirmButton: false
+                                    }).then(function() {
+                                        location.reload();
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: response.message || 'Failed to remove item'
+                                    });
                                 }
+                            },
+                            error: function(xhr, status, error) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'A network error occurred'
+                                });
                             }
                         });
                     }
@@ -444,6 +448,46 @@ try {
                 if (selectedUserId) {
                     $('#userSelect').val(selectedUserId);
                 }
+            });
+
+            // Update quantity when input changes
+            $('.quantity-input').change(function() {
+                const cartId = $(this).data('cart-id');
+                const quantity = $(this).val();
+                updateQuantity(cartId, quantity);
+            });
+
+            // Edit cart item - Updated to show modal with all fields
+            $('.edit-cart').click(function() {
+                const cartId = $(this).data('cart-id');
+                const userId = $(this).data('user-id');
+                const bookId = $(this).data('book-id');
+                const quantity = $(this).data('quantity');
+
+                // Reset and populate the add to cart form
+                $('#addToCartForm')[0].reset();
+                $('#userSelect').val(userId);
+                $('select[name="book_id"]').val(bookId).trigger('change');
+                $('input[name="quantity"]').val(quantity);
+                
+                // Change form action to update
+                $('input[name="action"]').val('update');
+                $('#addToCartForm').append(`<input type="hidden" name="cart_id" value="${cartId}">`);
+                
+                // Update modal title
+                $('.modal-title').text('Edit Cart Item');
+                
+                // Show modal
+                addToCartModal.show();
+            });
+
+            // Reset form when opening modal for new item
+            $('.btn-primary[data-bs-toggle="modal"]').click(function() {
+                $('#addToCartForm')[0].reset();
+                $('#availableStock').text('-');
+                $('input[name="action"]').val('add');
+                $('input[name="cart_id"]').remove();
+                $('.modal-title').text('Add to Cart');
             });
         });
     </script>

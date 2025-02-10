@@ -134,23 +134,21 @@ try {
                                             <?php foreach ($products as $product): ?>
                                             <tr>
                                                 <td>
-                                                    <?php if ($product['Image']): ?>
-                                                        <img src="<?php echo htmlspecialchars($product['Image']); ?>" 
-                                                             alt="<?php echo htmlspecialchars($product['Title']); ?>"
-                                                             class="img-thumbnail"
-                                                             style="width: 50px; height: 50px; object-fit: cover;">
-                                                    <?php else: ?>
-                                                        <img src="assets/images/no-image.png" 
-                                                             alt="No Image"
-                                                             class="img-thumbnail"
-                                                             style="width: 50px; height: 50px; object-fit: cover;">
-                                                    <?php endif; ?>
-                                                </td>
-                                                <td>
-                                                    <?php echo htmlspecialchars($product['Title']); ?>
-                                                    <small class="d-block text-muted">
-                                                        <?php echo htmlspecialchars($product['Author']); ?>
-                                                    </small>
+                                                    <div class="d-flex align-items-center">
+                                                        <?php if (!empty($product['Image'])): ?>
+                                                            <img src="<?php echo htmlspecialchars($product['Image']); ?>" 
+                                                                 alt="<?php echo htmlspecialchars($product['Title']); ?>"
+                                                                 class="me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                                                        <?php else: ?>
+                                                            <img src="../assets/images/no-image.png" 
+                                                                 alt="No Image"
+                                                                 class="me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                                                        <?php endif; ?>
+                                                        <div>
+                                                            <h6 class="mb-0"><?php echo htmlspecialchars($product['Title']); ?></h6>
+                                                            <small class="text-muted"><?php echo htmlspecialchars($product['Author']); ?></small>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                                 <td><?php echo htmlspecialchars($product['CategoryName']); ?></td>
                                                 <td>$<?php echo number_format($product['Price'], 2); ?></td>
@@ -193,6 +191,7 @@ try {
                             <input type="hidden" id="product_id" name="product_id">
                             <input type="hidden" id="action" name="action" value="add">
                             
+                            <!-- Basic Information -->
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Title</label>
@@ -217,30 +216,25 @@ try {
                                     </select>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">ISBN</label>
-                                    <input type="text" class="form-control" id="isbn" name="isbn">
+                                    <label class="form-label">Price</label>
+                                    <input type="number" class="form-control" id="price" name="price" step="0.01" required>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Price</label>
-                                    <input type="number" class="form-control" id="price" name="price" step="0.01" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
                                     <label class="form-label">Stock Quantity</label>
                                     <input type="number" class="form-control" id="stock" name="stock" required>
                                 </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Image URL</label>
+                                    <input type="url" class="form-control" id="image" name="image">
+                                </div>
                             </div>
-
+                            
                             <div class="mb-3">
                                 <label class="form-label">Description</label>
                                 <textarea class="form-control" id="description" name="description" rows="3"></textarea>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Image URL</label>
-                                <input type="url" class="form-control" id="image" name="image" placeholder="https://example.com/image.jpg">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -267,13 +261,27 @@ try {
                 $('#product_id').val('');
             });
 
-            // Single form submission handler
+            // Form submission handler
             $('#productForm').on('submit', function(e) {
                 e.preventDefault();
+                
+                // Collect only basic product data
+                const formData = {
+                    action: $('#action').val(),
+                    product_id: $('#product_id').val(),
+                    category_id: $('#category_id').val(),
+                    title: $('#title').val(),
+                    author: $('#author').val(),
+                    price: $('#price').val(),
+                    stock: $('#stock').val(),
+                    image: $('#image').val(),
+                    description: $('#description').val()
+                };
+
                 $.ajax({
                     url: 'product.php',
                     type: 'POST',
-                    data: $(this).serialize(),
+                    data: formData,
                     dataType: 'json',
                     success: function(response) {
                         if (response.success) {

@@ -49,6 +49,15 @@
                     </a>
                </li>
 
+                  <li class="nav-item">
+                         <a class="nav-link" href="attribute">
+                               <span class="nav-icon">
+                                     <iconify-icon icon="solar:tag-bold-duotone"></iconify-icon>
+                               </span>
+                               <span class="nav-text"> Attribute </span>
+                         </a>
+                  </li>
+
                <li class="nav-item">
                     <a class="nav-link" href="purchase">
                          <span class="nav-icon">

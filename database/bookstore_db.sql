@@ -30,13 +30,30 @@ CREATE TABLE tbBook (
     CategoryID INT,
     Title VARCHAR(255) NOT NULL,
     Author VARCHAR(100) NOT NULL,
-    ISBN VARCHAR(13) UNIQUE,
-    Description TEXT,
     Price DECIMAL(10,2) NOT NULL,
     StockQuantity INT DEFAULT 0,
-    Image VARCHAR(255),
+    Image VARCHAR(255),  -- Cover Image
     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (CategoryID) REFERENCES tbCategory(CategoryID)
+);
+
+
+-- Book Details table for attributes
+CREATE TABLE tbBookDetail (
+    DetailID INT PRIMARY KEY AUTO_INCREMENT,
+    BookID INT UNIQUE,  
+    ISBN10 VARCHAR(10),  
+    ISBN13 VARCHAR(17),  
+    Publisher VARCHAR(255),  
+    PublishYear INT,  
+    Edition VARCHAR(50),  
+    PageCount INT,  
+    Language VARCHAR(50),  
+    Format ENUM('Hardcover', 'Paperback', 'Ebook', 'Audiobook'),  
+    Dimensions VARCHAR(100),  
+    Weight DECIMAL(6,2),  
+    Description TEXT,  
+    FOREIGN KEY (BookID) REFERENCES tbBook(BookID) ON DELETE CASCADE
 );
 
 -- Orders table
