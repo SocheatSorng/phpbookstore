@@ -196,26 +196,19 @@ BEGIN
     WHERE BookID = p_BookID;
 END //
 
-DELIMITER //
-
 -- Product Management Procedures
 CREATE PROCEDURE sp_GetAllProducts()
 BEGIN
     SELECT 
-        b.*,  
+        b.*,  -- This includes Image field from tbBook
         c.Name as CategoryName,
-        d.ISBN10,
-        d.ISBN13,
-        d.Publisher,
-        d.PublishYear,
-        d.Edition,
-        d.Format,
-        d.Description
+        COALESCE(b.Image, '') as Image  -- Ensure Image is never NULL
     FROM tbBook b
     LEFT JOIN tbCategory c ON b.CategoryID = c.CategoryID
-    LEFT JOIN tbBookDetail d ON b.BookID = d.BookID
     ORDER BY b.CreatedAt DESC;
 END //
+
+Delimiter //
 
 CREATE PROCEDURE sp_InsertProduct(
     IN p_CategoryID INT,
@@ -223,46 +216,37 @@ CREATE PROCEDURE sp_InsertProduct(
     IN p_Author VARCHAR(100),
     IN p_Price DECIMAL(10,2),
     IN p_StockQuantity INT,
-    IN p_Image VARCHAR(255),
-    -- Book Detail parameters
-    IN p_ISBN10 VARCHAR(10),
-    IN p_ISBN13 VARCHAR(17),
-    IN p_Publisher VARCHAR(255),
-    IN p_PublishYear INT,
-    IN p_Edition VARCHAR(50),
-    IN p_PageCount INT,
-    IN p_Language VARCHAR(50),
-    IN p_Format VARCHAR(20),
-    IN p_Dimensions VARCHAR(100),
-    IN p_Weight DECIMAL(6,2),
-    IN p_PreviewURL TEXT,
-    IN p_Description TEXT
+    IN p_Image VARCHAR(255)
 )
 BEGIN
-    DECLARE v_BookID INT;
+    DECLARE next_id INT;
     
-    START TRANSACTION;
+    -- Find the first available gap in IDs
+    SELECT MIN(t1.BookID + 1) INTO next_id
+    FROM tbBook t1
+    LEFT JOIN tbBook t2 ON t1.BookID + 1 = t2.BookID
+    WHERE t2.BookID IS NULL
+    AND t1.BookID < (SELECT MAX(BookID) FROM tbBook);
+
+    -- If no gaps found or table is empty, use the next number after max
+    IF next_id IS NULL THEN
+        SELECT COALESCE(MAX(BookID), 0) + 1 INTO next_id FROM tbBook;
+    END IF;
     
-    -- Insert into tbBook
-    INSERT INTO tbBook(CategoryID, Title, Author, Price, StockQuantity, Image)
-    VALUES(p_CategoryID, p_Title, p_Author, p_Price, p_StockQuantity, p_Image);
-    
-    SET v_BookID = LAST_INSERT_ID();
-    
-    -- Insert into tbBookDetail
-    INSERT INTO tbBookDetail(
-        BookID, ISBN10, ISBN13, Publisher, PublishYear, Edition,
-        PageCount, Language, Format, Dimensions, Weight,
-        PreviewURL, Description
-    ) VALUES (
-        v_BookID, p_ISBN10, p_ISBN13, p_Publisher, p_PublishYear, p_Edition,
-        p_PageCount, p_Language, p_Format, p_Dimensions, p_Weight,
-        p_PreviewURL, p_Description
+    -- Insert with the next available ID
+    INSERT INTO tbBook(BookID, CategoryID, Title, Author, Price, StockQuantity, Image)
+    VALUES(
+        next_id, 
+        p_CategoryID, 
+        p_Title, 
+        p_Author, 
+        p_Price, 
+        p_StockQuantity, 
+        NULLIF(p_Image, '')
     );
     
-    COMMIT;
-    
-    SELECT v_BookID AS BookID;
+    -- Return the used ID
+    SELECT next_id AS BookID;
 END //
 
 CREATE PROCEDURE sp_UpdateProduct(
@@ -272,62 +256,23 @@ CREATE PROCEDURE sp_UpdateProduct(
     IN p_Author VARCHAR(100),
     IN p_Price DECIMAL(10,2),
     IN p_StockQuantity INT,
-    IN p_Image VARCHAR(255),
-    -- Book Detail parameters
-    IN p_ISBN10 VARCHAR(10),
-    IN p_ISBN13 VARCHAR(17),
-    IN p_Publisher VARCHAR(255),
-    IN p_PublishYear INT,
-    IN p_Edition VARCHAR(50),
-    IN p_PageCount INT,
-    IN p_Language VARCHAR(50),
-    IN p_Format VARCHAR(20),
-    IN p_Dimensions VARCHAR(100),
-    IN p_Weight DECIMAL(6,2),
-    IN p_PreviewURL TEXT,
-    IN p_Description TEXT
+    IN p_Image VARCHAR(255)
 )
 BEGIN
-    START TRANSACTION;
-    
-    -- Update tbBook
     UPDATE tbBook 
     SET CategoryID = p_CategoryID,
         Title = p_Title,
         Author = p_Author,
         Price = p_Price,
         StockQuantity = p_StockQuantity,
-        Image = NULLIF(p_Image, '')
+        Image = CASE 
+            WHEN p_Image = '' THEN Image
+            ELSE p_Image 
+        END
     WHERE BookID = p_BookID;
-    
-    -- Update tbBookDetail
-    INSERT INTO tbBookDetail(
-        BookID, ISBN10, ISBN13, Publisher, PublishYear, Edition,
-        PageCount, Language, Format, Dimensions, Weight,
-        PreviewURL, Description
-    ) VALUES (
-        p_BookID, p_ISBN10, p_ISBN13, p_Publisher, p_PublishYear, p_Edition,
-        p_PageCount, p_Language, p_Format, p_Dimensions, p_Weight,
-        p_PreviewURL, p_Description
-    )
-    ON DUPLICATE KEY UPDATE
-        ISBN10 = p_ISBN10,
-        ISBN13 = p_ISBN13,
-        Publisher = p_Publisher,
-        PublishYear = p_PublishYear,
-        Edition = p_Edition,
-        PageCount = p_PageCount,
-        Language = p_Language,
-        Format = p_Format,
-        Dimensions = p_Dimensions,
-        Weight = p_Weight,
-        PreviewURL = p_PreviewURL,
-        Description = p_Description;
-    
-    COMMIT;
 END //
 
-DELIMITER ;
+Delimiter ;
 
 CREATE PROCEDURE sp_DeleteProduct(
     IN p_BookID INT
@@ -943,6 +888,7 @@ BEGIN
     FROM DUAL;
 END //
 
+DELIMITER //
 
 -- Book Detail Management Procedures
 DROP PROCEDURE IF EXISTS sp_GetAllBookDetails //
@@ -958,12 +904,8 @@ BEGIN
     ORDER BY b.Title;
 END //
 
-DELIMITER //
-
 CREATE PROCEDURE sp_InsertBookDetail(
     IN p_BookID INT,
-    IN p_ISBN10 VARCHAR(10),
-    IN p_ISBN13 VARCHAR(17),
     IN p_Publisher VARCHAR(255),
     IN p_PublishYear INT,
     IN p_Edition VARCHAR(50),
@@ -972,27 +914,40 @@ CREATE PROCEDURE sp_InsertBookDetail(
     IN p_Format ENUM('Hardcover', 'Paperback', 'Ebook', 'Audiobook'),
     IN p_Dimensions VARCHAR(100),
     IN p_Weight DECIMAL(6,2),
-    IN p_Description TEXT
+    IN p_ISBN13 VARCHAR(17),
+    IN p_PreviewURL TEXT
 )
 BEGIN
     INSERT INTO tbBookDetail(
-        BookID, ISBN10, ISBN13, Publisher, PublishYear, Edition,
-        PageCount, Language, Format, Dimensions, Weight,
-        Description
+        BookID,
+        Publisher,
+        PublishYear,
+        Edition,
+        PageCount,
+        Language,
+        Format,
+        Dimensions,
+        Weight,
+        ISBN13,
+        PreviewURL
     ) VALUES (
-        p_BookID, p_ISBN10, p_ISBN13, p_Publisher, p_PublishYear, p_Edition,
-        p_PageCount, p_Language, p_Format, p_Dimensions, p_Weight,
-        p_Description
+        p_BookID,
+        p_Publisher,
+        p_PublishYear,
+        p_Edition,
+        p_PageCount,
+        p_Language,
+        p_Format,
+        p_Dimensions,
+        p_Weight,
+        p_ISBN13,
+        p_PreviewURL
     );
     SELECT LAST_INSERT_ID() as DetailID;
 END //
 
-DELIMITER ;
-
 CREATE PROCEDURE sp_UpdateBookDetail(
     IN p_BookID INT,
-    IN p_ISBN10 VARCHAR(10),
-    IN p_ISBN13 VARCHAR(17),
     IN p_Publisher VARCHAR(255),
     IN p_PublishYear INT,
     IN p_Edition VARCHAR(50),
@@ -1001,13 +956,12 @@ CREATE PROCEDURE sp_UpdateBookDetail(
     IN p_Format VARCHAR(50),
     IN p_Dimensions VARCHAR(100),
     IN p_Weight DECIMAL(6,2),
-    IN p_Description TEXT
+    IN p_ISBN13 VARCHAR(17),
+    IN p_PreviewURL TEXT
 )
 BEGIN
     UPDATE tbBookDetail 
-    SET ISBN10 = p_ISBN10,
-        ISBN13 = p_ISBN13,
-        Publisher = p_Publisher,
+    SET Publisher = p_Publisher,
         PublishYear = p_PublishYear,
         Edition = p_Edition,
         PageCount = p_PageCount,
@@ -1015,11 +969,10 @@ BEGIN
         Format = p_Format,
         Dimensions = p_Dimensions,
         Weight = p_Weight,
-        Description = p_Description
+        ISBN13 = p_ISBN13,
+        PreviewURL = p_PreviewURL
     WHERE BookID = p_BookID;
 END //
-
-DELIMITER ;
 
 CREATE PROCEDURE sp_GetBookDetail(
     IN p_BookID INT
@@ -1029,6 +982,15 @@ BEGIN
     FROM tbBookDetail d
     LEFT JOIN tbBook b ON d.BookID = b.BookID
     WHERE d.BookID = p_BookID;
+END //
+
+Delimiter //
+
+CREATE PROCEDURE sp_DeleteBookDetail(
+    IN p_DetailID INT
+)
+BEGIN
+    DELETE FROM tbBookDetail WHERE DetailID = p_DetailID;
 END //
 
 DELIMITER ;

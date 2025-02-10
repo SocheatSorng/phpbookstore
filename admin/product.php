@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 'category_id' => $_POST['category_id'],
                 'title' => $_POST['title'],
                 'author' => $_POST['author'],
-                'isbn' => $_POST['isbn'],
                 'description' => $_POST['description'],
                 'price' => $_POST['price'],
                 'stock' => $_POST['stock'],
@@ -22,13 +21,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
             if ($_POST['action'] === 'add') {
                 try {
-                    $stmt = $conn->prepare("CALL sp_InsertProduct(?, ?, ?, ?, ?, ?, ?, ?)");
+                    $stmt = $conn->prepare("CALL sp_InsertProduct(?, ?, ?, ?, ?, ?)");
                     $result = $stmt->execute([
                         $data['category_id'], 
                         $data['title'], 
                         $data['author'], 
-                        $data['isbn'] ?: null,  // Convert empty string to null
-                        $data['description'], 
                         $data['price'],
                         $data['stock'], 
                         $data['image']
@@ -40,14 +37,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 }
             } else if ($_POST['action'] === 'edit') {
                 try {
-                    $stmt = $conn->prepare("CALL sp_UpdateProduct(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    $stmt = $conn->prepare("CALL sp_UpdateProduct(?, ?, ?, ?, ?, ?, ?)");
                     $result = $stmt->execute([
                         $_POST['product_id'], 
                         $data['category_id'], 
                         $data['title'],
                         $data['author'], 
-                        $data['isbn'], 
-                        $data['description'],
                         $data['price'], 
                         $data['stock'], 
                         $data['image']
@@ -135,13 +130,13 @@ try {
                                             <tr>
                                                 <td>
                                                     <div class="d-flex align-items-center">
-                                                        <?php if (!empty($product['Image'])): ?>
+                                                        <?php if ($product['ImageType'] === 'icon'): ?>
+                                                            <div class="me-3" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                                                                <iconify-icon icon="<?php echo htmlspecialchars($product['Image']); ?>" width="32" height="32"></iconify-icon>
+                                                            </div>
+                                                        <?php else: ?>
                                                             <img src="<?php echo htmlspecialchars($product['Image']); ?>" 
                                                                  alt="<?php echo htmlspecialchars($product['Title']); ?>"
-                                                                 class="me-3" style="width: 50px; height: 50px; object-fit: cover;">
-                                                        <?php else: ?>
-                                                            <img src="../assets/images/no-image.png" 
-                                                                 alt="No Image"
                                                                  class="me-3" style="width: 50px; height: 50px; object-fit: cover;">
                                                         <?php endif; ?>
                                                         <div>
@@ -150,6 +145,7 @@ try {
                                                         </div>
                                                     </div>
                                                 </td>
+                                                <td><?php echo htmlspecialchars($product['Title']); ?></td>
                                                 <td><?php echo htmlspecialchars($product['CategoryName']); ?></td>
                                                 <td>$<?php echo number_format($product['Price'], 2); ?></td>
                                                 <td><?php echo $product['StockQuantity']; ?></td>
@@ -232,10 +228,7 @@ try {
                                 </div>
                             </div>
                             
-                            <div class="mb-3">
-                                <label class="form-label">Description</label>
-                                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
-                            </div>
+                            <!-- Remove the description textarea -->
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -274,8 +267,7 @@ try {
                     author: $('#author').val(),
                     price: $('#price').val(),
                     stock: $('#stock').val(),
-                    image: $('#image').val(),
-                    description: $('#description').val()
+                    image: $('#image').val()
                 };
 
                 $.ajax({
@@ -320,11 +312,9 @@ try {
                 $('#title').val(productData.Title);
                 $('#author').val(productData.Author);
                 $('#category_id').val(productData.CategoryID);
-                $('#isbn').val(productData.ISBN);
                 $('#price').val(productData.Price);
                 $('#stock').val(productData.StockQuantity);
-                $('#description').val(productData.Description);
-                $('#image').val(productData.Image); // Add this line to set the image URL
+                $('#image').val(productData.Image);
                 $('#action').val('edit');
                 
                 productModal.show();

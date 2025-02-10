@@ -48,6 +48,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 ]);
                 $response = ['success' => true, 'message' => 'Book details updated successfully'];
                 break;
+
+            case 'delete':
+                $stmt = $conn->prepare("CALL sp_DeleteBookDetail(?)");
+                $stmt->execute([$_POST['detail_id']]);
+                $response = ['success' => true, 'message' => 'Book details deleted successfully'];
+                break;
         }
         
         echo json_encode($response);
@@ -150,6 +156,11 @@ try {
                                                             data-id="<?php echo $detail['BookID']; ?>"
                                                             data-detail='<?php echo json_encode($detail); ?>'>
                                                         <i class="bi bi-pencil"></i>
+                                                    </button>
+                                                    <button class="btn btn-soft-danger btn-sm delete-detail" 
+                                                            data-id="<?php echo $detail['DetailID']; ?>"
+                                                            data-title="<?php echo htmlspecialchars($detail['BookTitle']); ?>">
+                                                        <i class="bi bi-trash"></i>
                                                     </button>
                                                 </div>
                                             </td>
@@ -348,6 +359,59 @@ $(document).ready(function() {
         $('input[name="preview_url"]').val(detail.PreviewURL);
         
         detailModal.show();
+    });
+
+    // Delete button handler
+    $('.delete-detail').click(function() {
+        const bookId = $(this).data('id');
+        const bookTitle = $(this).data('title');
+        
+        Swal.fire({
+            title: 'Delete Book Details',
+            text: `Are you sure you want to delete details for "${bookTitle}"?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: 'attribute.php',
+                    type: 'POST',
+                    data: {
+                        action: 'delete',
+                        detail_id: bookId  // bookId is actually detailId from data-id
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: response.message,
+                                timer: 2000,
+                                showConfirmButton: false
+                            }).then(() => location.reload());
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: response.message || 'An error occurred'
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX Error:', status, error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'A network error occurred. Please try again.'
+                        });
+                    }
+                });
+            }
+        });
     });
 
     // Reset form when opening for new entry
