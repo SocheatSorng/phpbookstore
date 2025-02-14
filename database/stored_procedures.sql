@@ -272,8 +272,6 @@ BEGIN
     WHERE BookID = p_BookID;
 END //
 
-Delimiter ;
-
 CREATE PROCEDURE sp_DeleteProduct(
     IN p_BookID INT
 )

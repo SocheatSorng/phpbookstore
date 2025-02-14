@@ -112,6 +112,17 @@ CREATE TABLE tbWishlist (
     FOREIGN KEY (BookID) REFERENCES tbBook(BookID)
 );
 
+-- Purchase Table
+CREATE TABLE tbPurchase (
+    PurchaseID INT PRIMARY KEY,
+    BookID INT NOT NULL,
+    Quantity INT NOT NULL,
+    UnitPrice DECIMAL(10,2) NOT NULL,
+    PaymentMethod VARCHAR(50) NOT NULL,
+    OrderDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (BookID) REFERENCES tbBook(BookID)
+);
+
 -- Insert default admin user (password: admin123)
 INSERT INTO tbUser (FirstName, LastName, Email, Password, Role) 
 VALUES ('Admin', 'User', 'admin@admin.com', '$2y$10$K.6HD4oEMHSW/xGSZKp4B.cWvxQOhD3o8QgHG1K0LWnM1svAQ88ey', 'admin');
