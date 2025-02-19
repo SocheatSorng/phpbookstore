@@ -4,93 +4,122 @@ class Checkout extends Controller
     private $payway;
 
     function index() {
-        // Initialize cart in session if it doesn't exist
-        if(!isset($_SESSION['cart'])) {
-            $_SESSION['cart'] = [
-                [
-                    'id' => 1,
-                    'name' => 'Test Product',
-                    'price' => 10.00,
-                    'quantity' => 1,
-                    'image' => ASSETS . 'images/product-item1.png'
-                ]
-            ];
-        }
-
-        $this->payway = $this->loadModel('PaywayModel');
+    $this->payway = $this->loadModel('PaywayModel');
     $data['page_title'] = "Checkout";
     
+    // Get cart items before checking
+    $cartModel = $this->loadModel('CartModel');
+    $cart_items = $cartModel->getCartItems();
+    $data['cart_items'] = $cart_items;
+
     // Calculate totals
-    $data['subtotal'] = $this->calculateTotal($_SESSION['cart']);
+    $data['subtotal'] = 0;
+    foreach($cart_items as $item) {
+        $data['subtotal'] += $item['Price'] * $item['Quantity'];
+    }
     $data['total'] = $data['subtotal'];
 
-    if($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
-            // AJAX request
-            $errors = $this->validateCheckoutForm($_POST);
-            
-            if(empty($errors)) {
+    // Redirect if cart is empty
+    if(empty($cart_items)) {
+        header("Location: " . ROOT . "cart");
+        exit;
+    }
+
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
+        // AJAX request
+        $errors = $this->validateCheckoutForm($_POST);
+        
+        if(empty($errors)) {
+            try {
                 $order_id = 'ORDER-' . uniqid();
 
+                $shipping_address = sprintf("%s\n%s\n%s %s\n%s",
+                    $_POST['address'],
+                    $_POST['city'],
+                    $_POST['country'],
+                    $_POST['zipcode'],
+                    $_POST['phone']
+                );
+
                 $payment_data = [
-                    'order_id' => $order_id,
-                    'total' => $data['total'],
-                    'items' => $_SESSION['cart'],
-                    'firstname' => trim($_POST['firstname']),
+                    'total' => $data['subtotal'],    // Changed from 'amount' to 'total' to match model
+                    'firstname' => trim($_POST['firstname']), // Split customer_name into firstname/lastname
                     'lastname' => trim($_POST['lastname']),
                     'email' => trim($_POST['email']),
                     'phone' => trim($_POST['phone'])
                 ];
+                
 
                 $payway_result = $this->payway->createTransaction($payment_data);
                 
                 if(isset($payway_result['success']) && $payway_result['success']) {
+                    $_SESSION['pending_order'] = [
+                        'order_id' => $order_id,
+                        'payment_data' => $payment_data
+                    ];
+
                     echo json_encode([
                         'success' => true,
                         'form_data' => $payway_result['form_data']
                     ]);
                 } else {
-                    error_log("PayWay Controller Error - Result: " . print_r($payway_result, true));
+                    error_log("PayWay Error: " . print_r($payway_result, true));
                     echo json_encode([
                         'success' => false,
-                        'error' => $payway_result['error'] ?? 'Payment initialization failed'
+                        'error' => $payway_result['error'] ?? 'Payment gateway error'
                     ]);
                 }
-                exit;
-            } else {
+            } catch (Exception $e) {
+                error_log("Checkout Error: " . $e->getMessage());
                 echo json_encode([
                     'success' => false,
-                    'errors' => $errors
+                    'error' => 'An error occurred while processing your order'
                 ]);
-                exit;
+            }
+        } else {
+            echo json_encode([
+                'success' => false,
+                'errors' => $errors
+            ]);
+        }
+        exit;
+    }
+
+            // Regular form submission
+            $errors = $this->validateCheckoutForm($_POST);
+            if(!empty($errors)) {
+                $data['errors'] = $errors;
             }
         }
 
-        // Regular form submission
-        $errors = $this->validateCheckoutForm($_POST);
-        if(!empty($errors)) {
-            $data['errors'] = $errors;
-        }
-    }
-
-    $this->view("checkout", $data);
+        $this->view("checkout", $data);
     }
 
     function confirm() {
-        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['pending_order'])) {
             $payment_result = $this->payway->handleCallback($_POST);
             
             if($payment_result['success']) {
-                // Clear cart
+                // Clear cart after successful payment
+                if(isset($_SESSION['user'])) {
+                    // Load CartModel to clear database cart
+                    $cartModel = $this->loadModel('CartModel');
+                    if($cartModel) {
+                        $cartModel->clearCart($_SESSION['user']['UserID']);
+                    }
+                }
+                // Clear session cart
                 unset($_SESSION['cart']);
+                // Clear pending order
+                unset($_SESSION['pending_order']);
 
-                // Redirect to success page
                 header("Location: " . ROOT . "checkout/success");
                 exit;
             }
         }
 
-        // If callback processing fails, redirect to error page
+        // If callback processing fails
         header("Location: " . ROOT . "checkout/error");
         exit;
     }
@@ -109,58 +138,43 @@ class Checkout extends Controller
         $errors = [];
 
         if(empty($post['firstname'])) {
-            $errors['firstname'] = "First name is required";
+            $errors[] = "First name is required";
         }
 
         if(empty($post['lastname'])) {
-            $errors['lastname'] = "Last name is required";
+            $errors[] = "Last name is required";
         }
 
         if(empty($post['email']) || !filter_var($post['email'], FILTER_VALIDATE_EMAIL)) {
-            $errors['email'] = "Valid email is required";
+            $errors[] = "Valid email is required";
         }
 
         if(empty($post['phone'])) {
-            $errors['phone'] = "Phone number is required";
+            $errors[] = "Phone number is required";
         } else {
             // Check if phone number is valid Cambodian format
             $phone = preg_replace('/[^0-9]/', '', $post['phone']);
             if (!preg_match('/^(0|855)?[1-9][0-9]{7,8}$/', $phone)) {
-                $errors['phone'] = "Please enter a valid phone number (e.g., 012345678 or 855123456789)";
+                $errors[] = "Please enter a valid phone number (e.g., 012345678 or 855123456789)";
             }
         }
 
         if(empty($post['address'])) {
-            $errors['address'] = "Address is required";
+            $errors[] = "Address is required";
         }
 
         if(empty($post['city'])) {
-            $errors['city'] = "City is required";
+            $errors[] = "City is required";
         }
 
         if(empty($post['country'])) {
-            $errors['country'] = "Country is required";
+            $errors[] = "Country is required";
         }
 
         if(empty($post['zipcode'])) {
-            $errors['zipcode'] = "ZIP code is required";
+            $errors[] = "ZIP code is required";
         }
 
         return $errors;
     }
-
-    private function calculateTotal($cart_items) {
-        if(!is_array($cart_items)) {
-            return 0;
-        }
-        
-        $total = 0;
-        foreach($cart_items as $item) {
-            if(isset($item['price']) && isset($item['quantity'])) {
-                $total += $item['price'] * $item['quantity'];
-            }
-        }
-        return $total;
-    }
-    
 }

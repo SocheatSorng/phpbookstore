@@ -109,20 +109,21 @@
                         <h3 class="mb-4">Order Summary</h3>
                         <table class="table">
                             <tbody>
-                                <?php if(isset($_SESSION['cart']) && is_array($_SESSION['cart'])): ?>
-                                <?php foreach($_SESSION['cart'] as $item): ?>
+                                <?php if(isset($data['cart_items']) && !empty($data['cart_items'])): ?>
+                                <?php foreach($data['cart_items'] as $item): ?>
                                 <tr>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <img src="<?=$item['image']?>" alt="<?=$item['name']?>"
+                                            <img src="<?=ROOT . ($item['Image'] ?? 'assets/images/product-item1.png')?>"
+                                                alt="<?=htmlspecialchars($item['Title'])?>"
                                                 style="width: 50px; margin-right: 10px;">
                                             <div>
-                                                <h6 class="mb-0"><?=$item['name']?></h6>
-                                                <small>Quantity: <?=$item['quantity']?></small>
+                                                <h6 class="mb-0"><?=htmlspecialchars($item['Title'])?></h6>
+                                                <small>Quantity: <?=$item['Quantity']?></small>
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="text-end">$<?=number_format($item['price'] * $item['quantity'], 2)?></td>
+                                    <td class="text-end">$<?=number_format($item['Price'] * $item['Quantity'], 2)?></td>
                                 </tr>
                                 <?php endforeach; ?>
 
@@ -298,39 +299,106 @@ $(document).ready(function() {
 
     checkoutForm.addEventListener('submit', function(e) {
         e.preventDefault();
+        console.log('Form submitted'); // Debug log
 
-        fetch(checkoutForm.action, {
+        // Show loading state
+        const submitButton = this.querySelector('button[type="submit"]');
+        const originalText = submitButton.textContent;
+        submitButton.textContent = 'Processing...';
+        submitButton.disabled = true;
+
+        const formData = new FormData(this);
+        // Debug log the form data
+        for (let pair of formData.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
+
+        fetch(window.location.href, {
                 method: 'POST',
-                body: new FormData(checkoutForm),
+                body: formData,
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest'
                 }
             })
-            .then(response => response.json())
+            .then(response => {
+                console.log('Response status:', response.status); // Debug log
+                return response.text().then(text => {
+                    try {
+                        return JSON.parse(text);
+                    } catch (e) {
+                        console.log('Raw response:', text); // Debug log
+                        throw new Error('Invalid JSON response');
+                    }
+                });
+            })
             .then(data => {
+                console.log('Parsed response:', data); // Debug log
                 if (data.success) {
                     // Update PayWay form with received data
                     const abaForm = document.getElementById('aba_merchant_request');
-                    for (const [key, value] of Object.entries(data.form_data)) {
-                        let input = abaForm.querySelector(`input[name="${key}"]`);
-                        if (!input) {
-                            input = document.createElement('input');
-                            input.type = 'hidden';
-                            input.name = key;
-                            abaForm.appendChild(input);
-                        }
-                        input.value = value;
-                    }
+                    console.log('PayWay form data:', data.form_data); // Debug log
 
-                    // Use PayWay checkout function
-                    AbaPayway.checkout();
+                    if (data.form_data && typeof data.form_data === 'object') {
+                        for (const [key, value] of Object.entries(data.form_data)) {
+                            let input = abaForm.querySelector(`input[name="${key}"]`);
+                            if (!input) {
+                                input = document.createElement('input');
+                                input.type = 'hidden';
+                                input.name = key;
+                                abaForm.appendChild(input);
+                            }
+                            input.value = value;
+                        }
+
+                        // Debug log PayWay form data
+                        console.log('Updated PayWay form inputs:',
+                            Array.from(abaForm.elements).map(el => ({
+                                name: el.name,
+                                value: el.value
+                            }))
+                        );
+
+                        // Use PayWay checkout function
+                        if (typeof AbaPayway !== 'undefined') {
+                            AbaPayway.checkout();
+                        } else {
+                            console.error('AbaPayway is not defined');
+                            alert('Payment gateway is not properly initialized');
+                        }
+                    } else {
+                        console.error('Invalid form_data structure:', data.form_data);
+                        alert('Invalid payment gateway response');
+                    }
                 } else {
-                    alert(data.error || 'Payment initialization failed');
+                    if (data.errors && Array.isArray(data.errors)) {
+                        // Display validation errors
+                        let errorHtml = '<div class="alert alert-danger"><ul class="mb-0">';
+                        data.errors.forEach(error => {
+                            errorHtml += `<li>${error}</li>`;
+                        });
+                        errorHtml += '</ul></div>';
+
+                        // Remove any existing error messages
+                        const existingErrors = checkoutForm.querySelector('.alert-danger');
+                        if (existingErrors) {
+                            existingErrors.remove();
+                        }
+
+                        // Insert error messages at the top of the form
+                        checkoutForm.insertAdjacentHTML('afterbegin', errorHtml);
+                    } else {
+                        alert(data.error || 'Payment initialization failed');
+                    }
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
                 alert('An error occurred. Please try again.');
+            })
+            .finally(() => {
+                // Reset button state
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
             });
     });
 });

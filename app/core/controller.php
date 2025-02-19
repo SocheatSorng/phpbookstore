@@ -4,16 +4,50 @@ Class Controller
 {
     protected function view($view, $data = [])
     {
+        // Load cart data for all views
         try {
-            if(file_exists("../app/views/".$view.".php")) {
-                include "../app/views/".$view.".php";
-            } else {
-                include "../app/views/404.php";
+            if(file_exists("../app/models/CartModel.php")) {
+                include_once "../app/models/CartModel.php";
+                $cartModel = new CartModel();
+                
+                // Add cart data to the existing data array
+                $data['cart_items'] = $cartModel->getCartItems();
+                $data['cart_count'] = count($data['cart_items']);
+                $data['cart_total'] = 0;
+                
+                foreach ($data['cart_items'] as $item) {
+                    $data['cart_total'] += $item['Price'] * $item['Quantity'];
+                }
             }
         } catch (Exception $e) {
-            // Handle view loading error
-            error_log("Error loading view: " . $e->getMessage());
-            include "../app/views/404.php";
+            // If there's an error, set empty cart data
+            $data['cart_items'] = [];
+            $data['cart_count'] = 0;
+            $data['cart_total'] = 0;
+            error_log("Error loading cart data: " . $e->getMessage());
+        }
+
+        if (isset($data['cart_items'])) {
+            // Calculate cart total
+            $cartTotal = 0;
+            foreach ($data['cart_items'] as $item) {
+                $cartTotal += (float)($item['Price'] ?? 0) * (int)($item['Quantity'] ?? 0);
+            }
+            $data['cart_total'] = $cartTotal;
+            $data['cart_count'] = count($data['cart_items']);
+        }
+
+        // Extract data to make variables available in view
+        if(is_array($data)){
+            extract($data);
+        }
+        
+        $file = "../app/views/".$view.".php";
+        if(file_exists($file))
+        {
+            require $file;
+        } else {
+            require "../app/views/404.php";
         }
     }
 

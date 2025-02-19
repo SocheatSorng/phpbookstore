@@ -7,8 +7,8 @@ class PaywayModel
 
     public function __construct() {
         // Use same credentials as working example
-        $this->merchant_id = "ec439117";  
-        $this->api_key = "6603f4de5eba4cda38d1004ea74bcfce2ada4d83";
+        $this->merchant_id = "ec438740";  
+        $this->api_key = "8ccf9c9ae9d0d34f68498ffe60b5e48101535cb2";
         $this->api_url = "https://checkout-sandbox.payway.com.kh/api/payment-gateway/v1/payments/purchase";
     }
 
