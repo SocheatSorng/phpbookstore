@@ -125,4 +125,5 @@ CREATE TABLE tbPurchase (
 
 -- Insert default admin user (password: admin123)
 INSERT INTO tbUser (FirstName, LastName, Email, Password, Role) 
-VALUES ('Admin', 'User', 'admin@admin.com', '$2y$10$K.6HD4oEMHSW/xGSZKp4B.cWvxQOhD3o8QgHG1K0LWnM1svAQ88ey', 'admin');
+VALUES ('Admin', 'User', 'admin@admin.com', '$2y$10$XiQ5PlWiAmMo6MTEuxz/Ze4VGI3pv4OC9dQ5t0tbIxsO5g8oN7IDm', 'admin');
+
