@@ -55,9 +55,15 @@ class Checkout extends Controller
                 
                 if(isset($payway_result['success']) && $payway_result['success']) {
                     $_SESSION['pending_order'] = [
-                        'order_id' => $order_id,
-                        'payment_data' => $payment_data
-                    ];
+                    'order_id' => $order_id,
+                    'payment_data' => $payment_data,
+                    'shipping_address' => sprintf("%s\n%s\n%s %s",
+                        $_POST['address'],
+                        $_POST['city'],
+                        $_POST['country'],
+                        $_POST['zipcode']
+                    )
+                ];
 
                     echo json_encode([
                         'success' => true,
@@ -124,8 +130,86 @@ class Checkout extends Controller
         exit;
     }
 
-    function success() {
+    // In checkout.php success method
+    public function success() {
+        error_log("Success method called");
+        error_log("GET params: " . print_r($_GET, true));
+        error_log("Session data: " . print_r($_SESSION, true));
+        
         $data['page_title'] = "Order Confirmed";
+        $tran_id = $_GET['tran_id'] ?? null;
+        
+        error_log("Transaction ID: " . $tran_id);
+        $data['page_title'] = "Order Confirmed";
+        
+        // Get the transaction ID from PayWay success redirect
+        $tran_id = $_GET['tran_id'] ?? null;
+        
+        if($tran_id && isset($_SESSION['pending_order'])) {
+            $payway = $this->loadModel('PaywayModel');
+            $transaction = $payway->verifyTransaction($tran_id);
+            
+            error_log("PayWay Transaction Result: " . print_r($transaction, true));
+            
+            if($transaction && isset($transaction['status']) && $transaction['status'] == 0) {
+                $orderModel = $this->loadModel('OrderModel');
+                $cartModel = $this->loadModel('CartModel');
+                
+                try {
+                    // Get cart items for order details
+                    $cart_items = $cartModel->getCartItems();
+                    
+                    // Get payment data from session
+                    $payment_data = $_SESSION['pending_order']['payment_data'];
+                    
+                    // Format shipping address from session data
+                    $shipping_address = sprintf("%s\n%s\n%s %s",
+                        $payment_data['address'] ?? '',
+                        $payment_data['city'] ?? '',
+                        $payment_data['country'] ?? '',
+                        $payment_data['zipcode'] ?? ''
+                    );
+
+                    // Create order data
+                    $order_data = [
+                        'UserID' => $_SESSION['user']['UserID'] ?? null,
+                        'TotalAmount' => $transaction['amount'],
+                        'Status' => 'processing',
+                        'ShippingAddress' => $shipping_address,
+                        'PaymentMethod' => 'PayWay'
+                    ];
+
+                    error_log("Creating Order with data: " . print_r($order_data, true));
+
+                    // Create order and get OrderID
+                    $order_id = $orderModel->createOrder($order_data);
+                    
+                    // Add order details for each cart item
+                    foreach($cart_items as $item) {
+                        $orderModel->addOrderDetail([
+                            'OrderID' => $order_id,
+                            'BookID' => $item['BookID'],
+                            'Quantity' => $item['Quantity'],
+                            'Price' => $item['Price']
+                        ]);
+                    }
+                    
+                    // Clear cart after successful order
+                    if (isset($_SESSION['user'])) {
+                        $cartModel->clearCart($_SESSION['user']['UserID']);
+                    }
+                    unset($_SESSION['pending_order']);
+                    
+                    $data['payment_success'] = true;
+                    $data['order_id'] = $order_id;
+                } catch(Exception $e) {
+                    error_log("Order Creation Error: " . $e->getMessage());
+                    $data['payment_success'] = false;
+                    $data['error'] = $e->getMessage();
+                }
+            }
+        }
+        
         $this->view("checkout_success", $data);
     }
 
@@ -176,5 +260,81 @@ class Checkout extends Controller
         }
 
         return $errors;
+    }
+    public function finalizeOrder() {
+        header('Content-Type: application/json');
+        $response = ['payment_success' => false];
+        $tran_id = $_POST['tran_id'] ?? null;
+        
+        if($tran_id && isset($_SESSION['pending_order'])) {
+            $payway = $this->loadModel('PaywayModel');
+            $transaction = $payway->verifyTransaction($tran_id);
+            
+            if($transaction && isset($transaction['status']) && $transaction['status'] == 0) {
+                $orderModel = $this->loadModel('OrderModel');
+                $cartModel = $this->loadModel('CartModel');
+                
+                try {
+                    // Get cart items for order details
+                    $cart_items = $cartModel->getCartItems();
+                    
+                    // Get payment data from session
+                    $payment_data = $_SESSION['pending_order']['payment_data'];
+                    
+                    // Format shipping address (using payment data or adjust as needed)
+                    $shipping_address = sprintf("%s\n%s\n%s %s",
+                        $payment_data['address'] ?? '',
+                        $payment_data['city'] ?? '',
+                        $payment_data['country'] ?? '',
+                        $payment_data['zipcode'] ?? ''
+                    );
+                    
+                    // Create order data
+                    $order_data = [
+                        'UserID' => $_SESSION['user']['UserID'] ?? null,
+                        'TotalAmount' => $transaction['amount'],
+                        'Status' => 'processing',
+                        'ShippingAddress' => $shipping_address,
+                        'PaymentMethod' => 'PayWay'
+                    ];
+        
+                    error_log("Creating Order with data: " . print_r($order_data, true));
+        
+                    // Create order and get OrderID
+                    $order_id = $orderModel->createOrder($order_data);
+                    
+                    // Add order details for each cart item
+                    foreach($cart_items as $item) {
+                        $orderModel->addOrderDetail([
+                            'OrderID' => $order_id,
+                            'BookID' => $item['BookID'],
+                            'Quantity' => $item['Quantity'],
+                            'Price' => $item['Price']
+                        ]);
+                    }
+                    
+                    // Clear cart after successful order
+                    if(isset($_SESSION['user'])) {
+                        $cartModel->clearCart($_SESSION['user']['UserID']);
+                    }
+                    unset($_SESSION['pending_order']);
+                    
+                    $response = [
+                        'payment_success' => true,
+                        'order_id' => $order_id
+                    ];
+                } catch(Exception $e) {
+                    error_log("Order Creation Error: " . $e->getMessage());
+                    $response['error'] = $e->getMessage();
+                }
+            } else {
+                $response['error'] = 'Invalid transaction';
+            }
+        } else {
+            $response['error'] = 'Missing transaction ID or pending order';
+        }
+        
+        echo json_encode($response);
+        exit;
     }
 }
