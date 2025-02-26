@@ -207,7 +207,7 @@
             <div class="container-fluid">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <p class="fs-6 my-2 text-center">Need any help? Call us <a href="#">112233344455</a></p>
+                        <p class="fs-6 my-2 text-center">Need any help? Call us <a href="#">+855 12345678</a></p>
                     </div>
                     <div class="col-md-4 border-start border-end">
                         <p class="fs-6 my-2 text-center">Summer sale discount off 60% off! <a

@@ -265,7 +265,7 @@
     </div>
 </section>
 
-<section id="items-listing" class="padding-large">
+<!-- <section id="items-listing" class="padding-large">
     <div class="container">
         <div class="row">
             <div class="col-md-6 mb-4 mb-lg-0 col-lg-3">
@@ -657,9 +657,9 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->
 
-<section id="categories" class="padding-large pt-0">
+<section id="categories" class="padding-large">
     <div class="container">
         <div class="section-title overflow-hidden mb-4">
             <h3 class="d-flex align-items-center">Categories</h3>

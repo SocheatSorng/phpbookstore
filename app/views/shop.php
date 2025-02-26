@@ -90,10 +90,10 @@
                                 class="price text-primary fw-bold mb-2 fs-5">$<?=number_format($book->Price, 2)?></span>
                             <div class="card-concern position-absolute start-0 end-0 d-flex gap-2">
                                 <?php if($book->StockQuantity > 0): ?>
-                                <button type="button"
-                                    onclick="window.location.href='<?=ROOT?>/cart/add/<?=$book->BookID?>'"
-                                    class="btn btn-dark" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="Add to Cart">
+                                <!-- New code -->
+                                <button type="button" class="btn btn-dark add-to-cart"
+                                    data-book-id="<?=htmlspecialchars($book->BookID)?>" data-bs-toggle="tooltip"
+                                    data-bs-placement="top" data-bs-title="Add to Cart">
                                     <svg class="cart">
                                         <use xlink:href="#cart"></use>
                                     </svg>
@@ -538,5 +538,34 @@
         </div>
     </div>
 </section>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Swiper
+    const productSwiper = new Swiper('.product-swiper', {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        navigation: {
+            nextEl: '.product-slider-button-next',
+            prevEl: '.product-slider-button-prev',
+        },
+        breakpoints: {
+            640: {
+                slidesPerView: 2,
+            },
+            768: {
+                slidesPerView: 3,
+            },
+            1024: {
+                slidesPerView: 4,
+            },
+        }
+    });
+
+    // Initialize tooltips
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(
+        tooltipTriggerEl));
+});
+</script>
 
 <?php $this->view("footer",$data);?>

@@ -50,12 +50,15 @@ class Cart extends Controller
         if ($this->cartModel->addToCart($bookId, $quantity)) {
             // Get updated cart items
             $cartItems = $this->cartModel->getCartItems();
-            
+            $cartCount = 0;
+            foreach ($cartItems as $item){
+                $cartCount += $item['Quantity'];
+            }
             echo json_encode([
                 'success' => true,
                 'message' => 'Item added to cart successfully',
                 'cart_items' => $cartItems,
-                'cart_count' => count($cartItems)
+                'cart_count' => $cartCount
             ]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Failed to add item to cart']);
@@ -65,6 +68,10 @@ class Cart extends Controller
     public function getCart()
     {
         $cartItems = $this->cartModel->getCartItems();
+        $cartCount = 0;
+        foreach ($cartItems as $item){
+                $cartCount += $item['Quantity'];
+            }
         echo json_encode([
             'success' => true,
             'cart_items' => $cartItems,
@@ -105,9 +112,23 @@ class Cart extends Controller
             return;
         }
         
+        // In remove() method, after successfully removing the item:
         if ($this->cartModel->removeFromCart($bookId)) {
-            // Instead of redirecting, just return a JSON success result.
-            echo json_encode(['success' => true, 'message' => 'Item removed']);
+            $cartItems = $this->cartModel->getCartItems();
+            $cartCount = 0;
+            $cartTotal = 0;
+            
+            foreach ($cartItems as $item) {
+                $cartCount += $item['Quantity'];
+                $cartTotal += $item['Price'] * $item['Quantity'];
+            }
+            
+            echo json_encode([
+                'success' => true, 
+                'message' => 'Item removed',
+                'cart_count' => $cartCount,
+                'cart_total' => $cartTotal
+            ]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Failed to remove item']);
         }
