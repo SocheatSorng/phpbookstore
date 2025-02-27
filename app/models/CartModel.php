@@ -158,33 +158,30 @@ class CartModel
         }
     }
 
-    public function removeFromCart($bookId, $cartId = null)
-    {
-        if (isset($_SESSION['UserID'])) {
-            try {
+    public function removeFromCart($bookId) {
+        try {
+            if (isset($_SESSION['UserID'])) {
+                // Remove from database for logged in user
                 $conn = $this->db->getConnection();
-                // If a CartID is provided, delete using it; otherwise, use UserID and BookID.
-                if ($cartId) {
-                    $stmt = $conn->prepare("DELETE FROM tbCart WHERE CartID = ?");
-                    return $stmt->execute([$cartId]);
-                } else {
-                    $stmt = $conn->prepare("DELETE FROM tbCart WHERE UserID = ? AND BookID = ?");
-                    return $stmt->execute([$_SESSION['UserID'], $bookId]);
-                }
-            } catch (Exception $e) {
-                error_log("Error removing item from DB cart: " . $e->getMessage());
-                return false;
-            }
-        } else {
-            // Remove item from session cart for guest users.
-            foreach ($_SESSION['cart'] as $key => $item) {
-                if (isset($item['BookID']) && $item['BookID'] == $bookId) {
-                    unset($_SESSION['cart'][$key]);
+                $stmt = $conn->prepare("DELETE FROM tbCart WHERE UserID = ? AND BookID = ?");
+                $success = $stmt->execute([$_SESSION['UserID'], $bookId]);
+            } else {
+                // Remove from session cart for guest user
+                if (isset($_SESSION['cart'])) {
+                    foreach ($_SESSION['cart'] as $index => $item) {
+                        if ($item['BookID'] == $bookId) {
+                            unset($_SESSION['cart'][$index]);
+                            $_SESSION['cart'] = array_values($_SESSION['cart']); // Reindex array
+                            $success = true;
+                            break;
+                        }
+                    }
                 }
             }
-            // Optional: Re-index the session cart array if needed.
-            $_SESSION['cart'] = array_values($_SESSION['cart']);
-            return true;
+            return $success ?? false;
+        } catch (Exception $e) {
+            error_log("Error removing from cart: " . $e->getMessage());
+            return false;
         }
     }
 

@@ -1,7 +1,7 @@
 <?php $this->view("header",$data);?>
 
 <section class="hero-section position-relative padding-large"
-    style="background-image: url(<?=ASSETS?>images/banner-image-bg-1.jpg); background-size: cover; background-repeat: no-repeat; background-position: center; height: 400px;">
+    style="background-image: url(<?=ASSETS?>images/banner-image-bg-3.jpg); background-size: cover; background-repeat: no-repeat; background-position: center; height: 400px;">
     <div class="hero-content">
         <div class="container">
             <div class="row">

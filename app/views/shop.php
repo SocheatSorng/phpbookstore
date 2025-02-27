@@ -165,20 +165,18 @@
                         </div>
                         <ul class="product-categories mb-0 sidebar-list list-unstyled">
                             <li class="cat-item">
-                                <a href="/collections/categories">All</a>
+                                <a href="<?=ROOT?>/shop" class="<?=!isset($category_id) ? 'text-primary fw-bold' : ''?>">All</a>
                             </li>
-                            <li class="cat-item">
-                                <a href="#">Romance</a>
-                            </li>
-                            <li class="cat-item">
-                                <a href="#">Recipie</a>
-                            </li>
-                            <li class="cat-item">
-                                <a href="#">Sci-Fi</a>
-                            </li>
-                            <li class="cat-item">
-                                <a href="#">Lifestyle</a>
-                            </li>
+                            <?php if(isset($categories) && !empty($categories)): ?>
+                                <?php foreach($categories as $category): ?>
+                                    <li class="cat-item">
+                                        <a href="<?=ROOT?>/shop/category/<?=$category->CategoryID?>" 
+                                           class="<?=(isset($category_id) && $category_id == $category->CategoryID) ? 'text-primary fw-bold' : ''?>">
+                                            <?=htmlspecialchars($category->Name)?>
+                                        </a>
+                                    </li>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </ul>
                     </div>
                     <div class="widget-product-tags pt-5">

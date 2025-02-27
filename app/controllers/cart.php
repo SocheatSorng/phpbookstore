@@ -102,17 +102,14 @@ class Cart extends Controller
         }
     }
 
-    public function remove()
-    {
-        // Try to obtain book_id from routing parameters or GET query string
-        $bookId = $this->params[0] ?? ($_GET['book_id'] ?? null);
+    public function remove($bookId = null) {
+        $bookId = $bookId ?? ($_GET['book_id'] ?? null);
         
         if (!$bookId) {
             echo json_encode(['success' => false, 'message' => 'Book ID is required']);
             return;
         }
         
-        // In remove() method, after successfully removing the item:
         if ($this->cartModel->removeFromCart($bookId)) {
             $cartItems = $this->cartModel->getCartItems();
             $cartCount = 0;
@@ -127,7 +124,7 @@ class Cart extends Controller
                 'success' => true, 
                 'message' => 'Item removed',
                 'cart_count' => $cartCount,
-                'cart_total' => $cartTotal
+                'cart_total' => number_format($cartTotal, 2)
             ]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Failed to remove item']);

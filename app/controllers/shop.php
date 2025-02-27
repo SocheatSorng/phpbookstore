@@ -3,16 +3,37 @@ class Shop extends Controller
 {
     public function index()
     {
+        $this->showBooks();
+    }
+
+    public function category($categoryId = null)
+    {
+        $this->showBooks($categoryId);
+    }
+
+    private function showBooks($categoryId = null)
+    {
         try {
             $book = $this->loadModel("BookModel");
-            $all_books = $book->getAllBooks();
+            $categories = $book->getCategories();
             
-            // Add debugging
-            error_log("Books retrieved in Shop controller: " . print_r($all_books, true));
+            if ($categoryId) {
+                $books = $book->getBooksByCategory($categoryId);
+                $activeCategory = array_filter($categories, function($cat) use ($categoryId) {
+                    return $cat->CategoryID == $categoryId;
+                });
+                $activeCategory = reset($activeCategory) ?: null;
+            } else {
+                $books = $book->getAllBooks();
+                $activeCategory = null;
+            }
             
             $data = [
                 'page_title' => "Shop",
-                'books' => $all_books
+                'books' => $books,
+                'categories' => $categories,
+                'active_category' => $activeCategory,
+                'category_id' => $categoryId
             ];
             
             $this->view("shop", $data);

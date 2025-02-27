@@ -19,60 +19,52 @@
     </div>
     <div class="swiper main-swiper">
         <div class="swiper-wrapper d-flex align-items-center">
-            <div class="swiper-slide">
-                <div class="container">
-                    <div class="row d-flex flex-column-reverse flex-md-row align-items-center">
-                        <div class="col-md-5 offset-md-1 mt-5 mt-md-0 text-center text-md-start">
-                            <div class="banner-content">
-                                <h2>The Fine Print Book Collection</h2>
-                                <p>Best Offer Save 30%. Grab it now!</p>
-                                <a href="shop.php" class="btn mt-3">Shop Collection</a>
+            <?php if(isset($data['banner_books']) && !empty($data['banner_books'])): ?>
+                <?php foreach($data['banner_books'] as $book): ?>
+                    <div class="swiper-slide">
+                        <div class="container">
+                            <div class="row d-flex flex-column-reverse flex-md-row align-items-center">
+                                <div class="col-md-5 offset-md-1 mt-5 mt-md-0 text-center text-md-start">
+                                    <div class="banner-content">
+                                        <h2><?=htmlspecialchars($book->Title)?></h2>
+                                        <p>Special Offer - 30% Off!</p>
+                                        <a href="<?=ROOT?>shop" class="btn mt-3">Shop Now</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-center">
+                                    <div class="image-holder">
+                                        <?php if(!empty($book->Image)): ?>
+                                            <img src="<?=ROOT . '/' . htmlspecialchars($book->Image)?>" class="img-fluid" alt="<?=htmlspecialchars($book->Title)?>">
+                                        <?php else: ?>
+                                            <img src="<?=ASSETS?>images/banner-image2.png" class="img-fluid" alt="Default banner">
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6 text-center">
-                            <div class="image-holder">
-                                <img src="<?=ASSETS?>images/banner-image2.png" class="img-fluid" alt="banner">
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <!-- Fallback banner if no books are found -->
+                <div class="swiper-slide">
+                    <div class="container">
+                        <div class="row d-flex flex-column-reverse flex-md-row align-items-center">
+                            <div class="col-md-5 offset-md-1 mt-5 mt-md-0 text-center text-md-start">
+                                <div class="banner-content">
+                                    <h2>Welcome to Our Bookstore</h2>
+                                    <p>Discover Amazing Books Today!</p>
+                                    <a href="<?=ROOT?>shop" class="btn mt-3">Shop Collection</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <div class="image-holder">
+                                    <img src="<?=ASSETS?>images/banner-image2.png" class="img-fluid" alt="banner">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="container">
-                    <div class="row d-flex flex-column-reverse flex-md-row align-items-center">
-                        <div class="col-md-5 offset-md-1 mt-5 mt-md-0 text-center text-md-start">
-                            <div class="banner-content">
-                                <h2>How Innovation works</h2>
-                                <p>Discount available. Grab it now!</p>
-                                <a href="shop.php" class="btn mt-3">Shop Product</a>
-                            </div>
-                        </div>
-                        <div class="col-md-6 text-center">
-                            <div class="image-holder">
-                                <img src="<?=ASSETS?>images/banner-image1.png" class="img-fluid" alt="banner">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="container">
-                    <div class="row d-flex flex-column-reverse flex-md-row align-items-center">
-                        <div class="col-md-5 offset-md-1 mt-5 mt-md-0 text-center text-md-start">
-                            <div class="banner-content">
-                                <h2>Your Heart is the Sea</h2>
-                                <p>Limited stocks available. Grab it now!</p>
-                                <a href="shop.php" class="btn mt-3">Shop Collection</a>
-                            </div>
-                        </div>
-                        <div class="col-md-6 text-center">
-                            <div class="image-holder">
-                                <img src="<?=ASSETS?>images/banner-image.png" class="img-fluid" alt="banner">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <?php endif; ?>
         </div>
     </div>
 </section>
@@ -162,9 +154,6 @@
                 <?php foreach($data['best_selling_books'] as $book): ?>
                 <div class="swiper-slide">
                     <div class="card position-relative p-4 border rounded-3">
-                        <div class="position-absolute">
-                            <p class="bg-primary py-1 px-3 fs-6 text-white rounded-2">10% off</p>
-                        </div>
                         <?php if(!empty($book->Image)): ?>
                         <img src="<?= ROOT . '/' . htmlspecialchars($book->Image) ?>" class="img-fluid shadow-sm"
                             alt="<?=htmlspecialchars($book->Title)?>">
@@ -224,7 +213,7 @@
         <div class="alert alert-info">No books available at this time.</div>
         <?php endif; ?>
     </div>
-</section>>
+</section>
 
 <section id="limited-offer" class="padding-large"
     style="background-image: url(<?=ASSETS?>images/banner-image-bg-1.jpg); background-size: cover; background-repeat: no-repeat; background-position: center; height: 800px;">

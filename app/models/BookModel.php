@@ -55,26 +55,72 @@ class BookModel
     }
 
     public function getAllBooks()
-{
-    try {
-        if (!$this->conn) {
-            error_log("No database connection available in getAllBooks");
+    {
+        try {
+            if (!$this->conn) {
+                error_log("No database connection available in getAllBooks");
+                return [];
+            }
+
+            $stmt = $this->conn->prepare("CALL sp_GetAllProducts()");
+            if (!$stmt->execute()) {
+                error_log("Execute failed in getAllBooks: " . implode(", ", $stmt->errorInfo()));
+                return [];
+            }
+
+            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+            error_log("getAllBooks retrieved " . count($result) . " books");
+            return $result;
+
+        } catch(PDOException $e) {
+            error_log("Error in getAllBooks: " . $e->getMessage());
             return [];
         }
-
-        $stmt = $this->conn->prepare("CALL sp_GetAllProducts()");
-        if (!$stmt->execute()) {
-            error_log("Execute failed in getAllBooks: " . implode(", ", $stmt->errorInfo()));
-            return [];
-        }
-
-        $result = $stmt->fetchAll(PDO::FETCH_OBJ);
-        error_log("getAllBooks retrieved " . count($result) . " books");
-        return $result;
-
-    } catch(PDOException $e) {
-        error_log("Error in getAllBooks: " . $e->getMessage());
-        return [];
     }
-}
+
+    public function getBannerBooks($limit = 3)
+    {
+        try {
+            $stmt = $this->conn->prepare("SELECT BookID, Title, Price, Image, Description FROM tbBook ORDER BY RAND() LIMIT ?");
+            $stmt->execute([$limit]);
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
+        } catch(PDOException $e) {
+            error_log("Error in getBannerBooks: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function getCategories()
+    {
+        try {
+            $stmt = $this->conn->prepare("SELECT CategoryID, Name, Description, Image FROM tbCategory ORDER BY Name");
+            if (!$stmt->execute()) {
+                error_log("Execute failed in getCategories: " . implode(", ", $stmt->errorInfo()));
+                return [];
+            }
+
+            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+            error_log("getCategories retrieved " . count($result) . " categories");
+            return $result;
+
+        } catch(PDOException $e) {
+            error_log("Error in getCategories: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function getBooksByCategory($categoryId)
+    {
+        try {
+            $stmt = $this->conn->prepare("SELECT b.* 
+                FROM tbBook b 
+                JOIN tbBookCategory bc ON b.BookID = bc.BookID 
+                WHERE bc.CategoryID = ?");
+            $stmt->execute([$categoryId]);
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
+        } catch(PDOException $e) {
+            error_log("Error in getBooksByCategory: " . $e->getMessage());
+            return [];
+        }
+    }
 }

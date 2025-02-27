@@ -6,11 +6,13 @@ class Home extends Controller
         try {
             $book = $this->loadModel("BookModel");
             $best_selling_books = $book->getBestSellingBooks();
+            $banner_books = $book->getBannerBooks(3); // Get 3 random books for banner
             
             // Create data array
             $data = [
                 'page_title' => "Home",
-                'best_selling_books' => $best_selling_books
+                'best_selling_books' => $best_selling_books,
+                'banner_books' => $banner_books
             ];
             
             // Pass data to view
