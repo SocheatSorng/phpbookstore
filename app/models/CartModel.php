@@ -198,4 +198,23 @@ class CartModel
             $_SESSION['cart'] = [];
         }
     }
+
+    public function clearCart($userId = null) {
+        try {
+            if ($userId) {
+                // Clear database cart
+                $conn = $this->db->getConnection();
+                $stmt = $conn->prepare("DELETE FROM tbCart WHERE UserID = ?");
+                $stmt->execute([$userId]);
+            }
+            
+            // Always clear session cart
+            $_SESSION['cart'] = [];
+            
+            return true;
+        } catch (Exception $e) {
+            error_log("Error clearing cart: " . $e->getMessage());
+            return false;
+        }
+    }
 }

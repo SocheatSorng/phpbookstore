@@ -68,4 +68,59 @@ Class Controller
             return false;
         }
     }
+    public function paymentSuccess() {
+        // Load the order model
+        $orderModel = $this->loadModel('OrderModel');
+        
+        // Clear the cart
+        $success = $orderModel->clearCart();
+        
+        if ($success) {
+            // Set success message
+            $data = [
+                'page_title' => 'Payment Successful',
+                'message' => 'Your payment was successful, and your order has been placed. Thank you for your purchase!',
+                'order_id' => $_GET['order_id'] ?? null // If your payment gateway returns an order ID
+            ];
+            
+            // Load success view
+            $this->view('checkout_success', $data);
+        } else {
+            // Handle error
+            $data = [
+                'page_title' => 'Payment Error',
+                'error' => 'There was an error processing your payment. Please contact customer support.'
+            ];
+            
+            $this->view('checkout', $data);
+        }
+    }
+    public function paymentCallback() {
+        // Verify the payment with PayWay
+        $paymentData = $_POST; // PayWay will send data via POST
+        
+        // Log the received data
+        error_log("PayWay callback received: " . print_r($paymentData, true));
+        
+        // Validate the payment data
+        if (isset($paymentData['tran_id']) && isset($paymentData['status']) && $paymentData['status'] === 0) {
+            // Payment is successful
+            
+            // Load the order model
+            $orderModel = $this->loadModel('OrderModel');
+            
+            // Update order status in your database
+            // $orderModel->updateOrderStatus($paymentData['tran_id'], 'paid');
+            
+            // Clear the cart
+            $orderModel->clearCart();
+            
+            // Respond to PayWay
+            echo json_encode(['success' => true]);
+            return;
+        }
+        
+        // Payment failed
+        echo json_encode(['success' => false]);
+    }
 }

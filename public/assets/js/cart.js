@@ -28,12 +28,14 @@ document.addEventListener("DOMContentLoaded", function () {
           if (data.success) {
             // Update cart display
             itemContainer.remove();
-
+            updateCartCount(data.cart_count);
             // Update cart count
             const cartCountElements = document.querySelectorAll(".cart span");
-            cartCountElements.forEach((el) => {
-              el.textContent = `(${data.cart_count})`;
-            });
+            if (cartTotalElement) {
+              cartTotalElement.textContent = `$${parseFloat(
+                data.cart_total
+              ).toFixed(2)}`;
+            }
 
             // Update cart total
             const cartTotalElement = document.getElementById("cart-total");
@@ -123,11 +125,17 @@ function updateCartTotal(total) {
 
 function updateCartCount(count) {
   document
-    .querySelectorAll(".cart-count, .cart-dropdown .fs-6.fw-light")
+    .querySelectorAll(
+      ".cart-count, .cart-dropdown .fs-6.fw-light, .badge.bg-primary.rounded-pill"
+    )
     .forEach((element) => {
-      element.textContent = element.classList.contains("fs-6")
-        ? `(${count})`
-        : count;
+      if (element.classList.contains("fs-6")) {
+        element.textContent = `(${count})`;
+      } else if (element.classList.contains("badge")) {
+        element.textContent = count;
+      } else {
+        element.textContent = count;
+      }
     });
 }
 
@@ -157,9 +165,9 @@ function updateCartDropdown(cartItems) {
       item.BookID
     }">${escapeHtml(item.Title)}</a>
                       </h5>
-                      <small>Quantity: ${
-                        item.Quantity
-                      } × $${item.Price.toFixed(2)}</small>
+                      <small>Quantity: ${item.Quantity} × $${item.Price.toFixed(
+      2
+    )}</small>
                   </div>
                   <span class="text-primary">$${(
                     item.Price * item.Quantity

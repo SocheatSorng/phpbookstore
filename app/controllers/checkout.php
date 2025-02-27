@@ -132,18 +132,10 @@ class Checkout extends Controller
 
     // In checkout.php success method
     public function success() {
-        error_log("Success method called");
-        error_log("GET params: " . print_r($_GET, true));
-        error_log("Session data: " . print_r($_SESSION, true));
-        
         $data['page_title'] = "Order Confirmed";
         $tran_id = $_GET['tran_id'] ?? null;
         
         error_log("Transaction ID: " . $tran_id);
-        $data['page_title'] = "Order Confirmed";
-        
-        // Get the transaction ID from PayWay success redirect
-        $tran_id = $_GET['tran_id'] ?? null;
         
         if($tran_id && isset($_SESSION['pending_order'])) {
             $payway = $this->loadModel('PaywayModel');
@@ -194,10 +186,13 @@ class Checkout extends Controller
                         ]);
                     }
                     
-                    // Clear cart after successful order
+                    // Clear both session and database cart
                     if (isset($_SESSION['user'])) {
                         $cartModel->clearCart($_SESSION['user']['UserID']);
                     }
+                    // Always clear session cart
+                    unset($_SESSION['cart']);
+                    // Clear pending order
                     unset($_SESSION['pending_order']);
                     
                     $data['payment_success'] = true;
@@ -207,7 +202,13 @@ class Checkout extends Controller
                     $data['payment_success'] = false;
                     $data['error'] = $e->getMessage();
                 }
+            } else {
+                $data['payment_success'] = false;
+                $data['error'] = 'Invalid transaction';
             }
+        } else {
+            $data['payment_success'] = false;
+            $data['error'] = 'Missing transaction ID or pending order';
         }
         
         $this->view("checkout_success", $data);
@@ -281,7 +282,7 @@ class Checkout extends Controller
                     // Get payment data from session
                     $payment_data = $_SESSION['pending_order']['payment_data'];
                     
-                    // Format shipping address (using payment data or adjust as needed)
+                    // Format shipping address
                     $shipping_address = sprintf("%s\n%s\n%s %s",
                         $payment_data['address'] ?? '',
                         $payment_data['city'] ?? '',
@@ -298,8 +299,6 @@ class Checkout extends Controller
                         'PaymentMethod' => 'PayWay'
                     ];
         
-                    error_log("Creating Order with data: " . print_r($order_data, true));
-        
                     // Create order and get OrderID
                     $order_id = $orderModel->createOrder($order_data);
                     
@@ -313,10 +312,12 @@ class Checkout extends Controller
                         ]);
                     }
                     
-                    // Clear cart after successful order
-                    if(isset($_SESSION['user'])) {
-                        $cartModel->clearCart($_SESSION['user']['UserID']);
-                    }
+                    // Clear cart using CartModel method
+                    $cartModel = $this->loadModel('CartModel');
+                    $userId = $_SESSION['user']['UserID'] ?? null;
+                    $cartModel->clearCart($userId);
+                    
+                    // Clear pending order
                     unset($_SESSION['pending_order']);
                     
                     $response = [

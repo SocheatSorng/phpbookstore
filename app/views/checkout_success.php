@@ -26,7 +26,8 @@
 
 <body>
     <h1>Order Confirmed</h1>
-    <div id="order_status">Processing your order...</div>
+    <h2>Coming Soon</h2>
+
 
     <script>
     document.addEventListener("DOMContentLoaded", function() {
