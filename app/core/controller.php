@@ -12,11 +12,14 @@ Class Controller
                 
                 // Add cart data to the existing data array
                 $data['cart_items'] = $cartModel->getCartItems();
-                $data['cart_count'] = count($data['cart_items']);
+                
+                // Calculate the cart total and count correctly
                 $data['cart_total'] = 0;
+                $data['cart_count'] = 0;
                 
                 foreach ($data['cart_items'] as $item) {
                     $data['cart_total'] += $item['Price'] * $item['Quantity'];
+                    $data['cart_count'] += $item['Quantity'];  // Sum quantities instead of counting items
                 }
             }
         } catch (Exception $e) {
@@ -38,7 +41,7 @@ Class Controller
         }
 
         // Extract data to make variables available in view
-        if(is_array($data)){
+         if(is_array($data)){
             extract($data);
         }
         
