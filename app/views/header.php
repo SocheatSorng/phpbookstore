@@ -2,7 +2,14 @@
   $cartItems = $data['cart_items'] ?? [];
   $cartCount = $data['cart_count'] ?? 0;
   $cartTotal = $data['cart_total'] ?? 0;
-?>
+  
+  // Manual recalculation to ensure accuracy
+  $manualCartCount = 0;
+  foreach ($cartItems as $item) {
+    $manualCartCount += (int)($item['Quantity'] ?? 0);
+  }
+  $cartCount = $manualCartCount;
+  ?>
 
 <!DOCTYPE html>
 <html>
@@ -153,19 +160,24 @@
                             if(empty($current_page)) $current_page = 'home';
                             ?>
                             <li class="nav-item">
-                                <a class="nav-link me-4 <?=$current_page == 'home' ? 'active' : ''?>" href="<?=ROOT?>home">Home</a>
+                                <a class="nav-link me-4 <?=$current_page == 'home' ? 'active' : ''?>"
+                                    href="<?=ROOT?>home">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link me-4 <?=$current_page == 'about' ? 'active' : ''?>" href="<?=ROOT?>about">About</a>
+                                <a class="nav-link me-4 <?=$current_page == 'about' ? 'active' : ''?>"
+                                    href="<?=ROOT?>about">About</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link me-4 <?=$current_page == 'shop' ? 'active' : ''?>" href="<?=ROOT?>shop">Shop</a>
+                                <a class="nav-link me-4 <?=$current_page == 'shop' ? 'active' : ''?>"
+                                    href="<?=ROOT?>shop">Shop</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link me-4 <?=$current_page == 'blog' ? 'active' : ''?>" href="<?=ROOT?>blog">Blogs</a>
+                                <a class="nav-link me-4 <?=$current_page == 'blog' ? 'active' : ''?>"
+                                    href="<?=ROOT?>blog">Blogs</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link me-4 <?=$current_page == 'contact' ? 'active' : ''?>" href="<?=ROOT?>contact">Contact</a>
+                                <a class="nav-link me-4 <?=$current_page == 'contact' ? 'active' : ''?>"
+                                    href="<?=ROOT?>contact">Contact</a>
                             </li>
                         </ul>
                         <div class="user-items d-flex">
