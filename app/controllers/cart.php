@@ -75,7 +75,7 @@ class Cart extends Controller
         echo json_encode([
             'success' => true,
             'cart_items' => $cartItems,
-            'cart_count' => count($cartItems)
+            'cart_count' => $cartCount
         ]);
     }
 
@@ -91,11 +91,15 @@ class Cart extends Controller
 
         if ($this->cartModel->updateQuantity($bookId, $quantity)) {
             $cartItems = $this->cartModel->getCartItems();
+            $cartCount = 0;
+            foreach ($cartItems as $item) {
+                $cartCount += $item['Quantity'];
+            }
             echo json_encode([
                 'success' => true,
                 'message' => 'Cart updated successfully',
                 'cart_items' => $cartItems,
-                'cart_count' => count($cartItems)
+                'cart_count' => $cartCount
             ]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Failed to update cart']);
