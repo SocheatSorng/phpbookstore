@@ -49,8 +49,8 @@ class PaywayModel
                 'lastname' => trim($order_data['lastname']),
                 'email' => trim($order_data['email']),
                 'phone' => $phone,
-                'return_url' => base64_encode('http://localhost:8887/phpbookstore/public/checkout/payment_callback'),
-                'continue_success_url' => 'http://localhost:8887/phpbookstore/public/checkout/success?tran_id=' . $tran_id, // Add tran_id
+                'return_url' => base64_encode('http://localhost/phpbookstore/checkout/payment_callback'),
+                'continue_success_url' => 'http://localhost/phpbookstore/checkout/success?tran_id=' . $tran_id, // Add tran_id
                 'return_params' => 'Hello World!'
             ];
 

@@ -123,4 +123,64 @@ class BookModel
             return [];
         }
     }
+
+    public function getBookDetails($bookId) 
+    {
+        try {
+            if (!$this->conn) {
+                error_log("No database connection available in getBookDetails");
+                return null;
+            }
+    
+            $stmt = $this->conn->prepare("CALL sp_GetBookDetail(?)");
+            if (!$stmt->execute([$bookId])) {
+                error_log("Execute failed in getBookDetails: " . implode(", ", $stmt->errorInfo()));
+                return null;
+            }
+    
+            $result = $stmt->fetch(PDO::FETCH_OBJ);
+            if (!$result) {
+                error_log("No book found with ID: " . $bookId);
+                return null;
+            }
+    
+            // Close the current cursor to avoid "Command out of sync" errors
+            $stmt->closeCursor();
+            
+            return $result;
+    
+        } catch(PDOException $e) {
+            error_log("Error in getBookDetails: " . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    public function getBookReviews($bookId) 
+    {
+        try {
+            $stmt = $this->conn->prepare("CALL sp_GetBookReviews(?)");
+            $stmt->execute([$bookId]);
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
+        } catch(PDOException $e) {
+            error_log("Error getting book reviews: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function getRelatedBooks($categoryId, $currentBookId, $limit = 6) 
+    {
+        try {
+            $stmt = $this->conn->prepare("
+                SELECT * FROM tbBook 
+                WHERE CategoryID = ? 
+                AND BookID != ?
+                LIMIT ?
+            ");
+            $stmt->execute([$categoryId, $currentBookId, $limit]);
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
+        } catch(PDOException $e) {
+            error_log("Error getting related books: " . $e->getMessage());
+            return [];
+        }
+    }
 }

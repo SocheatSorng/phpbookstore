@@ -5,12 +5,17 @@
         <div class="container">
           <div class="row">
             <div class="text-center">
-              <h1>Single-Product</h1>
+              <h1><?=htmlspecialchars($data['book']->Title ?? 'Book Details')?></h1>
               <div class="breadcrumbs">
                 <span class="item">
-                  <a href="index.html">Home > </a>
+                  <a href="<?=ROOT?>">Home ></a>
                 </span>
-                <span class="item text-decoration-underline">Single-Product</span>
+                <span class="item">
+                  <a href="<?=ROOT?>shop">Shop ></a>
+                </span>
+                <span class="item text-decoration-underline">
+                  <?=htmlspecialchars($data['book']->Title ?? 'Book Details')?>
+                </span>
               </div>
             </div>
           </div>
@@ -22,162 +27,96 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-6">
-            <div class="d-flex gap-3 product-preview">
-              <div class="swiper thumb-swiper w-50">
-                <div class="swiper-wrapper d-flex flex-wrap gap-3 align-content-start">
-                  <div class="swiper-slide bg-white">
-                    <img src="<?=ASSETS?>images/product-thumbnail-1.png" alt="product-thumb" class="img-fluid border rounded-3">
-                  </div>
-                  <div class="swiper-slide bg-white">
-                    <img src="<?=ASSETS?>images/product-thumbnail-2.png" alt="product-thumb" class="img-fluid border rounded-3">
-                  </div>
-                  <div class="swiper-slide bg-white">
-                    <img src="<?=ASSETS?>images/product-thumbnail-3.png" alt="product-thumb" class="img-fluid border rounded-3">
-                  </div>
+            <div class="product-preview">
+                <div class="main-image border rounded-3 overflow-hidden">
+                    <img src="<?=!empty($data['book']->Image) ? ROOT . '/' . htmlspecialchars($data['book']->Image) : ASSETS.'images/product-large-1.png'?>" 
+                         alt="<?=htmlspecialchars($data['book']->Title)?>" 
+                         class="img-fluid w-100">
                 </div>
-              </div>
-              <div class="swiper large-swiper border rounded-3 overflow-hidden">
-                <div class="swiper-wrapper">
-                  <div class="swiper-slide bg-white">
-                    <img src="<?=ASSETS?>images/product-large-1.png" alt="single-product" class="img-fluid">
-                  </div>
-                  <div class="swiper-slide bg-white">
-                    <img src="<?=ASSETS?>images/product-large-2.png" alt="single-product" class="img-fluid">
-                  </div>
-                  <div class="swiper-slide bg-white">
-                    <img src="<?=ASSETS?>images/product-large-3.png" alt="single-product" class="img-fluid">
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
           <div class="col-lg-6">
             <div class="product-info ps-lg-5 pt-3 pt-lg-0">
               <div class="element-header">
-                <h1 class="product-title">The Emerald Crown</h1>
+                <h1 class="product-title"><?=htmlspecialchars($data['book']->Title)?></h1>
                 <div class="product-price d-flex align-items-center mt-2">
-                  <span class="fs-2 fw-light text-primary me-2">$200</span>
-                  <del>$260</del>
-                </div>
-                <div class="rating text-warning d-flex align-items-center mb-2">
-                  <svg class="star star-fill">
-                    <use xlink:href="#star-fill"></use>
-                  </svg>
-                  <svg class="star star-fill">
-                    <use xlink:href="#star-fill"></use>
-                  </svg>
-                  <svg class="star star-fill">
-                    <use xlink:href="#star-fill"></use>
-                  </svg>
-                  <svg class="star star-fill">
-                    <use xlink:href="#star-fill"></use>
-                  </svg>
-                  <svg class="star star-fill">
-                    <use xlink:href="#star-fill"></use>
-                  </svg>
+                  <span class="fs-2 fw-light text-primary me-2">$<?=number_format($data['book']->Price, 2)?></span>
                 </div>
               </div>
-              <p>Justo, cum feugiat imperdiet nulla molestie ac vulputate scelerisque amet. Bibendum adipiscing platea blandit sit sed quam semper rhoncus.</p>
-              <hr>
-              <div class="cart-wrap">
-                <div class="color-options product-select my-3">
-                  <div class="color-toggle" data-option-index="0">
-                    <h4 class="item-title text-decoration-underline text-capitalize">Color</h4>
-                    <ul class="select-list list-unstyled d-flex mb-0">
-                      <li class="select-item me-3" data-val="Green" title="Green">
-                        <a href="#">Gray</a>
-                      </li>
-                      <li class="select-item me-3" data-val="Orange" title="Orange">
-                        <a href="#">Blue</a>
-                      </li>
-                      <li class="select-item me-3" data-val="Red" title="Red">
-                        <a href="#">White</a>
-                      </li>
-                    </ul>
-                  </div>
+              <div class="meta-product my-4">
+                <div class="meta-item d-flex mb-2">
+                    <span class="fw-medium me-2">Author:</span>
+                    <span><?=htmlspecialchars($data['book']->Author)?></span>
                 </div>
-                <div class="swatch product-select" data-option-index="1">
-                  <h4 class="item-title text-decoration-underline text-capitalize">Size</h4>
-                  <ul class="select-list list-unstyled d-flex mb-0">
-                    <li data-value="S" class="select-item me-3">
-                      <a href="#">S</a>
-                    </li>
-                    <li data-value="M" class="select-item me-3">
-                      <a href="#">M</a>
-                    </li>
-                    <li data-value="L" class="select-item me-3">
-                      <a href="#">L</a>
-                    </li>
-                  </ul>
+                <?php if(!empty($data['book']->Publisher)): ?>
+                <div class="meta-item d-flex mb-2">
+                    <span class="fw-medium me-2">Publisher:</span>
+                    <span><?=htmlspecialchars($data['book']->Publisher)?></span>
                 </div>
-                <div class="product-quantity my-3">
-                  <div class="item-title">
-                    <l>2 in stock</l>
-                  </div>
-                  <div class="stock-button-wrap mt-2 d-flex flex-wrap align-items-center">
-                    <div class="product-quantity">
-                      <div class="input-group product-qty align-items-center" style="max-width: 150px;">
-                        <span class="input-group-btn">
-                          <button type="button" class="bg-white shadow border rounded-3 fw-light quantity-left-minus" data-type="minus" data-field="">
-                            <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
-                          </button>
-                        </span>
-                        <input type="text" id="quantity" name="quantity" class="form-control bg-white shadow border rounded-3 py-2 mx-2 input-number text-center" value="1" min="1" max="100" required>
-                        <span class="input-group-btn">
-                          <button type="button" class="bg-white shadow border rounded-3 fw-light quantity-right-plus" data-type="plus" data-field="">
-                            <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
-                          </button>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+                <?php endif; ?>
+                <?php if(!empty($data['book']->PublishYear)): ?>
+                <div class="meta-item d-flex mb-2">
+                    <span class="fw-medium me-2">Year:</span>
+                    <span><?=htmlspecialchars($data['book']->PublishYear)?></span>
                 </div>
-                <div class="action-buttons my-3 d-flex flex-wrap gap-3">
-                  <a href="#" class="btn">Order now</a>
-                  <a href="#" class="btn btn-dark">Add to cart</a>
-                  <a href="#" class="btn btn-dark">
-                    <svg class="heart" width="21" height="21">
-                      <use xlink:href="#heart"></use>
-                    </svg>
-                  </a>
+                <?php endif; ?>
+                <?php if(!empty($data['book']->Edition)): ?>
+                <div class="meta-item d-flex mb-2">
+                    <span class="fw-medium me-2">Edition:</span>
+                    <span><?=htmlspecialchars($data['book']->Edition)?></span>
+                </div>
+                <?php endif; ?>
+                <?php if(!empty($data['book']->Format)): ?>
+                <div class="meta-item d-flex mb-2">
+                    <span class="fw-medium me-2">Format:</span>
+                    <span><?=htmlspecialchars($data['book']->Format)?></span>
+                </div>
+                <?php endif; ?>
+                <?php if(!empty($data['book']->Language)): ?>
+                <div class="meta-item d-flex mb-2">
+                    <span class="fw-medium me-2">Language:</span>
+                    <span><?=htmlspecialchars($data['book']->Language)?></span>
+                </div>
+                <?php endif; ?>
+                <?php if(!empty($data['book']->PageCount)): ?>
+                <div class="meta-item d-flex mb-2">
+                    <span class="fw-medium me-2">Pages:</span>
+                    <span><?=htmlspecialchars($data['book']->PageCount)?></span>
+                </div>
+                <?php endif; ?>
+                <?php if(!empty($data['book']->ISBN13)): ?>
+                <div class="meta-item d-flex mb-2">
+                    <span class="fw-medium me-2">ISBN-13:</span>
+                    <span><?=htmlspecialchars($data['book']->ISBN13)?></span>
+                </div>
+                <?php endif; ?>
+                <div class="meta-item d-flex mb-2">
+                    <span class="fw-medium me-2">Category:</span>
+                    <span><?=htmlspecialchars($data['book']->CategoryName)?></span>
                 </div>
               </div>
-<hr>
-              <div class="meta-product my-3">
-                <div class="meta-item d-flex mb-1">
-                  <span class="fw-medium me-2">SKU:</span>
-                  <ul class="select-list list-unstyled d-flex mb-0">
-                    <li data-value="S" class="select-item">1223</li>
-                  </ul>
+              <?php if(!empty($data['book']->Description)): ?>
+              <div class="description mb-4">
+                  <h4>Description</h4>
+                  <p><?=nl2br(htmlspecialchars($data['book']->Description))?></p>
+              </div>
+              <?php endif; ?>
+              <div class="product-quantity my-4">
+                <div class="stock-info mb-2">
+                    <span class="fw-medium">Availability:</span>
+                    <?php if($data['book']->StockQuantity > 0): ?>
+                        <span class="text-success">In Stock (<?=$data['book']->StockQuantity?> copies available)</span>
+                    <?php else: ?>
+                        <span class="text-danger">Out of Stock</span>
+                    <?php endif; ?>
                 </div>
-                <div class="meta-item d-flex mb-1">
-                  <span class="fw-medium me-2">Category:</span>
-                  <ul class="select-list list-unstyled d-flex mb-0">
-                    <li data-value="S" class="select-item">
-                      <a href="#">Romance</a>,
-                    </li>
-                    <li data-value="S" class="select-item">
-                      <a href="#">Sci-Fi</a>,
-                    </li>
-                    <li data-value="S" class="select-item">
-                      <a href="#">Fiction</a>
-                    </li>
-                  </ul>
-                </div>
-                <div class="meta-item d-flex mb-1">
-                  <span class="fw-medium me-2">Tags:</span>
-                  <ul class="select-list list-unstyled d-flex mb-0">
-                    <li data-value="S" class="select-item">
-                      <a href="#">Revenge</a>,
-                    </li>
-                    <li data-value="S" class="select-item">
-                      <a href="#">Vampire</a>,
-                    </li>
-                    <li data-value="S" class="select-item">
-                      <a href="#">Life</a>
-                    </li>
-                  </ul>
-                </div>
+              </div>
+              <div class="action-buttons">
+                <button class="btn btn-primary" 
+                        <?=$data['book']->StockQuantity <= 0 ? 'disabled' : ''?>
+                        onclick="addToCart(<?=$data['book']->BookID?>)">
+                    Add to Cart
+                </button>
               </div>
             </div>
           </div>

@@ -972,17 +972,31 @@ BEGIN
     WHERE BookID = p_BookID;
 END //
 
-CREATE PROCEDURE sp_GetBookDetail(
-    IN p_BookID INT
-)
+
+CREATE PROCEDURE sp_GetBookDetail(IN p_BookID INT)
 BEGIN
-    SELECT d.*, b.Title as BookTitle, b.Author as BookAuthor
-    FROM tbBookDetail d
-    LEFT JOIN tbBook b ON d.BookID = b.BookID
-    WHERE d.BookID = p_BookID;
+    SELECT 
+        b.BookID,
+        b.Title,
+        b.Author,
+        b.Price,
+        b.StockQuantity,
+        b.Image,
+        b.CreatedAt,
+        c.CategoryID,
+        c.Name as CategoryName,
+        bd.Description,
+        bd.ISBN13,
+        bd.Publisher,
+        bd.PublishYear,
+        bd.Format,
+        bd.Language
+    FROM tbBook b
+    LEFT JOIN tbCategory c ON b.CategoryID = c.CategoryID
+    LEFT JOIN tbBookDetail bd ON b.BookID = bd.BookID
+    WHERE b.BookID = p_BookID;
 END //
 
-Delimiter //
 
 CREATE PROCEDURE sp_DeleteBookDetail(
     IN p_DetailID INT

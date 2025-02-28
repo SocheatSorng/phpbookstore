@@ -8,7 +8,7 @@
                     <div class="card-body">
                         <h2 class="text-success mb-4">Payment Successful!</h2>
                         <p class="mb-4">Thank you for your purchase.</p>
-                        <a href="<?=ROOT?>" class="btn btn-primary">
+                        <a href="<?=ROOT?>home" class="btn btn-primary">
                             Continue Shopping
                         </a>
                     </div>

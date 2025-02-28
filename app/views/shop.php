@@ -56,16 +56,14 @@
                                 <p class="bg-primary py-1 px-3 fs-6 text-white rounded-2">In Stock</p>
                             </div>
                             <?php endif; ?>
-                            <?php if(!empty($book->Image)): ?>
-                            <img src="<?=htmlspecialchars($book->Image)?>" class="img-fluid shadow-sm"
-                                alt="<?=htmlspecialchars($book->Title)?>">
-                            <?php else: ?>
-                            <img src="<?=ASSETS?>images/product-item1.png" class="img-fluid shadow-sm"
-                                alt="Default book image">
-                            <?php endif; ?>
-                            <h6 class="mt-4 mb-0 fw-bold">
-                                <a href="<?=ROOT?>/shop/book/<?=$book->BookID?>"><?=htmlspecialchars($book->Title)?></a>
-                            </h6>
+                            <a href="<?=ROOT?>singleproduct/index/<?=htmlspecialchars($book->BookID)?>" class="text-decoration-none">
+                                <img src="<?=!empty($book->Image) ? ROOT . '/' . htmlspecialchars($book->Image) : ASSETS.'images/product-item1.jpg'?>" 
+                                     alt="<?=htmlspecialchars($book->Title)?>" 
+                                     class="img-fluid">
+                                <h3 class="card-title text-capitalize mb-3">
+                                    <?=htmlspecialchars($book->Title)?>
+                                </h3>
+                            </a>
                             <div class="review-content d-flex">
                                 <p class="my-2 me-2 fs-6 text-black-50"><?=htmlspecialchars($book->Author)?></p>
                                 <div class="rating text-warning d-flex align-items-center">
