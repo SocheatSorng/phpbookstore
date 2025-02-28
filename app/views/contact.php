@@ -6,12 +6,12 @@
         <div class="container">
             <div class="row">
                 <div class="text-center">
-                    <h1>Contact</h1>
+                    <h1 class="text-white">Contact</h1>
                     <div class="breadcrumbs">
                         <span class="item">
-                            <a href="index.php">Home > </a>
+                            <a class="text-white" href="index.php">Home > </a>
                         </span>
-                        <span class="item text-decoration-underline">Contact</span>
+                        <span class="item text-decoration-underline text-white">Contact</span>
                     </div>
                 </div>
             </div>
@@ -158,7 +158,7 @@
             </svg>
         </div>
         <div class="section-title mb-4 text-center">
-            <h3 class="mb-4">Customers reviews</h3>
+            <h3 class="mb-4 text-white">Customers reviews</h3>
         </div>
         <div class="swiper testimonial-swiper ">
             <div class="swiper-wrapper">

@@ -6,12 +6,12 @@
         <div class="container">
             <div class="row">
                 <div class="text-center">
-                    <h1>Shop</h1>
+                    <h1 class="text-white">Shop</h1>
                     <div class="breadcrumbs">
                         <span class="item">
-                            <a href="index.php">Home > </a>
+                            <a class="text-white" href="index.php">Home > </a>
                         </span>
-                        <span class="item text-decoration-underline">Shop</span>
+                        <span class="item text-decoration-underline text-white">Shop</span>
                     </div>
                 </div>
             </div>
@@ -56,10 +56,10 @@
                                 <p class="bg-primary py-1 px-3 fs-6 text-white rounded-2">In Stock</p>
                             </div>
                             <?php endif; ?>
-                            <a href="<?=ROOT?>singleproduct/index/<?=htmlspecialchars($book->BookID)?>" class="text-decoration-none">
-                                <img src="<?=!empty($book->Image) ? ROOT . '/' . htmlspecialchars($book->Image) : ASSETS.'images/product-item1.jpg'?>" 
-                                     alt="<?=htmlspecialchars($book->Title)?>" 
-                                     class="img-fluid">
+                            <a href="<?=ROOT?>singleproduct/index/<?=htmlspecialchars($book->BookID)?>"
+                                class="text-decoration-none">
+                                <img src="<?=!empty($book->Image) ? ROOT . '/' . htmlspecialchars($book->Image) : ASSETS.'images/product-item1.jpg'?>"
+                                    alt="<?=htmlspecialchars($book->Title)?>" class="img-fluid">
                                 <h3 class="card-title text-capitalize mb-3">
                                     <?=htmlspecialchars($book->Title)?>
                                 </h3>
@@ -163,17 +163,18 @@
                         </div>
                         <ul class="product-categories mb-0 sidebar-list list-unstyled">
                             <li class="cat-item">
-                                <a href="<?=ROOT?>/shop" class="<?=!isset($category_id) ? 'text-primary fw-bold' : ''?>">All</a>
+                                <a href="<?=ROOT?>/shop"
+                                    class="<?=!isset($category_id) ? 'text-primary fw-bold' : ''?>">All</a>
                             </li>
                             <?php if(isset($categories) && !empty($categories)): ?>
-                                <?php foreach($categories as $category): ?>
-                                    <li class="cat-item">
-                                        <a href="<?=ROOT?>/shop/category/<?=$category->CategoryID?>" 
-                                           class="<?=(isset($category_id) && $category_id == $category->CategoryID) ? 'text-primary fw-bold' : ''?>">
-                                            <?=htmlspecialchars($category->Name)?>
-                                        </a>
-                                    </li>
-                                <?php endforeach; ?>
+                            <?php foreach($categories as $category): ?>
+                            <li class="cat-item">
+                                <a href="<?=ROOT?>/shop/category/<?=$category->CategoryID?>"
+                                    class="<?=(isset($category_id) && $category_id == $category->CategoryID) ? 'text-primary fw-bold' : ''?>">
+                                    <?=htmlspecialchars($category->Name)?>
+                                </a>
+                            </li>
+                            <?php endforeach; ?>
                             <?php endif; ?>
                         </ul>
                     </div>
@@ -256,7 +257,7 @@
             </svg>
         </div>
         <div class="section-title mb-4 text-center">
-            <h3 class="mb-4">Customers reviews</h3>
+            <h3 class="mb-4 text-white">Customers reviews</h3>
         </div>
         <div class="swiper testimonial-swiper ">
             <div class="swiper-wrapper">

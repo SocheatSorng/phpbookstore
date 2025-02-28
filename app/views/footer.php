@@ -53,19 +53,19 @@
                             <h5 class="widget-title pb-2">Quick Links</h5>
                             <ul class="menu-list list-unstyled text-capitalize">
                                 <li class="menu-item mb-1">
-                                    <a href="#">Home</a>
+                                    <a href="home">Home</a>
                                 </li>
                                 <li class="menu-item mb-1">
-                                    <a href="#">About</a>
+                                    <a href="about">About</a>
                                 </li>
                                 <li class="menu-item mb-1">
-                                    <a href="#">Shop</a>
+                                    <a href="shop">Shop</a>
                                 </li>
                                 <li class="menu-item mb-1">
-                                    <a href="#">Blogs</a>
+                                    <a href="blog">Blogs</a>
                                 </li>
                                 <li class="menu-item mb-1">
-                                    <a href="#">Contact</a>
+                                    <a href="contact">Contact</a>
                                 </li>
                             </ul>
                         </div>
@@ -73,7 +73,7 @@
                     <div class="col-lg-3 col-sm-6 pb-3">
                         <div class="footer-menu text-capitalize">
                             <h5 class="widget-title pb-2">Help & Info Help</h5>
-                            <ul class="menu-list list-unstyled">
+                            <!-- <ul class="menu-list list-unstyled">
                                 <li class="menu-item mb-1">
                                     <a href="#">Track Your Order</a>
                                 </li>
@@ -89,7 +89,7 @@
                                 <li class="menu-item mb-1">
                                     <a href="#">Faqs</a>
                                 </li>
-                            </ul>
+                            </ul> -->
                         </div>
                     </div>
                     <div class="col-lg-3 col-sm-6 pb-3">

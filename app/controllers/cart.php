@@ -65,18 +65,28 @@ class Cart extends Controller
         }
     }
 
-    public function getCart()
-    {
-        $cartItems = $this->cartModel->getCartItems();
-        $cartCount = 0;
-        foreach ($cartItems as $item){
-                $cartCount += $item['Quantity'];
+    public function getCart() {
+        try {
+            $cartItems = $this->cartModel->getCartItems();
+            $cartCount = 0;
+            $cartTotal = 0;
+            
+            foreach ($cartItems as $item) {
+                $cartCount += (int)$item['Quantity'];
+                $cartTotal += (float)$item['Price'] * (int)$item['Quantity'];
             }
-        echo json_encode([
-            'success' => true,
-            'cart_items' => $cartItems,
-            'cart_count' => $cartCount
-        ]);
+            
+            echo json_encode([
+                'success' => true,
+                'message' => 'Item added to cart successfully',
+                'cart_items' => $cartItems,
+                'cart_count' => $cartCount,
+                'cart_total' => number_format($cartTotal, 2, '.', '')
+            ]);
+        } catch (Exception $e) {
+            error_log("Error getting cart: " . $e->getMessage());
+            echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+        }
     }
 
     public function updateQuantity()
@@ -106,32 +116,38 @@ class Cart extends Controller
         }
     }
 
-    public function remove($bookId = null) {
-        $bookId = $bookId ?? ($_GET['book_id'] ?? null);
+    public function remove() {
+        $bookId = $_GET['book_id'] ?? null;
         
         if (!$bookId) {
             echo json_encode(['success' => false, 'message' => 'Book ID is required']);
             return;
         }
         
-        if ($this->cartModel->removeFromCart($bookId)) {
-            $cartItems = $this->cartModel->getCartItems();
-            $cartCount = 0;
-            $cartTotal = 0;
-            
-            foreach ($cartItems as $item) {
-                $cartCount += $item['Quantity'];
-                $cartTotal += $item['Price'] * $item['Quantity'];
+        try {
+            if ($this->cartModel->removeFromCart($bookId)) {
+                $cartItems = $this->cartModel->getCartItems();
+                $cartCount = 0;
+                $cartTotal = 0;
+                
+                foreach ($cartItems as $item) {
+                    $cartCount += (int)$item['Quantity'];
+                    $cartTotal += (float)$item['Price'] * (int)$item['Quantity'];
+                }
+                
+                echo json_encode([
+                    'success' => true, 
+                    'message' => 'Item removed',
+                    'cart_items' => $cartItems, 
+                    'cart_count' => $cartCount,
+                    'cart_total' => number_format($cartTotal, 2, '.', '')
+                ]);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Failed to remove item from cart']);
             }
-            
-            echo json_encode([
-                'success' => true, 
-                'message' => 'Item removed',
-                'cart_count' => $cartCount,
-                'cart_total' => number_format($cartTotal, 2)
-            ]);
-        } else {
-            echo json_encode(['success' => false, 'message' => 'Failed to remove item']);
+        } catch (Exception $e) {
+            error_log("Error in remove cart item: " . $e->getMessage());
+            echo json_encode(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()]);
         }
     }
 }

@@ -1,69 +1,52 @@
+// Move escapeHtml function outside of DOMContentLoaded
+function escapeHtml(unsafe) {
+  return unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 document.addEventListener("DOMContentLoaded", function () {
-  // Add to cart button click handlers
+  // =============== PART 1: Add to Cart Functionality =================
   document.querySelectorAll(".add-to-cart").forEach((button) => {
     button.addEventListener("click", function (e) {
       e.preventDefault();
       const bookId = this.getAttribute("data-book-id");
-
       // Add loading state
       this.disabled = true;
       const originalText = this.innerHTML;
       this.innerHTML =
         '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Adding...';
-
       addToCart(bookId, this, originalText);
     });
   });
 
-  // Remove from cart functionality
-  document.querySelectorAll(".remove-item").forEach((button) => {
-    button.addEventListener("click", function (e) {
+  // =============== PART 2: Remove from Cart Functionality =================
+  document.body.addEventListener("click", function (e) {
+    const removeBtn = e.target.closest(".remove-item");
+    if (removeBtn) {
       e.preventDefault();
-      const url = this.getAttribute("data-url");
-      const itemContainer = this.closest(".list-group-item");
+      const url = removeBtn.getAttribute("data-url");
 
       fetch(url)
         .then((response) => response.json())
         .then((data) => {
           if (data.success) {
-            // Update cart display
-            itemContainer.remove();
-            updateCartCount(data.cart_count);
-            // Update cart count
-            const cartCountElements = document.querySelectorAll(".cart span");
-            if (cartTotalElement) {
-              cartTotalElement.textContent = `$${parseFloat(
-                data.cart_total
-              ).toFixed(2)}`;
-            }
-
-            // Update cart total
-            const cartTotalElement = document.getElementById("cart-total");
-            if (cartTotalElement) {
-              cartTotalElement.textContent = `$${parseFloat(
-                data.cart_total
-              ).toFixed(2)}`;
-            }
-
-            // If cart is empty, show empty message
-            const cartItems = document.querySelectorAll(".list-group-item");
-            if (cartItems.length === 0) {
-              const cartList = document.querySelector(".list-group");
-              if (cartList) {
-                cartList.innerHTML =
-                  '<li class="list-group-item bg-transparent text-center">Your cart is empty</li>';
-              }
-            }
+            // If successfully removed, refresh the cart UI with new data
+            refreshCartUI(data.cart_items, data.cart_count, data.cart_total);
+            showMessage("Item removed from cart", "success");
           } else {
             console.error("Error removing item:", data.message);
-            alert("Failed to remove item from cart");
+            showMessage("Failed to remove item from cart", "error");
           }
         })
         .catch((error) => {
           console.error("Error:", error);
-          alert("An error occurred while removing the item");
+          showMessage("An error occurred while removing the item", "error");
         });
-    });
+    }
   });
 });
 
@@ -94,9 +77,7 @@ function handleResponse(response) {
 function handleSuccess(data) {
   console.log("Response data:", data); // Debug log
   if (data.success) {
-    updateCartDropdown(data.cart_items);
-    updateCartCount(data.cart_count);
-    updateCartTotal(data.cart_total);
+    refreshCartUI(data.cart_items, data.cart_count, data.cart_total);
     showMessage("Book added to cart successfully!", "success");
   } else {
     throw new Error(data.message || "Error adding item to cart");
@@ -122,7 +103,7 @@ function updateCartTotal(total) {
     element.textContent = `$${parseFloat(total).toFixed(2)}`;
   });
 }
-
+// Helper function to update cart count displays
 function updateCartCount(count) {
   document
     .querySelectorAll(
@@ -139,72 +120,84 @@ function updateCartCount(count) {
     });
 }
 
-function updateCartDropdown(cartItems) {
+function refreshCartUI(cartItems, cartCount, cartTotal) {
+  // Update cart count in all locations
+  updateCartCount(cartCount);
+
+  // Update cart total
+  const cartTotalElement = document.getElementById("cart-total");
+  if (cartTotalElement) {
+    cartTotalElement.textContent = `$${parseFloat(cartTotal).toFixed(2)}`;
+  }
+
+  // Refresh the entire dropdown content
   const cartList = document.querySelector(".cart-dropdown .list-group");
   if (!cartList) return;
 
+  // If cart is empty
   if (!cartItems || cartItems.length === 0) {
     cartList.innerHTML = `
-              <li class="list-group-item bg-transparent text-center">
-                  Your cart is empty
-              </li>
-          `;
+      <li class="list-group-item bg-transparent text-center">
+        Your cart is empty
+      </li>
+    `;
+
+    // Hide checkout button
+    const checkoutBtn = document.querySelector(".cart-dropdown .btn-primary");
+    if (checkoutBtn) {
+      checkoutBtn.style.display = "none";
+    }
     return;
   }
 
+  // If cart has items, rebuild the entire cart list
   let html = "";
   let total = 0;
 
   cartItems.forEach((item) => {
-    total += item.Price * item.Quantity;
+    total += parseFloat(item.Price) * parseInt(item.Quantity);
     html += `
-              <li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
-                  <div>
-                      <h5>
-                          <a href="${SITE_ROOT}/singleproduct/${
-      item.BookID
-    }">${escapeHtml(item.Title)}</a>
-                      </h5>
-                      <small>Quantity: ${item.Quantity} × $${item.Price.toFixed(
+      <li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
+        <div>
+          <h5>
+            <a href="${SITE_ROOT}/singleproduct/${item.BookID}">${escapeHtml(
+      item.Title
+    )}</a>
+          </h5>
+          <small>Quantity: ${item.Quantity} × $${parseFloat(item.Price).toFixed(
       2
     )}</small>
-                  </div>
-                  <span class="text-primary">$${(
-                    item.Price * item.Quantity
-                  ).toFixed(2)}</span>
-                  <button class="btn btn-danger btn-sm remove-item" 
-                          data-book-id="${item.BookID}">
-                      <i class="bi bi-trash"></i>
-                  </button>
-              </li>
-          `;
+          <br>
+          <a href="#" 
+            data-url="${SITE_ROOT}/cart/remove?book_id=${item.BookID}" 
+            class="btn btn-sm btn-danger mt-2 remove-item">
+            Remove
+          </a>
+        </div>
+        <span class="text-primary">$${(
+          parseFloat(item.Price) * parseInt(item.Quantity)
+        ).toFixed(2)}</span>
+      </li>
+    `;
   });
 
   html += `
-          <li class="list-group-item bg-transparent d-flex justify-content-between">
-              <span class="text-capitalize"><b>Total (USD)</b></span>
-              <strong>$${total.toFixed(2)}</strong>
-          </li>
-      `;
+    <li class="list-group-item bg-transparent d-flex justify-content-between">
+      <span class="text-capitalize"><b>Total (USD)</b></span>
+      <strong>$${parseFloat(total).toFixed(2)}</strong>
+    </li>
+  `;
 
   cartList.innerHTML = html;
 
-  // Update checkout button visibility
+  // Show checkout button
   const checkoutBtn = document.querySelector(".cart-dropdown .btn-primary");
   if (checkoutBtn) {
-    checkoutBtn.style.display = cartItems.length > 0 ? "block" : "none";
+    checkoutBtn.style.display = "block";
   }
 }
 
-function escapeHtml(unsafe) {
-  return unsafe
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
+// Helper function to show messages to the user
 function showMessage(message, type = "success") {
   const alertDiv = document.createElement("div");
   alertDiv.className = `alert alert-${type} position-fixed top-0 end-0 m-3`;
