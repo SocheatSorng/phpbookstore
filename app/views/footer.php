@@ -107,12 +107,37 @@
     </div>
 </footer>
 
+<div class="floating-icon" id="chat-trigger">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+    </svg>
+</div>
+
+<div class="chat-widget">
+    <div class="chat-header">
+        <span>Chat with AI</span>
+        <button class="chat-close">&times;</button>
+    </div>
+    <div class="chat-messages"></div>
+    <div class="chat-input-container">
+        <textarea placeholder="Type your message..." rows="3"></textarea>
+        <button type="button">Send</button>
+    </div>
+</div>
+
+<link rel="stylesheet" href="<?=ASSETS?>css/floating-chat.css">
 <script src="<?=ASSETS?>js/jquery-1.11.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
 </script>
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 <script type="text/javascript" src="<?=ASSETS?>js/script.js"></script>
+<script src="<?=ASSETS?>js/floating-chat.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        new FloatingChat();
+    });
+</script>
 </body>
 
 </html>

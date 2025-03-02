@@ -2,12 +2,12 @@
 <div class="main-nav">
      <!-- Sidebar Logo -->
      <div class="logo-box">
-          <a href="index.php" class="logo-dark">
+          <a href="index" class="logo-dark">
                <img src="assets/images/logo-sm.png" class="logo-sm" alt="logo sm">
                <img src="assets/images/logo-dark.png" class="logo-lg" alt="logo dark">
           </a>
 
-          <a href="index.php" class="logo-light">
+          <a href="index" class="logo-light">
                <img src="assets/images/logo-sm.png" class="logo-sm" alt="logo sm">
                <img src="assets/images/logo-light.png" class="logo-lg" alt="logo light">
           </a>
@@ -23,7 +23,7 @@
                <li class="menu-title">General</li>
 
                <li class="nav-item">
-                    <a class="nav-link" href="index.php">
+                    <a class="nav-link" href="index">
                          <span class="nav-icon">
                               <iconify-icon icon="solar:widget-5-bold-duotone"></iconify-icon>
                          </span>
@@ -32,7 +32,7 @@
                </li>
 
                <li class="nav-item">
-                    <a class="nav-link" href="product.php">
+                    <a class="nav-link" href="product">
                               <span class="nav-icon">
                                    <iconify-icon icon="solar:book-bold-duotone"></iconify-icon>
                               </span>
@@ -41,7 +41,7 @@
                </li>
 
                <li class="nav-item">
-                    <a class="nav-link" href="category.php">
+                    <a class="nav-link" href="category">
                          <span class="nav-icon">
                               <iconify-icon icon="solar:clipboard-list-bold-duotone"></iconify-icon>
                          </span>
@@ -50,7 +50,7 @@
                </li>
 
                   <li class="nav-item">
-                         <a class="nav-link" href="attribute.php">
+                         <a class="nav-link" href="attribute">
                                <span class="nav-icon">
                                      <iconify-icon icon="solar:tag-bold-duotone"></iconify-icon>
                                </span>
@@ -59,7 +59,7 @@
                   </li>
 
                <li class="nav-item">
-                    <a class="nav-link" href="purchase.php">
+                    <a class="nav-link" href="purchase">
                          <span class="nav-icon">
                               <iconify-icon icon="solar:card-send-bold-duotone"></iconify-icon>
                          </span>
@@ -68,26 +68,16 @@
                </li>
 
                <li class="nav-item">
-                    <a class="nav-link" href="order.php">
+                    <a class="nav-link" href="order">
                          <span class="nav-icon">
                               <iconify-icon icon="solar:bag-smile-bold-duotone"></iconify-icon>
                          </span>
-                         <span class="nav-text"> Orders </span>
+                         <span class="nav-text"> Order </span>
                     </a>
                </li>
 
-               <!-- This section is correctly commented out because order-detail should be accessed through the orders list -->
-               <!-- <li class="nav-item">
-                    <a class="nav-link" href="order-detail">
-                         <span class="nav-icon">
-                              <iconify-icon icon="solar:bag-smile-bold-duotone"></iconify-icon>
-                         </span>
-                         <span class="nav-text"> Order Detail </span>
-                    </a>
-               </li> -->
-
                <li class="nav-item">
-                    <a class="nav-link" href="user.php">
+                    <a class="nav-link" href="user">
                          <span class="nav-icon">
                               <iconify-icon icon="solar:users-group-two-rounded-bold-duotone"></iconify-icon>
                          </span>
@@ -95,10 +85,17 @@
                     </a>
                </li>
 
-                  <!-- Removed cart menu item since it's not needed in admin panel -->
+                  <li class="nav-item">
+                         <a class="nav-link" href="cart">
+                               <span class="nav-icon">
+                                     <iconify-icon icon="solar:cart-bold-duotone"></iconify-icon>
+                               </span>
+                               <span class="nav-text"> Cart </span>
+                         </a>
+                  </li>
 
                   <li class="nav-item">
-                         <a class="nav-link" href="setting.php">  <!-- Changed from "setting" to "setting.php" -->
+                         <a class="nav-link" href="setting">
                                <span class="nav-icon">
                                      <iconify-icon icon="solar:settings-bold-duotone"></iconify-icon>
                                </span>
