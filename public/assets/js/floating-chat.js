@@ -50,6 +50,22 @@ class FloatingChat {
         });
     }
 
+    showThinkingIndicator() {
+        const thinkingDiv = document.createElement('div');
+        thinkingDiv.className = 'ai-thinking';
+        thinkingDiv.innerHTML = `
+            I'm thinking
+            <div class="thinking-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        `;
+        this.messagesContainer.appendChild(thinkingDiv);
+        this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+        return thinkingDiv;
+    }
+
     async sendMessage() {
         const message = this.textarea.value.trim();
         console.log('Sending message:', message); // Debug log
@@ -59,6 +75,9 @@ class FloatingChat {
         // Add user message to chat
         this.addMessage('user', message);
         this.textarea.value = '';
+
+        // Show thinking indicator
+        const thinkingIndicator = this.showThinkingIndicator();
 
         try {
             const formData = new FormData();
@@ -74,6 +93,9 @@ class FloatingChat {
                 }
             });
             
+            // Remove thinking indicator
+            thinkingIndicator.remove();
+            
             console.log('Response received:', response); // Debug log
             
             const data = await response.json();
@@ -85,6 +107,9 @@ class FloatingChat {
                 this.addMessage('error', 'Sorry, I could not process your request.');
             }
         } catch (error) {
+            // Remove thinking indicator
+            thinkingIndicator.remove();
+            
             console.error('Detailed error:', error); // More detailed error logging
             this.addMessage('error', 'Error: Could not connect to the server.');
         }
@@ -94,10 +119,24 @@ class FloatingChat {
         const messageDiv = document.createElement('div');
         messageDiv.className = `chat-message ${type}-message`;
         
-        const contentP = document.createElement('p');
-        contentP.textContent = content;
-        messageDiv.appendChild(contentP);
+        // Format the content
+        if (type === 'ai') {
+            // Remove <think> tags
+            content = content.replace(/<think>.*?<\/think>/g, '');
+            
+            // Format math expressions
+            content = content.replace(/\\(.*?\\)/g, match => 
+                `<span class="math-expression">${match}</span>`);
+            
+            // Format numbered lists/steps
+            content = content.replace(/(\d+\.\s+.*?)(?=\d+\.|$)/g, match =>
+                `<div class="step-item">${match}</div>`);
+            
+            // Add line breaks for readability
+            content = content.replace(/\n/g, '<br>');
+        }
         
+        messageDiv.innerHTML = content;
         this.messagesContainer.appendChild(messageDiv);
         this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
     }

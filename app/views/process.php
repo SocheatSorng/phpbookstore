@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10); // 10s to connect
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30);        // 30s total timeout
+        curl_setopt($ch, CURLOPT_TIMEOUT, 180);        // 30s total timeout
         $result = curl_exec($ch);
 
         if ($result === false) {

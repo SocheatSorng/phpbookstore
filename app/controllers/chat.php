@@ -36,15 +36,14 @@ class Chat extends Controller
         echo json_encode(['status' => 'error', 'message' => 'Invalid request']);
     }
 
-    private function makeApiRequest($url, $data)
-    {
+    private function makeApiRequest($url, $data) {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 180);
         
         $result = curl_exec($ch);
         
@@ -53,6 +52,32 @@ class Chat extends Controller
         }
         
         $json = json_decode($result, true);
-        return $json['response'] ?? "No response from AI.";
+        $response = $json['response'] ?? "No response from AI.";
+        
+        // Format response using Markdown
+        $formatted = $this->formatMarkdownResponse($response);
+        return $formatted;
+    }
+
+    private function formatMarkdownResponse($response) {
+        // Remove any thinking process
+        $response = preg_replace('/<think>.*?<\/think>/s', '', $response);
+        
+        // Remove redundant explanations
+        $response = preg_replace('/First, I\'ll start with.*?Therefore,/s', '', $response);
+        
+        // Clean up whitespace
+        $response = preg_replace('/\n\s*\n/', "\n", $response);
+        
+        // Format as Markdown
+        $response = "# Answer\n\n" . trim($response);
+        
+        // Convert LaTeX to Markdown code blocks
+        $response = preg_replace('/\\\[(.*?)\\\]/', '```math\n$1\n```', $response);
+        
+        // Format lists properly
+        $response = preg_replace('/(\d+\.\s+)/', "\n$1", $response);
+        
+        return trim($response);
     }
 }
