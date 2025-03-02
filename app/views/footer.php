@@ -121,7 +121,7 @@
     <div class="chat-messages"></div>
     <div class="chat-input-container">
         <textarea placeholder="Type your message..." rows="3"></textarea>
-        <button type="button">Send</button>
+        <button type="button" class="send-button">Send</button>
     </div>
 </div>
 

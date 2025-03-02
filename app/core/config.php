@@ -34,3 +34,6 @@ if(DEBUG)
 }else{
 	ini_set("display_errors",0);
 }
+
+// Add this to your routes or make sure it exists
+$routes['chat/processMessage'] = 'chat/processMessage';
