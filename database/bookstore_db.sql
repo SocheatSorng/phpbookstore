@@ -123,6 +123,32 @@ CREATE TABLE tbPurchase (
     FOREIGN KEY (BookID) REFERENCES tbBook(BookID)
 );
 
+-- Settings table
+CREATE TABLE tbSettings (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    meta_title VARCHAR(255),
+    meta_keywords TEXT,
+    theme VARCHAR(50),
+    layout VARCHAR(50),
+    description TEXT,
+    store_name VARCHAR(255),
+    owner_name VARCHAR(255),
+    owner_phone VARCHAR(50),
+    owner_email VARCHAR(255),
+    store_address TEXT,
+    zipcode VARCHAR(20),
+    city VARCHAR(100),
+    country VARCHAR(100),
+    currency VARCHAR(50),
+    language VARCHAR(50),
+    tax_rate DECIMAL(5,2),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Insert default settings
+INSERT INTO tbSettings (id, meta_title, store_name) VALUES (1, 'PHP Bookstore', 'PHP Bookstore');
+
 -- Insert default admin user (password: admin123)
 INSERT INTO tbUser (FirstName, LastName, Email, Password, Role) 
 VALUES ('Admin', 'User', 'admin@admin.com', '$2y$10$XiQ5PlWiAmMo6MTEuxz/Ze4VGI3pv4OC9dQ5t0tbIxsO5g8oN7IDm', 'admin');

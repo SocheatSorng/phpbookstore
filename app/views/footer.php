@@ -1,4 +1,4 @@
-<footer id="footer" class="padding-large">
+<footer id="footer" class="pt-5">
     <div class="container">
         <div class="row">
             <div class="footer-top-area">
@@ -106,34 +106,6 @@
         </div>
     </div>
 </footer>
-<hr>
-<div id="footer-bottom" class="mb-2">
-    <div class="container">
-        <div class="d-flex flex-wrap justify-content-between">
-            <div class="ship-and-payment d-flex gap-md-5 flex-wrap">
-                <div class="shipping d-flex">
-                    <p>We ship with:</p>
-                    <div class="card-wrap ps-2">
-                        <img src="<?=ASSETS?>images/dhl.png" alt="visa">
-                        <img src="<?=ASSETS?>images/shippingcard.png" alt="mastercard">
-                    </div>
-                </div>
-                <div class="payment-method d-flex">
-                    <p>Payment options:</p>
-                    <div class="card-wrap ps-2">
-                        <img src="<?=ASSETS?>images/visa.jpg" alt="visa">
-                        <img src="<?=ASSETS?>images/mastercard.jpg" alt="mastercard">
-                        <img src="<?=ASSETS?>images/paypal.jpg" alt="paypal">
-                    </div>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>© Copyright 2025
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script src="<?=ASSETS?>js/jquery-1.11.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

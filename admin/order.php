@@ -1,3 +1,5 @@
+// order.php
+
 <!DOCTYPE html>
 <html lang="en">
      
@@ -107,7 +109,11 @@ try {
                                         <tbody>
                                             <?php foreach ($orders as $order): ?>
                                             <tr>
-                                                <td>#<?php echo $order['OrderID']; ?></td>
+                                                <td>
+                                                    <a href="order-detail.php?id=<?php echo $order['OrderID']; ?>" class="text-primary">
+                                                        #<?php echo $order['OrderID']; ?>
+                                                    </a>
+                                                </td>
                                                 <td><?php echo $order['OrderDate']; ?></td>
                                                 <td>
                                                     <a href="#!" class="link-primary fw-medium">

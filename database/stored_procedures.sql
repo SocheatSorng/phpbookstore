@@ -114,6 +114,8 @@ BEGIN
     END IF;
 END //
 
+DROP PROCEDURE IF EXISTS sp_GetAllUsers //
+
 CREATE PROCEDURE sp_GetAllUsers()
 BEGIN
     SELECT 
@@ -123,7 +125,7 @@ BEGIN
     FROM tbUser u
     LEFT JOIN tbOrder o ON u.UserID = o.UserID
     WHERE u.Role = 'user'
-    GROUP BY u.UserID
+    GROUP BY u.UserID, u.FirstName, u.LastName, u.Email, u.Phone, u.Address, u.Role, u.CreatedAt
     ORDER BY u.CreatedAt DESC;
 END //
 

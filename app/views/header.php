@@ -172,10 +172,6 @@
                                     href="<?=ROOT?>shop">Shop</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link me-4 <?=$current_page == 'blog' ? 'active' : ''?>"
-                                    href="<?=ROOT?>blog">Blogs</a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link me-4 <?=$current_page == 'contact' ? 'active' : ''?>"
                                     href="<?=ROOT?>contact">Contact</a>
                             </li>
