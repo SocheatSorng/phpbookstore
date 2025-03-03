@@ -186,11 +186,32 @@
                                     </a>
                                 </li>
                                 <li class="pe-3">
+                                    <?php if(isset($_SESSION['user_id'])): ?>
+                                    <div class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+                                            <svg class="user">
+                                                <use xlink:href="#user"></use>
+                                            </svg>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <div class="p-3">
+                                                <p>Welcome, <?=htmlspecialchars($_SESSION['user_name'])?></p>
+                                                <?php if($_SESSION['user_role'] == 'admin'): ?>
+                                                <a href="<?=ROOT?>admin"
+                                                    class="btn btn-outline-dark btn-sm d-block mb-2">Admin Panel</a>
+                                                <?php endif; ?>
+                                                <a href="<?=ROOT?>user/logout"
+                                                    class="btn btn-dark btn-sm d-block">Logout</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php else: ?>
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                         <svg class="user">
                                             <use xlink:href="#user"></use>
                                         </svg>
                                     </a>
+                                    <?php endif; ?>
                                     <!-- Modal -->
                                     <div class="modal fade" id="exampleModal" tabindex="-1"
                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -218,57 +239,117 @@
                                                             </div>
                                                         </nav>
                                                         <div class="tab-content" id="nav-tabContent">
+                                                            <!-- Modal form in header.php -->
                                                             <div class="tab-pane fade active show" id="nav-sign-in"
                                                                 role="tabpanel" aria-labelledby="nav-sign-in-tab">
-                                                                <div class="form-group py-3">
-                                                                    <label class="mb-2" for="sign-in">Username or email
-                                                                        address *</label>
-                                                                    <input type="text" minlength="2" name="username"
-                                                                        placeholder="Your Username"
-                                                                        class="form-control w-100 rounded-3 p-3"
-                                                                        required>
-                                                                </div>
-                                                                <div class="form-group pb-3">
-                                                                    <label class="mb-2" for="sign-in">Password *</label>
-                                                                    <input type="password" minlength="2" name="password"
-                                                                        placeholder="Your Password"
-                                                                        class="form-control w-100 rounded-3 p-3"
-                                                                        required>
-                                                                </div>
-                                                                <label class="py-3">
-                                                                    <input type="checkbox" required="" class="d-inline">
-                                                                    <span class="label-body">Remember me</span>
-                                                                    <span class="label-body"><a href="#"
-                                                                            class="fw-bold">Forgot Password</a></span>
-                                                                </label>
-                                                                <button type="submit" name="submit"
-                                                                    class="btn btn-dark w-100 my-3">Login</button>
+                                                                <form id="login-form" method="POST">
+                                                                    <div class="form-group py-3">
+                                                                        <label class="mb-2" for="sign-in">Email address
+                                                                            *</label>
+                                                                        <input type="email" id="login-email"
+                                                                            name="email" placeholder="Your Email"
+                                                                            class="form-control w-100 rounded-3 p-3"
+                                                                            required>
+                                                                    </div>
+                                                                    <div class="form-group pb-3">
+                                                                        <label class="mb-2" for="sign-in">Password
+                                                                            *</label>
+                                                                        <input type="password" id="login-password"
+                                                                            name="password" placeholder="Your Password"
+                                                                            class="form-control w-100 rounded-3 p-3"
+                                                                            required>
+                                                                    </div>
+                                                                    <div class="alert alert-danger d-none"
+                                                                        id="login-error"></div>
+                                                                    <label class="py-3">
+                                                                        <input type="checkbox" name="remember"
+                                                                            class="d-inline">
+                                                                        <span class="label-body">Remember me</span>
+                                                                        <span class="label-body float-end"><a href="#"
+                                                                                class="fw-bold">Forgot
+                                                                                Password</a></span>
+                                                                    </label>
+                                                                    <button type="submit"
+                                                                        class="btn btn-dark w-100 my-3">Login</button>
+                                                                </form>
                                                             </div>
+
                                                             <div class="tab-pane fade" id="nav-register" role="tabpanel"
                                                                 aria-labelledby="nav-register-tab">
-                                                                <div class="form-group py-3">
-                                                                    <label class="mb-2" for="register">Your email
-                                                                        address *</label>
-                                                                    <input type="text" minlength="2" name="username"
-                                                                        placeholder="Your Email Address"
-                                                                        class="form-control w-100 rounded-3 p-3"
-                                                                        required>
-                                                                </div>
-                                                                <div class="form-group pb-3">
-                                                                    <label class="mb-2" for="sign-in">Password *</label>
-                                                                    <input type="password" minlength="2" name="password"
-                                                                        placeholder="Your Password"
-                                                                        class="form-control w-100 rounded-3 p-3"
-                                                                        required>
-                                                                </div>
-                                                                <label class="py-3">
-                                                                    <input type="checkbox" required="" class="d-inline">
-                                                                    <span class="label-body">I agree to the <a href="#"
-                                                                            class="fw-bold">Privacy
-                                                                            Policy</a></span>
-                                                                </label>
-                                                                <button type="submit" name="submit"
-                                                                    class="btn btn-dark w-100 my-3">Register</button>
+                                                                <form id="register-form" method="POST">
+                                                                    <div class="form-group py-2">
+                                                                        <label class="mb-1"
+                                                                            for="register-first-name">First Name
+                                                                            *</label>
+                                                                        <input type="text" id="register-first-name"
+                                                                            name="firstName"
+                                                                            placeholder="Your First Name"
+                                                                            class="form-control w-100 rounded-3 p-3"
+                                                                            required>
+                                                                    </div>
+                                                                    <div class="form-group py-2">
+                                                                        <label class="mb-1"
+                                                                            for="register-last-name">Last Name *</label>
+                                                                        <input type="text" id="register-last-name"
+                                                                            name="lastName" placeholder="Your Last Name"
+                                                                            class="form-control w-100 rounded-3 p-3"
+                                                                            required>
+                                                                    </div>
+                                                                    <div class="form-group py-2">
+                                                                        <label class="mb-1" for="register-email">Email
+                                                                            Address *</label>
+                                                                        <input type="email" id="register-email"
+                                                                            name="email"
+                                                                            placeholder="Your Email Address"
+                                                                            class="form-control w-100 rounded-3 p-3"
+                                                                            required>
+                                                                    </div>
+                                                                    <div class="form-group py-2">
+                                                                        <label class="mb-1"
+                                                                            for="register-password">Password *</label>
+                                                                        <input type="password" id="register-password"
+                                                                            name="password" placeholder="Your Password"
+                                                                            class="form-control w-100 rounded-3 p-3"
+                                                                            required>
+                                                                    </div>
+                                                                    <div class="form-group py-2">
+                                                                        <label class="mb-1"
+                                                                            for="register-confirm-password">Confirm
+                                                                            Password *</label>
+                                                                        <input type="password"
+                                                                            id="register-confirm-password"
+                                                                            name="confirmPassword"
+                                                                            placeholder="Confirm Password"
+                                                                            class="form-control w-100 rounded-3 p-3"
+                                                                            required>
+                                                                    </div>
+                                                                    <div class="form-group py-2">
+                                                                        <label class="mb-1" for="register-phone">Phone
+                                                                            (Optional)</label>
+                                                                        <input type="text" id="register-phone"
+                                                                            name="phone" placeholder="Your Phone Number"
+                                                                            class="form-control w-100 rounded-3 p-3">
+                                                                    </div>
+                                                                    <div class="form-group py-2">
+                                                                        <label class="mb-1"
+                                                                            for="register-address">Address
+                                                                            (Optional)</label>
+                                                                        <textarea id="register-address" name="address"
+                                                                            placeholder="Your Address"
+                                                                            class="form-control w-100 rounded-3 p-3"></textarea>
+                                                                    </div>
+                                                                    <div class="alert alert-danger d-none"
+                                                                        id="register-error"></div>
+                                                                    <label class="py-3">
+                                                                        <input type="checkbox" required
+                                                                            class="d-inline">
+                                                                        <span class="label-body">I agree to the <a
+                                                                                href="#" class="fw-bold">Privacy
+                                                                                Policy</a></span>
+                                                                    </label>
+                                                                    <button type="submit"
+                                                                        class="btn btn-dark w-100 my-3">Register</button>
+                                                                </form>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -398,6 +479,58 @@
     </script>
     <script src="<?=ASSETS?>js/cart.js"></script>
     <script src="<?=ASSETS?>js/swiper-init.js"></script>
+    <script>
+    // Add this to your header.php before the closing </body> tag or in a separate JS file
+    $(document).ready(function() {
+        // Login form submission
+        $('#login-form').on('submit', function(e) {
+            e.preventDefault();
+            $('#login-error').addClass('d-none');
+
+            $.ajax({
+                type: 'POST',
+                url: SITE_ROOT + 'user/login',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        window.location.href = response.redirect;
+                    } else {
+                        $('#login-error').removeClass('d-none').text(response.error);
+                    }
+                },
+                error: function() {
+                    $('#login-error').removeClass('d-none').text(
+                        'An error occurred. Please try again.');
+                }
+            });
+        });
+
+        // Register form submission
+        $('#register-form').on('submit', function(e) {
+            e.preventDefault();
+            $('#register-error').addClass('d-none');
+
+            $.ajax({
+                type: 'POST',
+                url: SITE_ROOT + 'user/register',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        window.location.href = response.redirect;
+                    } else {
+                        $('#register-error').removeClass('d-none').text(response.error);
+                    }
+                },
+                error: function() {
+                    $('#register-error').removeClass('d-none').text(
+                        'An error occurred. Please try again.');
+                }
+            });
+        });
+    });
+    </script>
 </body>
 
 </html>
