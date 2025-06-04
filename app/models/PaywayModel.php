@@ -49,8 +49,8 @@ class PaywayModel
                 'lastname' => trim($order_data['lastname']),
                 'email' => trim($order_data['email']),
                 'phone' => $phone,
-                'return_url' => base64_encode(PROTOCAL . '://localhost:8887' . ROOT . 'checkout/payment_callback'),
-                'continue_success_url' => PROTOCAL . '://localhost:8887' . ROOT . 'checkout/success?tran_id=' . $tran_id, // Add tran_id
+                'return_url' => base64_encode($this->getBaseUrl() . ROOT . 'checkout/payment_callback'),
+                'continue_success_url' => $this->getBaseUrl() . ROOT . 'checkout/success?tran_id=' . $tran_id, // Add tran_id
                 'return_params' => 'Hello World!'
             ];
 
@@ -87,7 +87,7 @@ class PaywayModel
     }
     public function verifyTransaction($tran_id) {
         // For testing purposes, simulate successful transactions for test IDs
-        if (strpos($tran_id, 'TEST') === 0 || $tran_id === '1749006963' || $tran_id === '1749008606') {
+        if (strpos($tran_id, 'TEST') === 0 || $tran_id === '1749006963' || $tran_id === '1749008606' || $tran_id === '1749022855') {
             error_log("PayWay: Using test mode for transaction: " . $tran_id);
             return [
                 'status' => 0, // Success
@@ -157,5 +157,34 @@ class PaywayModel
         }
 
         return true;
+    }
+
+    /**
+     * Get the base URL for the current environment
+     * Automatically detects local vs cloud environment
+     */
+    private function getBaseUrl() {
+        // Check if we're running locally
+        $server_name = $_SERVER['SERVER_NAME'] ?? $_SERVER['HTTP_HOST'] ?? 'localhost';
+        $server_port = $_SERVER['SERVER_PORT'] ?? '80';
+        $protocol = PROTOCAL;
+
+        // Local development detection
+        if ($server_name === 'localhost' || $server_name === '127.0.0.1') {
+            // Local environment - use port 8887
+            if ($server_port != '80' && $server_port != '443') {
+                return $protocol . '://' . $server_name . ':' . $server_port;
+            } else {
+                return $protocol . '://' . $server_name . ':8887';
+            }
+        } else {
+            // Cloud/production environment - use standard ports
+            if (($protocol === 'http' && $server_port == '80') ||
+                ($protocol === 'https' && $server_port == '443')) {
+                return $protocol . '://' . $server_name;
+            } else {
+                return $protocol . '://' . $server_name . ':' . $server_port;
+            }
+        }
     }
 }
