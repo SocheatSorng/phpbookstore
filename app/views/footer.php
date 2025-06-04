@@ -61,19 +61,19 @@
                                 <li class="menu-item mb-1">
                                     <a href="shop">Shop</a>
                                 </li>
-                                <li class="menu-item mb-1">
+                                <!-- <li class="menu-item mb-1">
                                     <a href="blog">Blogs</a>
-                                </li>
+                                </li> -->
                                 <li class="menu-item mb-1">
                                     <a href="contact">Contact</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6 pb-3">
+                    <!-- <div class="col-lg-3 col-sm-6 pb-3">
                         <div class="footer-menu text-capitalize">
                             <h5 class="widget-title pb-2">Help & Info Help</h5>
-                            <!-- <ul class="menu-list list-unstyled">
+                            <ul class="menu-list list-unstyled">
                                 <li class="menu-item mb-1">
                                     <a href="#">Track Your Order</a>
                                 </li>
@@ -89,14 +89,14 @@
                                 <li class="menu-item mb-1">
                                     <a href="#">Faqs</a>
                                 </li>
-                            </ul> -->
+                            </ul>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-lg-3 col-sm-6 pb-3">
                         <div class="footer-menu contact-item">
                             <h5 class="widget-title text-capitalize pb-2">Contact Us</h5>
                             <p>Do you have any queries or suggestions? <a href="mailto:"
-                                    class="text-decoration-underline">bookly@gmail.com</a></p>
+                                    class="text-decoration-underline">socheat@gmail.com & sastra@gmail.com</a></p>
                             <p>If you need support? Just give us a call. <a href="#"
                                     class="text-decoration-underline">+855 123 45678</a></p>
                         </div>
@@ -108,7 +108,8 @@
 </footer>
 
 <div class="floating-icon" id="chat-trigger">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
     </svg>
 </div>
@@ -134,9 +135,9 @@
 <script type="text/javascript" src="<?=ASSETS?>js/script.js"></script>
 <script src="<?=ASSETS?>js/floating-chat.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        new FloatingChat();
-    });
+document.addEventListener('DOMContentLoaded', () => {
+    new FloatingChat();
+});
 </script>
 </body>
 

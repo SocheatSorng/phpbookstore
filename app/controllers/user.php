@@ -127,6 +127,25 @@ class User extends Controller
         }
     }
     
+    public function orders()
+    {
+        // Check if user is logged in
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: " . ROOT);
+            exit;
+        }
+
+        $orderModel = $this->loadModel('OrderModel');
+        $orders = $orderModel->getUserOrders($_SESSION['user_id']);
+
+        $data = [
+            'page_title' => 'My Orders',
+            'orders' => $orders
+        ];
+
+        $this->view('user_orders', $data);
+    }
+
     public function logout()
     {
         // Clear all session variables
@@ -136,7 +155,7 @@ class User extends Controller
         // Start a new session and initialize cart
         session_start();
         $_SESSION['cart'] = [];
-        
+
         // Redirect to home
         header("Location: " . ROOT);
         exit;

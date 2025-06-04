@@ -100,7 +100,8 @@ try {
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <h4 class="card-title">Shopping Cart</h4>
                                 <div>
-                                    <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#addToCartModal">
+                                    <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal"
+                                        data-bs-target="#addToCartModal">
                                         Add to Cart
                                     </button>
                                 </div>
@@ -117,45 +118,47 @@ try {
                                         <form id="addToCartForm">
                                             <div class="modal-body">
                                                 <input type="hidden" name="action" value="add">
-                                                
+
                                                 <div class="mb-3">
                                                     <label class="form-label">Select User</label>
                                                     <select class="form-select" name="user_id" required id="userSelect">
                                                         <option value="">Choose a user...</option>
                                                         <?php foreach ($users as $user): ?>
-                                                            <option value="<?php echo $user['UserID']; ?>">
-                                                                <?php echo htmlspecialchars($user['FirstName'] . ' ' . $user['LastName']); ?> 
-                                                                (<?php echo htmlspecialchars($user['Email']); ?>)
-                                                            </option>
+                                                        <option value="<?php echo $user['UserID']; ?>">
+                                                            <?php echo htmlspecialchars($user['FirstName'] . ' ' . $user['LastName']); ?>
+                                                            (<?php echo htmlspecialchars($user['Email']); ?>)
+                                                        </option>
                                                         <?php endforeach; ?>
                                                     </select>
                                                 </div>
-                                                
+
                                                 <div class="mb-3">
                                                     <label class="form-label">Select Book</label>
                                                     <select class="form-select" name="book_id" required>
                                                         <option value="">Choose a book...</option>
                                                         <?php foreach ($availableBooks as $book): ?>
-                                                            <option value="<?php echo $book['BookID']; ?>" 
-                                                                    data-price="<?php echo $book['Price']; ?>"
-                                                                    data-stock="<?php echo $book['StockQuantity']; ?>">
-                                                                <?php echo htmlspecialchars($book['Title']); ?> 
-                                                                ($<?php echo number_format($book['Price'], 2); ?>) - 
-                                                                <?php echo $book['StockQuantity']; ?> in stock
-                                                            </option>
+                                                        <option value="<?php echo $book['BookID']; ?>"
+                                                            data-price="<?php echo $book['Price']; ?>"
+                                                            data-stock="<?php echo $book['StockQuantity']; ?>">
+                                                            <?php echo htmlspecialchars($book['Title']); ?>
+                                                            ($<?php echo number_format($book['Price'], 2); ?>) -
+                                                            <?php echo $book['StockQuantity']; ?> in stock
+                                                        </option>
                                                         <?php endforeach; ?>
                                                     </select>
                                                 </div>
-                                                
+
                                                 <div class="mb-3">
                                                     <label class="form-label">Quantity</label>
-                                                    <input type="number" class="form-control" name="quantity" 
-                                                           min="1" value="1" required>
-                                                    <small class="text-muted">Available stock: <span id="availableStock">-</span></small>
+                                                    <input type="number" class="form-control" name="quantity" min="1"
+                                                        value="1" required>
+                                                    <small class="text-muted">Available stock: <span
+                                                            id="availableStock">-</span></small>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
                                                 <button type="submit" class="btn btn-primary">Add to Cart</button>
                                             </div>
                                         </form>
@@ -165,67 +168,72 @@ try {
 
                             <div class="card-body">
                                 <?php if (empty($cartItems)): ?>
-                                    <div class="text-center">
-                                        <h5>Cart is empty</h5>
-                                    </div>
+                                <div class="text-center">
+                                    <h5>Cart is empty</h5>
+                                </div>
                                 <?php else: ?>
-                                    <div class="table-responsive">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>Product</th>
-                                                    <th>User</th>
-                                                    <th>Price</th>
-                                                    <th>Quantity</th>
-                                                    <th>Total</th>
-                                                    <th>Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php foreach ($cartItems as $item): ?>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <?php if ($item['Image']): ?>
-                                                                <img src="<?php echo htmlspecialchars($item['Image']); ?>" 
-                                                                     alt="<?php echo htmlspecialchars($item['Title']); ?>"
-                                                                     class="me-3" style="width: 50px; height: 50px; object-fit: cover;">
-                                                            <?php endif; ?>
-                                                            <div>
-                                                                <h6 class="mb-0"><?php echo htmlspecialchars($item['Title']); ?></h6>
-                                                                <small class="text-muted"><?php echo htmlspecialchars($item['Author']); ?></small>
-                                                            </div>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Product</th>
+                                                <th>User</th>
+                                                <th>Price</th>
+                                                <th>Quantity</th>
+                                                <th>Total</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($cartItems as $item): ?>
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <?php if ($item['Image']): ?>
+                                                        <img src="<?php echo htmlspecialchars($item['Image']); ?>"
+                                                            alt="<?php echo htmlspecialchars($item['Title']); ?>"
+                                                            class="me-3"
+                                                            style="width: 50px; height: 50px; object-fit: cover;">
+                                                        <?php endif; ?>
+                                                        <div>
+                                                            <h6 class="mb-0">
+                                                                <?php echo htmlspecialchars($item['Title']); ?></h6>
+                                                            <small
+                                                                class="text-muted"><?php echo htmlspecialchars($item['Author']); ?></small>
                                                         </div>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo htmlspecialchars($item['FirstName'] . ' ' . $item['LastName']); ?>
-                                                        <small class="d-block text-muted"><?php echo htmlspecialchars($item['Email']); ?></small>
-                                                    </td>
-                                                    <td>$<?php echo number_format($item['Price'], 2); ?></td>
-                                                    <td>
-                                                        <span class="quantity-display"><?php echo $item['Quantity']; ?></span>
-                                                    </td>
-                                                    <td>$<?php echo number_format($item['Subtotal'], 2); ?></td>
-                                                    <td>
-                                                        <div class="d-flex gap-2">
-                                                            <button class="btn btn-primary btn-sm edit-cart" 
-                                                                    data-cart-id="<?php echo $item['CartID']; ?>"
-                                                                    data-user-id="<?php echo $item['UserID']; ?>"
-                                                                    data-book-id="<?php echo $item['BookID']; ?>"
-                                                                    data-quantity="<?php echo $item['Quantity']; ?>">
-                                                                <i class="bi bi-pencil"></i>
-                                                            </button>
-                                                            <button class="btn btn-danger btn-sm remove-item" 
-                                                                    data-cart-id="<?php echo $item['CartID']; ?>">
-                                                                <i class="bi bi-trash"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <?php endforeach; ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <?php echo htmlspecialchars($item['FirstName'] . ' ' . $item['LastName']); ?>
+                                                    <small
+                                                        class="d-block text-muted"><?php echo htmlspecialchars($item['Email']); ?></small>
+                                                </td>
+                                                <td>$<?php echo number_format($item['Price'], 2); ?></td>
+                                                <td>
+                                                    <span
+                                                        class="quantity-display"><?php echo $item['Quantity']; ?></span>
+                                                </td>
+                                                <td>$<?php echo number_format($item['Subtotal'], 2); ?></td>
+                                                <td>
+                                                    <div class="d-flex gap-2">
+                                                        <button class="btn btn-primary btn-sm edit-cart"
+                                                            data-cart-id="<?php echo $item['CartID']; ?>"
+                                                            data-user-id="<?php echo $item['UserID']; ?>"
+                                                            data-book-id="<?php echo $item['BookID']; ?>"
+                                                            data-quantity="<?php echo $item['Quantity']; ?>">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </button>
+                                                        <button class="btn btn-danger btn-sm remove-item"
+                                                            data-cart-id="<?php echo $item['CartID']; ?>">
+                                                            <i class="bi bi-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -238,258 +246,262 @@ try {
     </div>
 
     <script>
-        $(document).ready(function() {
-            // Get modal instance correctly at the top level
-            const addToCartModal = new bootstrap.Modal(document.getElementById('addToCartModal'));
-            
-            // Update quantity
-            function updateQuantity(cartId, quantity) {
-                $.ajax({
-                    url: 'cart.php',
-                    type: 'POST',
-                    data: {
-                        action: 'update',
-                        cart_id: cartId,
-                        quantity: quantity
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            location.reload();
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: response.message
-                            });
-                        }
-                    }
-                });
-            }
+    $(document).ready(function() {
+        // Get modal instance correctly at the top level
+        const addToCartModal = new bootstrap.Modal(document.getElementById('addToCartModal'));
 
-            // Quantity controls
-            $('.quantity-decrease').click(function() {
-                const input = $(this).siblings('.quantity-input');
-                const newValue = parseInt(input.val()) - 1;
-                if (newValue >= parseInt(input.attr('min'))) {
-                    updateQuantity($(this).data('cart-id'), newValue);
-                }
-            });
-
-            $('.quantity-increase').click(function() {
-                const input = $(this).siblings('.quantity-input');
-                const newValue = parseInt(input.val()) + 1;
-                if (newValue <= parseInt(input.attr('max'))) {
-                    updateQuantity($(this).data('cart-id'), newValue);
-                }
-            });
-
-            // Remove item
-            $('.remove-item').click(function() {
-                const cartId = $(this).data('cart-id');
-                Swal.fire({
-                    title: 'Remove Item',
-                    text: "Are you sure you want to remove this item?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Yes, remove it'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: 'cart.php',
-                            type: 'POST',
-                            data: {
-                                action: 'remove',
-                                cart_id: cartId
-                            },
-                            success: function(response) {
-                                if (response.success) {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Success',
-                                        text: 'Item removed successfully',
-                                        timer: 1500,
-                                        showConfirmButton: false
-                                    }).then(function() {
-                                        location.reload();
-                                    });
-                                } else {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: 'Error',
-                                        text: response.message || 'Failed to remove item'
-                                    });
-                                }
-                            },
-                            error: function(xhr, status, error) {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Error',
-                                    text: 'A network error occurred'
-                                });
-                            }
-                        });
-                    }
-                });
-            });
-
-            // Clear cart
-            $('#clearCart').click(function() {
-                Swal.fire({
-                    title: 'Clear Cart',
-                    text: "Are you sure you want to clear the entire cart?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Yes, clear it'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: 'cart.php',
-                            type: 'POST',
-                            data: { action: 'clear' },
-                            success: function(response) {
-                                if (response.success) {
-                                    location.reload();
-                                }
-                            }
-                        });
-                    }
-                });
-            });
-
-            // Add to cart form handling - Modified to match category page behavior
-            $('#addToCartForm').on('submit', function(e) {
-                e.preventDefault();
-                const userId = $('#userSelect').val();
-                if (!userId) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Please select a user'
-                    });
-                    return;
-                }
-                
-                $.ajax({
-                    url: 'cart.php',
-                    type: 'POST',
-                    data: $(this).serialize(),
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.success) {
-                            addToCartModal.hide(); // Hide modal first
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Success',
-                                text: response.message,
-                                timer: 2000,
-                                showConfirmButton: false
-                            }).then(function() {
-                                location.reload();
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: response.message || 'An error occurred'
-                            });
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('AJAX Error:', status, error);
+        // Update quantity
+        function updateQuantity(cartId, quantity) {
+            $.ajax({
+                url: 'cart.php',
+                type: 'POST',
+                data: {
+                    action: 'update',
+                    cart_id: cartId,
+                    quantity: quantity
+                },
+                success: function(response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: 'A network error occurred. Please try again.'
+                            text: response.message
                         });
                     }
-                });
-            });
-
-            // Reset form when opening modal
-            $('.btn-primary[data-bs-toggle="modal"]').click(function() {
-                $('#addToCartForm')[0].reset();
-                $('#availableStock').text('-');
-            });
-
-            // Update available stock display when book is selected
-            $('select[name="book_id"]').change(function() {
-                const selectedOption = $(this).find('option:selected');
-                const stock = selectedOption.data('stock');
-                $('#availableStock').text(stock);
-                $('input[name="quantity"]').attr('max', stock);
-            });
-
-            // User selection change handler - Modified to use AJAX instead of page reload
-            $('#userSelect').change(function() {
-                const userId = $(this).val();
-                if (userId) {
-                    // Store the selected user ID in sessionStorage
-                    sessionStorage.setItem('selectedUserId', userId);
                 }
             });
+        }
 
-            // Restore selected user when opening modal
-            $('.btn-primary[data-bs-toggle="modal"]').click(function() {
-                const selectedUserId = sessionStorage.getItem('selectedUserId');
-                if (selectedUserId) {
-                    $('#userSelect').val(selectedUserId);
+        // Quantity controls
+        $('.quantity-decrease').click(function() {
+            const input = $(this).siblings('.quantity-input');
+            const newValue = parseInt(input.val()) - 1;
+            if (newValue >= parseInt(input.attr('min'))) {
+                updateQuantity($(this).data('cart-id'), newValue);
+            }
+        });
+
+        $('.quantity-increase').click(function() {
+            const input = $(this).siblings('.quantity-input');
+            const newValue = parseInt(input.val()) + 1;
+            if (newValue <= parseInt(input.attr('max'))) {
+                updateQuantity($(this).data('cart-id'), newValue);
+            }
+        });
+
+        // Remove item
+        $('.remove-item').click(function() {
+            const cartId = $(this).data('cart-id');
+            Swal.fire({
+                title: 'Remove Item',
+                text: "Are you sure you want to remove this item?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, remove it'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: 'cart.php',
+                        type: 'POST',
+                        data: {
+                            action: 'remove',
+                            cart_id: cartId
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Success',
+                                    text: 'Item removed successfully',
+                                    timer: 1500,
+                                    showConfirmButton: false
+                                }).then(function() {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: response.message ||
+                                        'Failed to remove item'
+                                });
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'A network error occurred'
+                            });
+                        }
+                    });
                 }
-            });
-
-            // Reset form when opening modal - Modified to preserve user selection
-            $('.btn-primary[data-bs-toggle="modal"]').click(function() {
-                const selectedUserId = $('#userSelect').val();
-                $('#addToCartForm')[0].reset();
-                $('#availableStock').text('-');
-                if (selectedUserId) {
-                    $('#userSelect').val(selectedUserId);
-                }
-            });
-
-            // Update quantity when input changes
-            $('.quantity-input').change(function() {
-                const cartId = $(this).data('cart-id');
-                const quantity = $(this).val();
-                updateQuantity(cartId, quantity);
-            });
-
-            // Edit cart item - Updated to show modal with all fields
-            $('.edit-cart').click(function() {
-                const cartId = $(this).data('cart-id');
-                const userId = $(this).data('user-id');
-                const bookId = $(this).data('book-id');
-                const quantity = $(this).data('quantity');
-
-                // Reset and populate the add to cart form
-                $('#addToCartForm')[0].reset();
-                $('#userSelect').val(userId);
-                $('select[name="book_id"]').val(bookId).trigger('change');
-                $('input[name="quantity"]').val(quantity);
-                
-                // Change form action to update
-                $('input[name="action"]').val('update');
-                $('#addToCartForm').append(`<input type="hidden" name="cart_id" value="${cartId}">`);
-                
-                // Update modal title
-                $('.modal-title').text('Edit Cart Item');
-                
-                // Show modal
-                addToCartModal.show();
-            });
-
-            // Reset form when opening modal for new item
-            $('.btn-primary[data-bs-toggle="modal"]').click(function() {
-                $('#addToCartForm')[0].reset();
-                $('#availableStock').text('-');
-                $('input[name="action"]').val('add');
-                $('input[name="cart_id"]').remove();
-                $('.modal-title').text('Add to Cart');
             });
         });
+
+        // Clear cart
+        $('#clearCart').click(function() {
+            Swal.fire({
+                title: 'Clear Cart',
+                text: "Are you sure you want to clear the entire cart?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, clear it'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: 'cart.php',
+                        type: 'POST',
+                        data: {
+                            action: 'clear'
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                location.reload();
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+        // Add to cart form handling - Modified to match category page behavior
+        $('#addToCartForm').on('submit', function(e) {
+            e.preventDefault();
+            const userId = $('#userSelect').val();
+            if (!userId) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Please select a user'
+                });
+                return;
+            }
+
+            $.ajax({
+                url: 'cart.php',
+                type: 'POST',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        addToCartModal.hide(); // Hide modal first
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: response.message,
+                            timer: 2000,
+                            showConfirmButton: false
+                        }).then(function() {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.message || 'An error occurred'
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX Error:', status, error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'A network error occurred. Please try again.'
+                    });
+                }
+            });
+        });
+
+        // Reset form when opening modal
+        $('.btn-primary[data-bs-toggle="modal"]').click(function() {
+            $('#addToCartForm')[0].reset();
+            $('#availableStock').text('-');
+        });
+
+        // Update available stock display when book is selected
+        $('select[name="book_id"]').change(function() {
+            const selectedOption = $(this).find('option:selected');
+            const stock = selectedOption.data('stock');
+            $('#availableStock').text(stock);
+            $('input[name="quantity"]').attr('max', stock);
+        });
+
+        // User selection change handler - Modified to use AJAX instead of page reload
+        $('#userSelect').change(function() {
+            const userId = $(this).val();
+            if (userId) {
+                // Store the selected user ID in sessionStorage
+                sessionStorage.setItem('selectedUserId', userId);
+            }
+        });
+
+        // Restore selected user when opening modal
+        $('.btn-primary[data-bs-toggle="modal"]').click(function() {
+            const selectedUserId = sessionStorage.getItem('selectedUserId');
+            if (selectedUserId) {
+                $('#userSelect').val(selectedUserId);
+            }
+        });
+
+        // Reset form when opening modal - Modified to preserve user selection
+        $('.btn-primary[data-bs-toggle="modal"]').click(function() {
+            const selectedUserId = $('#userSelect').val();
+            $('#addToCartForm')[0].reset();
+            $('#availableStock').text('-');
+            if (selectedUserId) {
+                $('#userSelect').val(selectedUserId);
+            }
+        });
+
+        // Update quantity when input changes
+        $('.quantity-input').change(function() {
+            const cartId = $(this).data('cart-id');
+            const quantity = $(this).val();
+            updateQuantity(cartId, quantity);
+        });
+
+        // Edit cart item - Updated to show modal with all fields
+        $('.edit-cart').click(function() {
+            const cartId = $(this).data('cart-id');
+            const userId = $(this).data('user-id');
+            const bookId = $(this).data('book-id');
+            const quantity = $(this).data('quantity');
+
+            // Reset and populate the add to cart form
+            $('#addToCartForm')[0].reset();
+            $('#userSelect').val(userId);
+            $('select[name="book_id"]').val(bookId).trigger('change');
+            $('input[name="quantity"]').val(quantity);
+
+            // Change form action to update
+            $('input[name="action"]').val('update');
+            $('#addToCartForm').append(`<input type="hidden" name="cart_id" value="${cartId}">`);
+
+            // Update modal title
+            $('.modal-title').text('Edit Cart Item');
+
+            // Show modal
+            addToCartModal.show();
+        });
+
+        // Reset form when opening modal for new item
+        $('.btn-primary[data-bs-toggle="modal"]').click(function() {
+            $('#addToCartForm')[0].reset();
+            $('#availableStock').text('-');
+            $('input[name="action"]').val('add');
+            $('input[name="cart_id"]').remove();
+            $('.modal-title').text('Add to Cart');
+        });
+    });
     </script>
 </body>
+
 </html>

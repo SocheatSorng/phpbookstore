@@ -134,15 +134,35 @@ class Checkout extends Controller
     public function success() {
         $data['page_title'] = "Order Confirmed";
         $tran_id = $_GET['tran_id'] ?? null;
-        
+
+        error_log("Success page accessed with tran_id: " . $tran_id);
+        error_log("Session pending_order exists: " . (isset($_SESSION['pending_order']) ? 'yes' : 'no'));
+
+        // Set default state - will be updated by JavaScript if transaction processing succeeds
+        $data['payment_success'] = false;
+        $data['show_processing'] = true;
+
+        if(!$tran_id) {
+            $data['error'] = 'Missing transaction ID';
+            $data['show_processing'] = false;
+        }
+
+        $this->view("checkout_success", $data);
+    }
+
+    // Legacy success method - keeping for backward compatibility
+    public function success_old() {
+        $data['page_title'] = "Order Confirmed";
+        $tran_id = $_GET['tran_id'] ?? null;
+
         error_log("Transaction ID: " . $tran_id);
-        
+
         if($tran_id && isset($_SESSION['pending_order'])) {
             $payway = $this->loadModel('PaywayModel');
             $transaction = $payway->verifyTransaction($tran_id);
-            
+
             error_log("PayWay Transaction Result: " . print_r($transaction, true));
-            
+
             if($transaction && isset($transaction['status']) && $transaction['status'] == 0) {
                 $orderModel = $this->loadModel('OrderModel');
                 $cartModel = $this->loadModel('CartModel');
@@ -266,11 +286,28 @@ class Checkout extends Controller
         header('Content-Type: application/json');
         $response = ['payment_success' => false];
         $tran_id = $_POST['tran_id'] ?? null;
-        
-        if($tran_id && isset($_SESSION['pending_order'])) {
+
+        error_log("FinalizeOrder called with tran_id: " . $tran_id);
+        error_log("Session pending_order exists: " . (isset($_SESSION['pending_order']) ? 'yes' : 'no'));
+
+        if(!$tran_id) {
+            $response['error'] = 'Missing transaction ID';
+            echo json_encode($response);
+            return;
+        }
+
+        if(!isset($_SESSION['pending_order'])) {
+            $response['error'] = 'No pending order found. Order may have already been processed.';
+            echo json_encode($response);
+            return;
+        }
+
+        try {
             $payway = $this->loadModel('PaywayModel');
             $transaction = $payway->verifyTransaction($tran_id);
-            
+
+            error_log("Transaction verification result: " . print_r($transaction, true));
+
             if($transaction && isset($transaction['status']) && $transaction['status'] == 0) {
                 $orderModel = $this->loadModel('OrderModel');
                 $cartModel = $this->loadModel('CartModel');
@@ -313,29 +350,67 @@ class Checkout extends Controller
                     }
                     
                     // Clear cart using CartModel method
-                    $cartModel = $this->loadModel('CartModel');
                     $userId = $_SESSION['user']['UserID'] ?? null;
-                    $cartModel->clearCart($userId);
-                    
+                    if($userId) {
+                        $cartModel->clearCart($userId);
+                    }
+
+                    // Clear session cart
+                    unset($_SESSION['cart']);
+
+                    // Build order summary for display
+                    $order_summary_html = $this->buildOrderSummaryHTML($cart_items, $order_data['TotalAmount']);
+
                     // Clear pending order
                     unset($_SESSION['pending_order']);
-                    
+
                     $response = [
                         'payment_success' => true,
-                        'order_id' => $order_id
+                        'order_id' => $order_id,
+                        'order_summary' => $order_summary_html,
+                        'total_amount' => $order_data['TotalAmount']
                     ];
+
                 } catch(Exception $e) {
                     error_log("Order Creation Error: " . $e->getMessage());
                     $response['error'] = $e->getMessage();
                 }
             } else {
-                $response['error'] = 'Invalid transaction';
+                $response['error'] = 'Payment verification failed. Transaction status: ' . ($transaction['status'] ?? 'unknown');
             }
-        } else {
-            $response['error'] = 'Missing transaction ID or pending order';
+
+        } catch(Exception $e) {
+            error_log("FinalizeOrder Exception: " . $e->getMessage());
+            $response['error'] = 'An error occurred while processing your order: ' . $e->getMessage();
         }
-        
+
         echo json_encode($response);
         exit;
+    }
+
+    private function buildOrderSummaryHTML($cart_items, $total_amount) {
+        $html = '<div class="order-summary">';
+        $html .= '<table class="table table-sm">';
+        $html .= '<thead><tr><th>Item</th><th>Qty</th><th>Price</th><th>Subtotal</th></tr></thead>';
+        $html .= '<tbody>';
+
+        foreach($cart_items as $item) {
+            $subtotal = $item['Price'] * $item['Quantity'];
+            $html .= '<tr>';
+            $html .= '<td>' . htmlspecialchars($item['Title'] ?? 'Unknown Book') . '</td>';
+            $html .= '<td>' . $item['Quantity'] . '</td>';
+            $html .= '<td>$' . number_format($item['Price'], 2) . '</td>';
+            $html .= '<td>$' . number_format($subtotal, 2) . '</td>';
+            $html .= '</tr>';
+        }
+
+        $html .= '</tbody>';
+        $html .= '<tfoot>';
+        $html .= '<tr class="table-active"><th colspan="3">Total</th><th>$' . number_format($total_amount, 2) . '</th></tr>';
+        $html .= '</tfoot>';
+        $html .= '</table>';
+        $html .= '</div>';
+
+        return $html;
     }
 }

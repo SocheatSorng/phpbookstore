@@ -15,7 +15,7 @@ define('ABA_PAYWAY_API_URL', 'https://checkout-sandbox.payway.com.kh/api/payment
 | API KEY that is generated and provided by PayWay must be required in your post form
 |
 */
-define('ABA_PAYWAY_API_KEY', '8ccf9c9ae9d0d34f68498ffe60b5e48101535cb2');
+define('ABA_PAYWAY_API_KEY', '267554cb07eb25dea6247f15368eb3f25b7a9312');
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +24,7 @@ define('ABA_PAYWAY_API_KEY', '8ccf9c9ae9d0d34f68498ffe60b5e48101535cb2');
 | MERCHANT ID that is generated and provided by PayWay must be required in your post form
 |
 */
-define('ABA_PAYWAY_MERCHANT_ID', 'ec438740');
+define('ABA_PAYWAY_MERCHANT_ID', 'ec460363');
 
 class PayWayApiCheckout {
 
