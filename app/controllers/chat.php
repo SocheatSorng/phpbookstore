@@ -1,83 +1,64 @@
 <?php
-
-class Chat extends Controller
-{
-    function index()
-    {
-        $data['page_title'] = "Chat";        
-        $this->view("chat", $data);
-    }
-
-    function processMessage()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $question = isset($_POST['question']) ? trim($_POST['question']) : '';
-            
-            if (empty($question)) {
-                $response = "Please enter a question.";
-            } else {
-                $ai_server_ip = "192.168.0.101"; // Verify this is correct
-                $url = "http://$ai_server_ip:11434/api/generate";
-                $data = json_encode([
-                    "model" => "deepseek-r1:1.5b",
-                    "prompt" => $question,
-                    "stream" => false
+class Chat extends Controller {
+    public function processMessage() {
+        // Enable error reporting for debugging
+        error_reporting(E_ALL);
+        ini_set('display_errors', 1);
+        
+        try {
+            if (!isset($_POST['question'])) {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'No question provided'
                 ]);
-
-                $response = $this->makeApiRequest($url, $data);
+                return;
             }
+
+            $question = $_POST['question'];
+            $response = $this->makeApiRequest($url, $data);
             
-            header('Content-Type: application/json');
-            echo json_encode(['status' => 'success', 'message' => $response]);
-            exit;
+            // Format the response
+            $formatted_response = $this->formatResponse($response);
+
+            echo json_encode([
+                'status' => 'success',
+                'message' => $formatted_response
+            ]);
+            
+        } catch (Exception $e) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
         }
-        
-        header('HTTP/1.1 400 Bad Request');
-        echo json_encode(['status' => 'error', 'message' => 'Invalid request']);
     }
 
-    private function makeApiRequest($url, $data) {
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 180);
+    private function formatResponse($response) {
+        // Remove thinking process and metadata
+        $formatted = preg_replace('/<think>.*?<\/think>/s', '', $response);
         
-        $result = curl_exec($ch);
+        // Remove incorrect solution paths
+        $formatted = preg_replace('/First, I\'ll start with.*?Therefore,/s', '', $formatted);
         
-        if ($result === false) {
-            return "Error connecting to AI server: " . curl_error($ch);
+        // Extract just the solution section
+        if (preg_match('/\*\*Solution:\*\*(.*?)\*\*Final Answer:\*\*/s', $formatted, $matches)) {
+            $formatted = trim($matches[1]);
         }
         
-        $json = json_decode($result, true);
-        $response = $json['response'] ?? "No response from AI.";
+        // Clean up LaTeX formatting
+        $formatted = str_replace(['\\[', '\\]'], '', $formatted);
+        $formatted = str_replace('\boxed{', '', $formatted);
+        $formatted = str_replace('}', '', $formatted);
         
-        // Format response using Markdown
-        $formatted = $this->formatMarkdownResponse($response);
+        // Format simple equations
+        if (preg_match('/(\d+\s*[\+\-\*\/]\s*\d+\s*=\s*\d+)/', $formatted, $matches)) {
+            return trim($matches[1]); // Return just the equation
+        }
+        
+        // Clean up final formatting
+        $formatted = preg_replace('/\n{2,}/', "\n", $formatted); // Remove extra newlines
+        $formatted = trim($formatted);
+        
         return $formatted;
-    }
-
-    private function formatMarkdownResponse($response) {
-        // Remove any thinking process
-        $response = preg_replace('/<think>.*?<\/think>/s', '', $response);
-        
-        // Remove redundant explanations
-        $response = preg_replace('/First, I\'ll start with.*?Therefore,/s', '', $response);
-        
-        // Clean up whitespace
-        $response = preg_replace('/\n\s*\n/', "\n", $response);
-        
-        // Format as Markdown
-        $response = "# Answer\n\n" . trim($response);
-        
-        // Convert LaTeX to Markdown code blocks
-        $response = preg_replace('/\\\[(.*?)\\\]/', '```math\n$1\n```', $response);
-        
-        // Format lists properly
-        $response = preg_replace('/(\d+\.\s+)/', "\n$1", $response);
-        
-        return trim($response);
     }
 }
