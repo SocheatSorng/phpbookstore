@@ -20,10 +20,10 @@
      <!-- END Wrapper -->
 
      <!-- Vendor Javascript (Require in all Page) -->
-     <script src="/admin/assets/js/vendor.js"></script>
+     <script src="assets/js/vendor.js"></script>
 
      <!-- App Javascript (Require in all Page) -->
-     <script src="/admin/assets/js/app.js"></script>
+     <script src="assets/js/app.js"></script>
 
 </body>
 
