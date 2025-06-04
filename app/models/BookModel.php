@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/phpbookstore/admin/database.php';
+require_once __DIR__ . '/../../admin/database.php';
 
 class BookModel 
 {
