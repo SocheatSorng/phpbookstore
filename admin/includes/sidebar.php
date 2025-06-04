@@ -3,13 +3,13 @@
     <!-- Sidebar Logo -->
     <div class="logo-box">
         <a href="index" class="logo-dark">
-            <img src="assets/images/logo-sm.png" class="logo-sm" alt="logo sm">
-            <img src="assets/images/logo-dark.png" class="logo-lg" alt="logo dark">
+            <img src="/admin/assets/images/logo-sm.png" class="logo-sm" alt="logo sm">
+            <img src="/admin/assets/images/logo-dark.png" class="logo-lg" alt="logo dark">
         </a>
 
         <a href="index" class="logo-light">
-            <img src="assets/images/logo-sm.png" class="logo-sm" alt="logo sm">
-            <img src="assets/images/logo-light.png" class="logo-lg" alt="logo light">
+            <img src="/admin/assets/images/logo-sm.png" class="logo-sm" alt="logo sm">
+            <img src="/admin/assets/images/logo-light.png" class="logo-lg" alt="logo light">
         </a>
     </div>
 

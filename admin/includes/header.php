@@ -15,16 +15,16 @@ checkAuth();
      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
      <!-- App favicon -->
-     <link rel="shortcut icon" href="assets/images/favicon.ico">
+     <link rel="shortcut icon" href="/admin/assets/images/favicon.ico">
 
      <!-- Vendor css (Require in all Page) -->
-     <link href="assets/css/vendor.min.css" rel="stylesheet" type="text/css" />
+     <link href="/admin/assets/css/vendor.min.css" rel="stylesheet" type="text/css" />
 
      <!-- Icons css (Require in all Page) -->
-     <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+     <link href="/admin/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
 
      <!-- App css (Require in all Page) -->
-     <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
+     <link href="/admin/assets/css/app.min.css" rel="stylesheet" type="text/css" />
 
      <!-- Bootstrap Icons CSS -->
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -36,7 +36,7 @@ checkAuth();
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
      <!-- Theme Config js -->
-     <script src="assets/js/config.js"></script>
+     <script src="/admin/assets/js/config.js"></script>
 
      <!-- SweetAlert2 css and js -->
      <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bootstrap-4/bootstrap-4.css" rel="stylesheet">
