@@ -101,6 +101,9 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     if (tran_id) {
+        console.log("Making request to:", "<?= ROOT ?>checkout/finalizeOrder");
+        console.log("Transaction ID:", tran_id);
+
         // Make the API call to finalize the order
         fetch("<?= ROOT ?>checkout/finalizeOrder", {
                 method: "POST",
@@ -110,10 +113,24 @@ document.addEventListener("DOMContentLoaded", function() {
                 body: "tran_id=" + encodeURIComponent(tran_id)
             })
             .then(response => {
+                console.log("Response status:", response.status);
+                console.log("Response headers:", response.headers);
+
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                return response.json();
+
+                // Get the response text first to debug
+                return response.text().then(text => {
+                    console.log("Raw response text:", text);
+                    try {
+                        return JSON.parse(text);
+                    } catch (e) {
+                        console.error("JSON parse error:", e);
+                        console.error("Response text that failed to parse:", text);
+                        throw new Error("Invalid JSON response: " + text.substring(0, 100));
+                    }
+                });
             })
             .then(data => {
                 console.log("Finalize order response:", data);

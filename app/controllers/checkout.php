@@ -283,23 +283,27 @@ class Checkout extends Controller
         return $errors;
     }
     public function finalizeOrder() {
+        // Ensure clean output - no whitespace or other content before JSON
+        ob_clean();
         header('Content-Type: application/json');
+
         $response = ['payment_success' => false];
         $tran_id = $_POST['tran_id'] ?? null;
 
         error_log("FinalizeOrder called with tran_id: " . $tran_id);
         error_log("Session pending_order exists: " . (isset($_SESSION['pending_order']) ? 'yes' : 'no'));
+        error_log("Server environment: " . ($_SERVER['SERVER_NAME'] ?? 'unknown'));
 
         if(!$tran_id) {
             $response['error'] = 'Missing transaction ID';
             echo json_encode($response);
-            return;
+            exit;
         }
 
         if(!isset($_SESSION['pending_order'])) {
             $response['error'] = 'No pending order found. Order may have already been processed.';
             echo json_encode($response);
-            return;
+            exit;
         }
 
         try {
@@ -381,10 +385,18 @@ class Checkout extends Controller
 
         } catch(Exception $e) {
             error_log("FinalizeOrder Exception: " . $e->getMessage());
+            error_log("Exception trace: " . $e->getTraceAsString());
             $response['error'] = 'An error occurred while processing your order: ' . $e->getMessage();
         }
 
-        echo json_encode($response);
+        // Ensure we always return valid JSON
+        $json_response = json_encode($response);
+        if ($json_response === false) {
+            error_log("JSON encoding failed: " . json_last_error_msg());
+            $json_response = json_encode(['payment_success' => false, 'error' => 'Internal server error']);
+        }
+
+        echo $json_response;
         exit;
     }
 

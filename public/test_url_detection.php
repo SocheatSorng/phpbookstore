@@ -45,6 +45,7 @@ echo "<h2>PayWay URLs that will be generated:</h2>";
 echo "<ul>";
 echo "<li><strong>Return URL:</strong> " . $base_url . ROOT . "checkout/payment_callback</li>";
 echo "<li><strong>Success URL:</strong> " . $base_url . ROOT . "checkout/success?tran_id=XXXXX</li>";
+echo "<li><strong>Finalize Order URL:</strong> " . $base_url . ROOT . "checkout/finalizeOrder</li>";
 echo "</ul>";
 
 echo "<h2>Environment Detection:</h2>";

@@ -164,10 +164,18 @@ class PaywayModel
      * Automatically detects local vs cloud environment
      */
     private function getBaseUrl() {
-        // Check if we're running locally
         $server_name = $_SERVER['SERVER_NAME'] ?? $_SERVER['HTTP_HOST'] ?? 'localhost';
         $server_port = $_SERVER['SERVER_PORT'] ?? '80';
-        $protocol = PROTOCAL;
+
+        // Determine protocol - check for HTTPS first, then fallback to config
+        $protocol = 'http';
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+            $protocol = 'https';
+        } elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+            $protocol = 'https';
+        } elseif (defined('PROTOCAL')) {
+            $protocol = PROTOCAL;
+        }
 
         // Local development detection
         if ($server_name === 'localhost' || $server_name === '127.0.0.1') {
@@ -178,7 +186,7 @@ class PaywayModel
                 return $protocol . '://' . $server_name . ':8887';
             }
         } else {
-            // Cloud/production environment - use standard ports
+            // Production environment (43.209.1.155 or any domain)
             if (($protocol === 'http' && $server_port == '80') ||
                 ($protocol === 'https' && $server_port == '443')) {
                 return $protocol . '://' . $server_name;
