@@ -75,21 +75,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             }
             
         } elseif ($_POST['action'] === 'delete') {
-            // Get image path before deleting
-            $stmt = $conn->prepare("SELECT Image FROM tbBook WHERE BookID = ?");
-            $stmt->execute([$_POST['product_id']]);
-            $imagePath = $stmt->fetchColumn();
+            try {
+                // Get product info before deleting
+                $stmt = $conn->prepare("SELECT Title, Image FROM tbBook WHERE BookID = ?");
+                $stmt->execute([$_POST['product_id']]);
+                $productInfo = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            // Delete the product
-            $stmt = $conn->prepare("CALL sp_DeleteProduct(?)");
-            $result = $stmt->execute([$_POST['product_id']]);
-            
-            if ($result) {
-                // Delete the image file if it exists
-                if (!empty($imagePath)) {
-                    $imageHandler->deleteImage($imagePath);
+                if (!$productInfo) {
+                    $response = ['success' => false, 'message' => 'Product not found'];
+                } else {
+                    $productTitle = $productInfo['Title'];
+                    $imagePath = $productInfo['Image'];
+
+                    // Delete the product
+                    $stmt = $conn->prepare("CALL sp_DeleteProduct(?)");
+                    $result = $stmt->execute([$_POST['product_id']]);
+
+                    if ($result) {
+                        // Delete the image file if it exists
+                        if (!empty($imagePath)) {
+                            $imageHandler->deleteImage($imagePath);
+                        }
+                        $response = ['success' => true, 'message' => 'Product deleted successfully'];
+                    }
                 }
-                $response = ['success' => true, 'message' => 'Product deleted successfully'];
+            } catch(PDOException $e) {
+                // Handle foreign key constraint violations with user-friendly messages
+                if ($e->getCode() == '23000' && strpos($e->getMessage(), 'tborderdetail') !== false) {
+                    $response = ['success' => false, 'message' => "Cannot delete \"$productTitle\" because it has been ordered by customers. Products with order history cannot be deleted to maintain business records."];
+                } elseif ($e->getCode() == '23000' && strpos($e->getMessage(), 'tbcart') !== false) {
+                    $response = ['success' => false, 'message' => "Cannot delete \"$productTitle\" because it is currently in customer shopping carts. Please wait for customers to complete their purchases."];
+                } elseif ($e->getCode() == '23000' && strpos($e->getMessage(), 'tbreview') !== false) {
+                    $response = ['success' => false, 'message' => "Cannot delete \"$productTitle\" because it has customer reviews. Deleting would remove valuable customer feedback."];
+                } elseif ($e->getCode() == '23000' && strpos($e->getMessage(), 'tbwishlist') !== false) {
+                    $response = ['success' => false, 'message' => "Cannot delete \"$productTitle\" because it is in customer wishlists."];
+                } elseif ($e->getCode() == '23000' && strpos($e->getMessage(), 'tbpurchase') !== false) {
+                    $response = ['success' => false, 'message' => "Cannot delete \"$productTitle\" because it has purchase records needed for inventory tracking."];
+                } elseif ($e->getCode() == '23000') {
+                    $response = ['success' => false, 'message' => "Cannot delete \"$productTitle\" because it is referenced by other records in the system."];
+                } else {
+                    error_log("Product Delete Error: " . $e->getMessage());
+                    $response = ['success' => false, 'message' => 'An error occurred while deleting the product. Please try again.'];
+                }
             }
         }
     } catch(Exception $e) {
